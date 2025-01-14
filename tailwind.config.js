@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       fontFamily: {
         dmSans: ['"DM Sans"', 'sans-serif'],
+        montserrat: ['"Montserrat"', 'sans-serif'],
       },
     },
   },
