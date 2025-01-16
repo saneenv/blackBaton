@@ -8,6 +8,7 @@ module.exports = {
       fontFamily: {
         dmSans: ['"DM Sans"', 'sans-serif'],
         montserrat: ['"Montserrat"', 'sans-serif'],
+        notoSerif: ['"Noto Serif"', 'serif'],
       },
       animation: {
         marquee: "marquee 25s linear infinite",
