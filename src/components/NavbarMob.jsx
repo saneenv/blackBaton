@@ -53,7 +53,7 @@ function NavbarMob() {
                     <div className='w-[20%] bg-[white] h-full flex justify-center items-center rounded-l-[7px]'>
                         <img src={smallsearch} alt="smallsearch" />
                     </div>
-                    <div className='w-[80%] bg-[green] h-full border-none '>
+                    <div className='w-[80%]  h-full border-none '>
                         <input type="text" className='w-full h-full outline-none  px-4 rounded-r-[7px]' placeholder='Search Products...' />
                     </div>
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Navbar from '../components/Navbar'
+import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import banner1 from '../images/Home/banner1.png'
 import bannermob from '../images/Home/bannermob.png'
@@ -33,6 +34,7 @@ function Home() {
     const [startIndex, setStartIndex] = useState(0);
     const [disableNext, setDisableNext] = useState(false); // Disable ">" button
     const [disablePrev, setDisablePrev] = useState(true); // Disable "<" button initially
+    const navigate = useNavigate();
     const items = [
         <div className='h-[280px] bg-[yellow] relative '>
             <img src={running} alt="running" className='w-full h-full' />
@@ -88,6 +90,10 @@ function Home() {
         }
     };
 
+    const fullimage = () =>{
+        navigate('/fullimage');
+    } 
+
 
     return (
         <div className='min-h-screen flex flex-col'>
@@ -95,7 +101,7 @@ function Home() {
 
             <div className='w-full lg:h-[735px] h-[565px] relative lg:mt-[175px] mt-[120px]'>
                 <img src={banner1} alt="banner1" className='w-full h-full lg:block hidden' />
-                <img src={bannermob} alt="bannermob" className='w-full h-full lg:hidden'/>
+                <img src={bannermob} alt="bannermob" className='w-full h-full lg:hidden' />
                 {/* <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black via-transparent to-transparent"></div> */}
                 <div className="absolute top-0 left-0 w-full h-full flex flex-col gap-3 items-center justify-center">
                     <span className="text-white lg:text-6xl text-3xl font-[800] font-montserrat">
@@ -154,7 +160,7 @@ function Home() {
                         </div>
                     </div>
                     <div className='grid lg:grid-cols-4 grid-cols-2 w-full  gap-5 '>
-                        <div className='flex flex-col gap-2'>
+                        <div className='flex flex-col gap-2 cursor-pointer' onClick={fullimage}>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product1} alt="product1" />
                                 <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
@@ -165,8 +171,8 @@ function Home() {
                             </div>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col gap-1'>
-                                    <span className='text-base font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='text-sm font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
+                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
+                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
                                     <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                         <img src={cart} alt="cart" />
                                         <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
@@ -188,8 +194,8 @@ function Home() {
                             </div>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col gap-1'>
-                                    <span className='text-base font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='text-sm font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
+                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
+                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
                                     <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                         <img src={cart} alt="cart" />
                                         <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
@@ -211,8 +217,8 @@ function Home() {
                             </div>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col gap-1'>
-                                    <span className='text-base font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='text-sm font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
+                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
+                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
                                     <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                         <img src={cart} alt="cart" />
                                         <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
@@ -234,8 +240,8 @@ function Home() {
                             </div>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col gap-1'>
-                                    <span className='text-base font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='text-sm font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
+                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
+                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
                                     <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                         <img src={cart} alt="cart" />
                                         <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
@@ -259,8 +265,8 @@ function Home() {
                             </div>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col gap-1'>
-                                    <span className='text-base font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='text-sm font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
+                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
+                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
                                     <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                         <img src={cart} alt="cart" />
                                         <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
@@ -282,8 +288,8 @@ function Home() {
                             </div>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col gap-1'>
-                                    <span className='text-base font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='text-sm font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
+                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
+                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
                                     <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                         <img src={cart} alt="cart" />
                                         <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
@@ -305,8 +311,8 @@ function Home() {
                             </div>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col gap-1'>
-                                    <span className='text-base font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='text-sm font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
+                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
+                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
                                     <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                         <img src={cart} alt="cart" />
                                         <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
@@ -328,8 +334,8 @@ function Home() {
                             </div>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col gap-1'>
-                                    <span className='text-base font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='text-sm font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
+                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
+                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
                                     <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                         <img src={cart} alt="cart" />
                                         <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
@@ -386,8 +392,8 @@ function Home() {
                             </div>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col gap-1'>
-                                    <span className='text-base font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='text-sm font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
+                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
+                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
                                     <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                         <img src={cart} alt="cart" />
                                         <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
@@ -409,8 +415,8 @@ function Home() {
                             </div>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col gap-1'>
-                                    <span className='text-base font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='text-sm font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
+                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
+                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
                                     <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                         <img src={cart} alt="cart" />
                                         <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
@@ -432,8 +438,8 @@ function Home() {
                             </div>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col gap-1'>
-                                    <span className='text-base font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='text-sm font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
+                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
+                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
                                     <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                         <img src={cart} alt="cart" />
                                         <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
@@ -455,8 +461,8 @@ function Home() {
                             </div>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col gap-1'>
-                                    <span className='text-base font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='text-sm font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
+                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
+                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
                                     <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                         <img src={cart} alt="cart" />
                                         <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
@@ -480,8 +486,8 @@ function Home() {
                             </div>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col gap-1'>
-                                    <span className='text-base font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='text-sm font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
+                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
+                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
                                     <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                         <img src={cart} alt="cart" />
                                         <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
@@ -503,8 +509,8 @@ function Home() {
                             </div>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col gap-1'>
-                                    <span className='text-base font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='text-sm font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
+                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
+                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
                                     <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                         <img src={cart} alt="cart" />
                                         <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
@@ -526,8 +532,8 @@ function Home() {
                             </div>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col gap-1'>
-                                    <span className='text-base font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='text-sm font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
+                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
+                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
                                     <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                         <img src={cart} alt="cart" />
                                         <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
@@ -549,8 +555,8 @@ function Home() {
                             </div>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col gap-1'>
-                                    <span className='text-base font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='text-sm font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
+                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
+                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
                                     <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                         <img src={cart} alt="cart" />
                                         <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
@@ -610,15 +616,15 @@ function Home() {
                 </div>
 
                 <div className='flex lg:flex-row flex-col bg-[#F6F6F6] w-full lg:h-[380px] h-auto lg:gap-0 gap-3 lg:pb-12 pb-6'>
-                     <div className='lg:w-[50%] w-full  lg:px-[10%] px-3 flex flex-col gap-3 justify-center  text-left lg:py-0 py-5'>
-                         <span className='lg:text-3xl text-2xl font-[600] font-montserrat'>WE ELEVATE YOUR<br /> PERFORMANCE IN STYLE!</span>
-                         <span className='lg:text-lg text-xs font-[400] font-montserrat'>"Combining cutting-edge design with ultimate<br /> comfort,
-                             our sportswear keeps you moving,<br /> looking, and feeling your best—every step of the<br /> way."</span>
-                             <span className='lg:w-[168px] w-[93px] lg:h-[46px] h-[30px] bg-[black] flex justify-center items-center text-[white] rounded-[8px] font-[600] lg:text-lg text-xs font-montserrat '>Shop Now</span>
-                     </div>
-                     <div className='lg:w-[50%] w-full  h-full lg:px-0 px-3'>
-                          <img src={combined} alt="combined" className='w-full h-full' />
-                     </div>
+                    <div className='lg:w-[50%] w-full  lg:px-[10%] px-3 flex flex-col gap-3 justify-center  text-left lg:py-0 py-5'>
+                        <span className='lg:text-3xl text-2xl font-[600] font-montserrat'>WE ELEVATE YOUR<br /> PERFORMANCE IN STYLE!</span>
+                        <span className='lg:text-lg text-xs font-[400] font-montserrat'>"Combining cutting-edge design with ultimate<br /> comfort,
+                            our sportswear keeps you moving,<br /> looking, and feeling your best—every step of the<br /> way."</span>
+                        <span className='lg:w-[168px] w-[93px] lg:h-[46px] h-[30px] bg-[black] flex justify-center items-center text-[white] rounded-[8px] font-[600] lg:text-lg text-xs font-montserrat '>Shop Now</span>
+                    </div>
+                    <div className='lg:w-[50%] w-full  h-full lg:px-0 px-3'>
+                        <img src={combined} alt="combined" className='w-full h-full' />
+                    </div>
 
                 </div>
             </div>

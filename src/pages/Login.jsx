@@ -4,10 +4,12 @@ import google from '../images/Login/google.png'
 
 function Login() {
     return (
-        <div className="h-screen w-screen flex">
+        <div className="min-h-screen flex">
             {/* Left Section */}
-            <div className="w-1/2 ">
-                <img src={img} alt="img" className="h-full w-full object-cover" />
+            <div className="w-1/2 flex  justify-center items-center">
+                 <div className='h-[680px] w-[80%]'>
+                    <img src={img} alt="img" className='w-full h-full' />
+                 </div>
             </div>
 
             {/* Right Section */}

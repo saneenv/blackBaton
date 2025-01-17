@@ -37,7 +37,7 @@ function FooterMob() {
         <div className='w-full h-auto flex flex-col bg-[black] p-4 gap-6'>
             <div className='flex flex-col'>
                 <div className=' border-b-2  border-[#BEBCBD] flex justify-between items-center py-5' onClick={toggleNeedHelp}>
-                    <span className='text-xl font-[600] font-montserrat text-[#F6F6F6]'>Need Help</span>
+                    <span className='text-base font-[600] font-montserrat text-[#F6F6F6]'>Need Help</span>
                     <img
                         src={arrow}
                         alt="arrow"
@@ -56,7 +56,7 @@ function FooterMob() {
                     </div>
                 )}
                 <div className=' border-b-2  border-[#BEBCBD] flex justify-between items-center py-5' onClick={toggleCompany}>
-                    <span className='text-xl font-[600] font-montserrat text-[#F6F6F6]'>Company</span>
+                    <span className='text-base font-[600] font-montserrat text-[#F6F6F6]'>Company</span>
                     <img src={arrow}
                      alt="arrow"  
                      className={`transform transition-transform duration-300 ${isCompanyExpanded ? 'rotate-180' : ''
@@ -74,7 +74,7 @@ function FooterMob() {
                     </div>
                 )}
                 <div className=' border-b-2  border-[#BEBCBD] flex justify-between items-center py-5' onClick={toggleMoreInfo}>
-                    <span className='text-xl font-[600] font-montserrat text-[#F6F6F6]'>More Info</span>
+                    <span className='text-base font-[600] font-montserrat text-[#F6F6F6]'>More Info</span>
                     <img src={arrow}
                      alt="arrow"  
                      className={`transform transition-transform duration-300 ${isMoreInfoExpanded ? 'rotate-180' : ''
@@ -91,7 +91,7 @@ function FooterMob() {
                     </div>
                 )}
                 <div className=' border-b-2  border-[#BEBCBD] flex justify-between items-center py-5' onClick={toggleLocation}>
-                    <span className='text-xl font-[600] font-montserrat text-[#F6F6F6]'>Location</span>
+                    <span className='text-base font-[600] font-montserrat text-[#F6F6F6]'>Location</span>
                     <img src={arrow}
                      alt="arrow"  
                      className={`transform transition-transform duration-300 ${isLocationExpanded ? 'rotate-180' : ''
