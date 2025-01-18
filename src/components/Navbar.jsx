@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import contact from '../images/Navbar/contact.png'
 import mail from '../images/Navbar/mail.png'
 import twitter from '../images/Navbar/twitter.png'
@@ -12,6 +13,14 @@ import bars from '../images/Navbar/Bars.png'
 
 
 function Navbar() {
+    const navigate = useNavigate();
+    const cartpage = () => {
+        navigate('/cart')
+    }
+
+    const accountpage = () =>{
+        navigate('/account');
+    }
     return (
         <div className='flex flex-col'>
         <div className='w-full h-[120px] bg-[#000000] border-b-2 border-[#B2B2B2] flex flex-col px-12 gap-3 fixed top-0 left-0 z-50'>
@@ -55,14 +64,14 @@ function Navbar() {
                 </div>
 
                 <div className='flex flex-row gap-4'>
-                    <div className='flex flex-row gap-2 cursor-pointer'>
+                    <div className='flex flex-row gap-2 cursor-pointer' onClick={cartpage}>
                         <img src={cart} alt="cart" />
                         <span className='text-sm font-[400] font-dmSans text-[#CACACA]'>Cart</span>
                     </div>
                     <div className='flex flex-row border-r-2 border-[#B2B2B2]'>
                        
                     </div>
-                    <div className='flex flex-row gap-2 cursor-pointer'>
+                    <div className='flex flex-row gap-2 cursor-pointer' onClick={accountpage}>
                         <img src={profile} alt="profile" />
                         <span className='text-sm font-[400] font-dmSans text-[#CACACA]'>Account</span>
                     </div>
