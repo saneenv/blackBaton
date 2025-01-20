@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { useNavigate } from 'react-router-dom';
 import NavbarMob from '../components/NavbarMob';
@@ -13,6 +13,9 @@ function Cart() {
     const addresspage = () => {
         navigate('/address')
     }
+        useEffect(() => {
+            window.scrollTo(0, 0);
+        }, []);
     return (
         <div className='min-h-screen flex flex-col '>
             {isMobile ? <NavbarMob /> : <Navbar />}

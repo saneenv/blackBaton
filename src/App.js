@@ -6,6 +6,7 @@ import FullImage from './pages/FullImage';
 import Cart from './pages/Cart';
 import Address from './pages/Address';
 import Account from './pages/Account';
+import Products from './pages/Products';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path='/cart' element={<Cart />} />
           <Route path='/address' element={<Address />} />
           <Route path='/account' element={<Account />} />
+          <Route path='/products' element={<Products/>}/>
         </Routes>
       </BrowserRouter>
     </div>

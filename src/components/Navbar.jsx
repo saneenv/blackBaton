@@ -10,6 +10,7 @@ import search from '../images/Navbar/search.png'
 import cart from '../images/Navbar/cart.png'
 import profile from '../images/Navbar/profile.png'
 import bars from '../images/Navbar/Bars.png'
+import logo from '../images/Navbar/logo.png'
 
 
 function Navbar() {
@@ -20,6 +21,11 @@ function Navbar() {
 
     const accountpage = () =>{
         navigate('/account');
+    }
+
+    const homePage = () =>{
+          navigate('/')
+          window.location.reload();
     }
     return (
         <div className='flex flex-col'>
@@ -50,6 +56,7 @@ function Navbar() {
                 </div>
             </div>
             <div className='w-full h-[60%]  flex justify-center items-center gap-8'>
+                <img src={logo} alt="logo" className='cursor-pointer' onClick={homePage} />
                 <div className='w-[60%] h-[70%] rounded-[10px] bg-[#FFFFFF] flex flex-row'>
                     <div className='h-full w-[25%]  flex flex-row gap-5 justify-center items-center border-r-2 border-[#B2B2B2] cursor-pointer'>
                         <span className='font-[400] text-sm font-dmSans'>All Category</span>
