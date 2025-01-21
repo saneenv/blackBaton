@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import contact from '../images/Navbar/contact.png'
 import mail from '../images/Navbar/mail.png'
 import twitter from '../images/Navbar/twitter.png'
@@ -13,11 +14,16 @@ import profile from '../images/Navbar/profile.png'
 
 function NavbarMob() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const navigate = useNavigate()
 
     // Function to toggle sidebar
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
+
+    const accountPage = () => {
+        navigate('/accountmob')
+    }
 
 
     return (
@@ -62,7 +68,7 @@ function NavbarMob() {
                     <img src={cart} alt="cart" />
                 </div>
 
-                <div className=''>
+                <div className='' onClick={accountPage}>
                     <img src={profile} alt="profile" />
                 </div>
             </div>

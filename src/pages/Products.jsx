@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMediaQuery } from 'react-responsive'
 import NavbarMob from '../components/NavbarMob'
@@ -14,18 +14,29 @@ import heart from '../images/Home/heart.png'
 import cart from '../images/Home/cart.png'
 import forward from '../images/Products/forwardpng.png'
 import top from '../images/Products/top.png'
+import Filter from '../components/Filter'
 
 
 function Products() {
-    const isMobile = useMediaQuery({ query: '(max-width=768px)' })
+    const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+
     const navigate = useNavigate();
     const home = () => {
         navigate('/')
     }
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const [minPrice, setMinPrice] = useState(70); // Minimum price
     const [maxPrice, setMaxPrice] = useState(600); // Maximum price
     const [showFilter, setShowFilter] = useState(false);
+    const [isPriceExpanded, setPriceExpanded] = useState(true);
+    const [isColorsExpanded, setIsColorsExpanded] = useState(true);
+    const [isSizeExpanded, setIsSizeExpanded] = useState(true);
+    const [isDressExpanded, setIsDressExpanded] = useState(true);
+    const [showFilterMob, setShowFilterMob] = useState(false);
 
 
     const handleMinChange = (e) => {
@@ -47,6 +58,33 @@ function Products() {
         setShowFilter(!showFilter);
     };
 
+
+    // Toggle function for 'Need Help'
+    const togglePrice = () => {
+        setPriceExpanded(!isPriceExpanded);
+    };
+
+    const toggleColors = () => {
+        setIsColorsExpanded(!isColorsExpanded);
+    };
+
+    const toggleSize = () => {
+        setIsSizeExpanded(!isSizeExpanded);
+    };
+
+    const toggleDress = () => {
+        setIsDressExpanded(!isDressExpanded);
+    };
+
+
+    const handleFilterClick = () => {
+        setShowFilterMob(true);
+    };
+
+    const closeFilterMob = () => {
+        setShowFilterMob(false);
+    };
+
     return (
         <div className='min-h-screen flex flex-col '>
             {isMobile ? <NavbarMob /> : <Navbar />}
@@ -60,13 +98,15 @@ function Products() {
                     </div>
 
                     {!showFilter && (
-                        <img src={filter} alt="filter" onClick={toggleFilter} className='cursor-pointer' />
+                        <img src={filter} alt="filter" onClick={toggleFilter} className='cursor-pointer lg:flex hidden'  />
                     )}
+                    <img src={filter} alt="filter"  className='cursor-pointer lg:hidden flex'  onClick={handleFilterClick} />
+                         
                 </div>
 
                 <div className='pb-12 flex flex-row gap-5'>
                     {showFilter && (
-                        <div className='w-[350px] rounded-[2px] h-[1424px] border-2 border-[#BEBCBD] flex flex-col '>
+                        <div className='w-[350px] rounded-[2px] min-h-min max-h-max border-2 border-[#BEBCBD] flex flex-col '>
                             <div className='flex justify-between border-b-2 border-[#BEBCBD] p-5  items-center'>
                                 <span className='text-[#807D7E] text-xl font-[400] font-montserrat'>Filter</span>
                                 <img src={filter} alt="filter" onClick={closeFilter} className='cursor-pointer' />
@@ -111,198 +151,279 @@ function Products() {
                                 </div>
                             </div>
 
-                            <div className="flex justify-between border-b-2 border-[#BEBCBD] p-5 items-center">
+                            <div className="flex justify-between border-b-2 border-[#BEBCBD] p-5 items-center cursor-pointer" onClick={togglePrice}>
                                 <span className="text-[#807D7E] text-xl font-[600] font-montserrat">Price</span>
-                                <img src={top} alt="top" />
+                                <img src={top} alt="top" className={`transform transition-transform duration-300 ${isPriceExpanded ? 'rotate-180' : ''
+                                    }`} />
                             </div>
 
-                            {/* Slider Section */}
-                            <div className="flex flex-col border-b-2 border-[#BEBCBD] px-5 py-8 items-center gap-8 w-full">
-                                {/* Slider */}
-                                <div className="w-full relative flex items-center ">
-                                    {/* Range Slider for Min */}
-                                    <input
-                                        type="range"
-                                        min="0"
-                                        max="1000"
-                                        step="10"
-                                        value={minPrice}
-                                        onChange={handleMinChange}
-                                        className="absolute z-20 appearance-none w-full h-2 bg-transparent pointer-events-auto"
-                                        style={{
-                                            accentColor: "black",
-                                        }}
-                                    />
-
-                                    {/* Range Slider for Max */}
-                                    <input
-                                        type="range"
-                                        min="0"
-                                        max="1000"
-                                        step="10"
-                                        value={maxPrice}
-                                        onChange={handleMaxChange}
-                                        className="absolute z-20 appearance-none w-full h-2 bg-transparent pointer-events-auto"
-                                        style={{
-                                            accentColor: "black",
-                                        }}
-                                    />
-
-                                    {/* Track */}
-                                    <div className="w-full h-1 bg-gray-300  relative">
-                                        <div
-                                            className="absolute h-1 bg-black "
+                            {isPriceExpanded && (
+                                < div className="flex flex-col border-b-2 border-[#BEBCBD] px-5 py-8 items-center gap-8 w-full">
+                                    <div className="w-full relative flex items-center ">
+                                        <input
+                                            type="range"
+                                            min="0"
+                                            max="1000"
+                                            step="10"
+                                            value={minPrice}
+                                            onChange={handleMinChange}
+                                            className="absolute z-20 appearance-none w-full h-2 bg-transparent pointer-events-auto"
                                             style={{
-                                                left: `${(minPrice / 1000) * 100}%`,
-                                                right: `${100 - (maxPrice / 1000) * 100}%`,
+                                                accentColor: "black",
                                             }}
-                                        ></div>
-                                    </div>
-                                </div>
+                                        />
 
-                                {/* Price Labels */}
-                                <div className="flex justify-between w-full">
-                                    <div className="w-[97px] h-[32px]  rounded-[8px] border-2 border-[#BEBCBD] flex justify-center items-center text-lg font-[400] font-montserrat">
-                                        ₹{minPrice}
-                                    </div>
-                                    <div className="w-[97px] h-[32px] rounded-[8px] border-2 border-[#BEBCBD] flex justify-center items-center text-lg font-[400] font-montserrat">
-                                        ₹{maxPrice}
-                                    </div>
-                                </div>
-                            </div>
+                                        {/* Range Slider for Max */}
+                                        <input
+                                            type="range"
+                                            min="0"
+                                            max="1000"
+                                            step="10"
+                                            value={maxPrice}
+                                            onChange={handleMaxChange}
+                                            className="absolute z-20 appearance-none w-full h-2 bg-transparent pointer-events-auto"
+                                            style={{
+                                                accentColor: "black",
+                                            }}
+                                        />
 
-
-                            <div className="flex justify-between border-b-2 border-[#BEBCBD] p-5 items-center">
-                                <span className="text-[#807D7E] text-xl font-[600] font-montserrat">Colors</span>
-                                <img src={top} alt="top" />
-                            </div>
-
-                            <div className="flex flex-col items-center border-b-2 border-[#BEBCBD] px-5 py-8 gap-4">
-                                <div className='grid grid-cols-4 gap-4'>
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[37px] h-[37px] rounded-[12px] bg-[#8434E1] border-2 border-[#F4F1F1]'></div>
-                                        <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Purple</span>
-                                    </div>
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[37px] h-[37px] rounded-[12px] bg-[black] border-2 border-[#F4F1F1]'></div>
-                                        <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Black</span>
-                                    </div>
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[37px] h-[37px] rounded-[12px] bg-[red] border-2 border-[#F4F1F1]'></div>
-                                        <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Red</span>
-                                    </div>
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[37px] h-[37px] rounded-[12px] bg-[orange] border-2 border-[#F4F1F1]'></div>
-                                        <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Orange</span>
-                                    </div>
-
-
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[37px] h-[37px] rounded-[12px] bg-[navy] border-2 border-[#F4F1F1]'></div>
-                                        <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Navy</span>
-                                    </div>
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[37px] h-[37px] rounded-[12px] bg-[white] border-2 border-[#F4F1F1]'></div>
-                                        <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>White</span>
-                                    </div>
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[37px] h-[37px] rounded-[12px] bg-[#D67E3B] border-2 border-[#F4F1F1]'></div>
-                                        <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Broom</span>
-                                    </div>
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[37px] h-[37px] rounded-[12px] bg-[green] border-2 border-[#F4F1F1]'></div>
-                                        <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Green</span>
-                                    </div>
-
-
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[37px] h-[37px] rounded-[12px] bg-[yellow] border-2 border-[#F4F1F1]'></div>
-                                        <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Yellow</span>
-                                    </div>
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[37px] h-[37px] rounded-[12px] bg-[gray] border-2 border-[#F4F1F1]'></div>
-                                        <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Gray</span>
-                                    </div>
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[37px] h-[37px] rounded-[12px] bg-[pink] border-2 border-[#F4F1F1]'></div>
-                                        <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Pink</span>
-                                    </div>
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[37px] h-[37px] rounded-[12px] bg-[blue] border-2 border-[#F4F1F1]'></div>
-                                        <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Blue</span>
-                                    </div>
-
-
-                                </div>
-                            </div>
-
-
-
-                            <div className="flex justify-between border-b-2 border-[#BEBCBD] p-5 items-center">
-                                <span className="text-[#807D7E] text-xl font-[600] font-montserrat">Size</span>
-                                <img src={top} alt="top" />
-                            </div>
-
-                            <div className="flex flex-col items-center border-b-2 border-[#BEBCBD] px-5 py-8 gap-4">
-                                <div className='grid grid-cols-3 gap-4'>
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
-                                            XXS
+                                        {/* Track */}
+                                        <div className="w-full h-1 bg-gray-300  relative">
+                                            <div
+                                                className="absolute h-1 bg-black "
+                                                style={{
+                                                    left: `${(minPrice / 1000) * 100}%`,
+                                                    right: `${100 - (maxPrice / 1000) * 100}%`,
+                                                }}
+                                            ></div>
                                         </div>
                                     </div>
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
-                                            XL
-                                        </div>                                    </div>
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
-                                            XS
-                                        </div>                                    </div>
 
-
-
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
-                                            S
-                                        </div>                                    </div>
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
-                                            M
-                                        </div>                                    </div>
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
-                                            L
-                                        </div>                                    </div>
-
-
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
-                                            XXL
-                                        </div>                                    </div>
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
-                                            3XL
-                                        </div>                                    </div>
-                                    <div className='flex flex-col gap-2 items-center'>
-                                        <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
-                                            4XL
-                                        </div>                                    </div>
-
-
-
+                                    {/* Price Labels */}
+                                    <div className="flex justify-between w-full">
+                                        <div className="w-[97px] h-[32px]  rounded-[8px] border-2 border-[#BEBCBD] flex justify-center items-center text-lg font-[400] font-montserrat">
+                                            ₹{minPrice}
+                                        </div>
+                                        <div className="w-[97px] h-[32px] rounded-[8px] border-2 border-[#BEBCBD] flex justify-center items-center text-lg font-[400] font-montserrat">
+                                            ₹{maxPrice}
+                                        </div>
+                                    </div>
                                 </div>
+
+                            )}
+
+
+                            <div className="flex justify-between border-b-2 border-[#BEBCBD] p-5 items-center cursor-pointer" onClick={toggleColors}>
+                                <span className="text-[#807D7E] text-xl font-[600] font-montserrat">Colors</span>
+                                <img src={top} alt="top" className={`transform transition-transform duration-300 ${isColorsExpanded ? 'rotate-180' : ''
+                                    }`} />
                             </div>
-                            <div className="flex justify-between border-b-2 border-[#BEBCBD] p-5 items-center">
+
+                            {isColorsExpanded && (
+                                <div className="flex flex-col items-center border-b-2 border-[#BEBCBD] px-5 py-8 gap-4">
+                                    <div className='grid grid-cols-4 gap-4'>
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[#8434E1] border-2 border-[#F4F1F1]'></div>
+                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Purple</span>
+                                        </div>
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[black] border-2 border-[#F4F1F1]'></div>
+                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Black</span>
+                                        </div>
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[red] border-2 border-[#F4F1F1]'></div>
+                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Red</span>
+                                        </div>
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[orange] border-2 border-[#F4F1F1]'></div>
+                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Orange</span>
+                                        </div>
+
+
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[navy] border-2 border-[#F4F1F1]'></div>
+                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Navy</span>
+                                        </div>
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[white] border-2 border-[#F4F1F1]'></div>
+                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>White</span>
+                                        </div>
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[#D67E3B] border-2 border-[#F4F1F1]'></div>
+                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Broom</span>
+                                        </div>
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[green] border-2 border-[#F4F1F1]'></div>
+                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Green</span>
+                                        </div>
+
+
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[yellow] border-2 border-[#F4F1F1]'></div>
+                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Yellow</span>
+                                        </div>
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[gray] border-2 border-[#F4F1F1]'></div>
+                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Gray</span>
+                                        </div>
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[pink] border-2 border-[#F4F1F1]'></div>
+                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Pink</span>
+                                        </div>
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[blue] border-2 border-[#F4F1F1]'></div>
+                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Blue</span>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            )}
+
+
+
+                            <div className="flex justify-between border-b-2 border-[#BEBCBD] p-5 items-center cursor-pointer" onClick={toggleSize}>
+                                <span className="text-[#807D7E] text-xl font-[600] font-montserrat">Size</span>
+                                <img src={top} alt="top" className={`transform transition-transform duration-300 ${isSizeExpanded ? 'rotate-180' : ''
+                                    }`} />
+                            </div>
+
+                            {isSizeExpanded && (
+                                <div className="flex flex-col items-center border-b-2 border-[#BEBCBD] px-5 py-8 gap-4">
+                                    <div className='grid grid-cols-3 gap-4'>
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
+                                                XXS
+                                            </div>
+                                        </div>
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
+                                                XL
+                                            </div>                                    </div>
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
+                                                XS
+                                            </div>                                    </div>
+
+
+
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
+                                                S
+                                            </div>                                    </div>
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
+                                                M
+                                            </div>                                    </div>
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
+                                                L
+                                            </div>                                    </div>
+
+
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
+                                                XXL
+                                            </div>                                    </div>
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
+                                                3XL
+                                            </div>                                    </div>
+                                        <div className='flex flex-col gap-2 items-center'>
+                                            <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
+                                                4XL
+                                            </div>                                    </div>
+
+
+
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="flex justify-between border-b-2 border-[#BEBCBD] p-5 items-center cursor-pointer" onClick={toggleDress}>
                                 <span className="text-[#807D7E] text-xl font-[600] font-montserrat">Dress Style</span>
-                                <img src={top} alt="top" />
+                                <img src={top} alt="top" className={`transform transition-transform duration-300 ${isDressExpanded ? 'rotate-180' : ''
+                                    }`} />
                             </div>
+
+                            {isDressExpanded && (
+                                <div className='flex flex-col  p-5  items-center gap-2'>
+                                    <div className='flex w-full justify-between items-center'>
+                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>T-shirts</span>
+                                        <img src={forward} alt="forward" />
+                                    </div>
+                                    <div className='flex w-full justify-between items-center'>
+                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Pants</span>
+                                        <img src={forward} alt="forward" />
+                                    </div>
+                                    <div className='flex w-full justify-between items-center'>
+                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Shorts</span>
+                                        <img src={forward} alt="forward" />
+                                    </div>
+                                    <div className='flex w-full justify-between items-center'>
+                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Bermuda Shorts</span>
+                                        <img src={forward} alt="forward" />
+                                    </div>
+                                    <div className='flex w-full justify-between items-center'>
+                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Gym Wear</span>
+                                        <img src={forward} alt="forward" />
+                                    </div>
+                                    <div className='flex w-full justify-between items-center'>
+                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Full sleeve T-shirts</span>
+                                        <img src={forward} alt="forward" />
+                                    </div>
+                                    <div className='flex w-full justify-between items-center'>
+                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Jackets</span>
+                                        <img src={forward} alt="forward" />
+                                    </div>
+                                    <div className='flex w-full justify-between items-center'>
+                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Sleeveless</span>
+                                        <img src={forward} alt="forward" />
+                                    </div>
+                                    <div className='flex w-full justify-between items-center'>
+                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Swimming Suits</span>
+                                        <img src={forward} alt="forward" />
+                                    </div>
+                                    <div className='flex w-full justify-between items-center'>
+                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Boxers</span>
+                                        <img src={forward} alt="forward" />
+                                    </div>
+                                    <div className='flex w-full justify-between items-center'>
+                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Sliders</span>
+                                        <img src={forward} alt="forward" />
+                                    </div>
+                                    <div className='flex w-full justify-between items-center'>
+                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Water Bottle & Shaker</span>
+                                        <img src={forward} alt="forward" />
+                                    </div>
+                                    <div className='flex w-full justify-between items-center'>
+                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Cut T-shirts</span>
+                                        <img src={forward} alt="forward" />
+                                    </div>
+                                    <div className='flex w-full justify-between items-center'>
+                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Polo T-shirts</span>
+                                        <img src={forward} alt="forward" />
+                                    </div>
+                                    <div className='flex w-full justify-between items-center'>
+                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Hoodies</span>
+                                        <img src={forward} alt="forward" />
+                                    </div>
+                                    <div className='flex w-full justify-between items-center'>
+                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Socks</span>
+                                        <img src={forward} alt="forward" />
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     )}
-                    <div className='grid lg:grid-cols-3 grid-cols-2 w-full  gap-5 '>
+                    <div
+                        className={`grid w-full gap-5 ${showFilter ? "lg:grid-cols-3 grid-cols-2" : "lg:grid-cols-4 grid-cols-2"
+                            }`}
+                    >
                         <div className='flex flex-col gap-2 cursor-pointer'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product1} alt="product1" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -325,7 +446,7 @@ function Products() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product2} alt="product2" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -348,7 +469,7 @@ function Products() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product3} alt="product3" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -371,7 +492,7 @@ function Products() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product4} alt="product4" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -396,7 +517,7 @@ function Products() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product1} alt="product1" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -419,7 +540,7 @@ function Products() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product2} alt="product2" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -442,7 +563,7 @@ function Products() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product3} alt="product3" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -465,7 +586,7 @@ function Products() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product4} alt="product4" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -490,7 +611,7 @@ function Products() {
                         <div className='flex flex-col gap-2 cursor-pointer'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product1} alt="product1" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -513,7 +634,7 @@ function Products() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product2} alt="product2" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -536,7 +657,7 @@ function Products() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product3} alt="product3" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -559,7 +680,7 @@ function Products() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product4} alt="product4" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -584,7 +705,7 @@ function Products() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product1} alt="product1" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -607,7 +728,7 @@ function Products() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product2} alt="product2" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -630,7 +751,7 @@ function Products() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product3} alt="product3" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -653,7 +774,7 @@ function Products() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product4} alt="product4" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -681,9 +802,9 @@ function Products() {
             </div>
 
 
-
+            {showFilterMob && <Filter closeFilterMob={closeFilterMob} />}
             {isMobile ? <FooterMob /> : <Footer />}
-        </div>
+        </div >
 
     )
 }

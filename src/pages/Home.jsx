@@ -171,7 +171,7 @@ function Home() {
                         <div className='flex flex-col gap-2 cursor-pointer' onClick={fullimage}>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product1} alt="product1" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3  flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -194,7 +194,7 @@ function Home() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product2} alt="product2" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -217,7 +217,7 @@ function Home() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product3} alt="product3" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -240,7 +240,7 @@ function Home() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product4} alt="product4" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -265,7 +265,7 @@ function Home() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product1} alt="product1" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -288,7 +288,7 @@ function Home() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product2} alt="product2" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -311,7 +311,7 @@ function Home() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product3} alt="product3" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -334,7 +334,7 @@ function Home() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product4} alt="product4" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -392,7 +392,7 @@ function Home() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product5} alt="product5" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -415,7 +415,7 @@ function Home() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product6} alt="product6" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -438,7 +438,7 @@ function Home() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product3} alt="product3" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -461,7 +461,7 @@ function Home() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product4} alt="product4" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -486,7 +486,7 @@ function Home() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product1} alt="product1" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -509,7 +509,7 @@ function Home() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product2} alt="product2" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -532,7 +532,7 @@ function Home() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product3} alt="product3" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>
@@ -555,7 +555,7 @@ function Home() {
                         <div className='flex flex-col gap-2'>
                             <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product4} alt="product4" />
-                                <div className='absolute top-0 left-0 w-full h-full px-6 py-6 flex justify-end'>
+                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
                                     </div>

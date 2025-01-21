@@ -7,6 +7,10 @@ import Cart from './pages/Cart';
 import Address from './pages/Address';
 import Account from './pages/Account';
 import Products from './pages/Products';
+import AccountMob from './mobileViewPages/AccountMob';
+import MyInfo from './components/MyInfo';
+import MyOrders from './components/MyOrders';
+import Wishlist from './components/Wishlist';
 
 
 function App() {
@@ -20,7 +24,11 @@ function App() {
           <Route path='/cart' element={<Cart />} />
           <Route path='/address' element={<Address />} />
           <Route path='/account' element={<Account />} />
+          <Route path='/accountmob' element={<AccountMob/>}/>
           <Route path='/products' element={<Products/>}/>
+          <Route path='/myinfo' element={<MyInfo/>}/>
+          <Route path='/myorders' element={<MyOrders/>}/>
+          <Route path='/wishlist' element={<Wishlist/>}/>
         </Routes>
       </BrowserRouter>
     </div>
