@@ -11,6 +11,7 @@ import AccountMob from './mobileViewPages/AccountMob';
 import MyInfo from './components/MyInfo';
 import MyOrders from './components/MyOrders';
 import Wishlist from './components/Wishlist';
+import OrderSummary from './pages/OrderSummary';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path='/myinfo' element={<MyInfo/>}/>
           <Route path='/myorders' element={<MyOrders/>}/>
           <Route path='/wishlist' element={<Wishlist/>}/>
+          <Route path='/ordersummary' element={<OrderSummary/>}/>
         </Routes>
       </BrowserRouter>
     </div>

@@ -13,6 +13,9 @@ function MyOrders() {
         navigate('/accountmob')
     }
 
+    const orderSummaryPage = () => {
+        navigate('/ordersummary')
+    }
     return (
         <div className='w-full h-auto flex flex-col lg:gap-6 gap-4 text-start'>
             <div className='lg:hidden flex'>
@@ -29,7 +32,7 @@ function MyOrders() {
                 </div>
                 <span className='text-3xl font-[700] font-montserrat lg:flex hidden'>My Orders</span>
                 <div className='grid lg:grid-cols-2 grid-cols-1 gap-4  mt-5'>
-                    <div className='lg:h-[180px] h-[140px] bg-[#F6F6F6] rounded-[8px] lg:p-5 p-2 flex flex-row lg:gap-5 gap-3 items-center'>
+                    <div className='lg:h-[180px] h-[140px] bg-[#F6F6F6] rounded-[8px] lg:p-5 p-2 flex flex-row lg:gap-5 gap-3 items-center cursor-pointer' onClick={orderSummaryPage}>
                         <div className='lg:w-[97px] w-[87px] lg:h-[120px] h-[80px]'>
                             <img src={product} alt="product" className='w-full h-full' />
                         </div>
