@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import fb from '../images/Footer/fb.png'
 import insta from '../images/Footer/insta.png'
 import twitter from '../images/Footer/twitter.png'
@@ -8,6 +9,14 @@ import appstore from '../images/Footer/appstore.png'
 import arrow from '../images/Footer/arrow.png'
 
 function Footer() {
+    const navigate = useNavigate()
+    const privacyAndPolicyPage = () => {
+        navigate('/privacypolicy')
+    }
+
+    const termsAndConditionsPage = () => {
+        navigate('/termsconditions')
+    }
     return (
         <div className='w-full h-auto p-12 bg-[black] flex flex-col gap-8'>
             <div className='flex flex-row gap-[8%]'>
@@ -38,8 +47,8 @@ function Footer() {
                 <div className='flex flex-col gap-8'>
                     <span className='text-2xl font-[600] font-montserrat text-[#F6F6F6] text-left'>More Info</span>
                     <div className='flex flex-col gap-4'>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Term and Conditions</span>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Privacy Policy</span>
+                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left cursor-pointer' onClick={termsAndConditionsPage}>Terms and Conditions</span>
+                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left cursor-pointer' onClick={privacyAndPolicyPage}>Privacy Policy</span>
                         <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Shipping Policy</span>
                         <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Sitemap</span>
 

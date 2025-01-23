@@ -12,6 +12,8 @@ import MyInfo from './components/MyInfo';
 import MyOrders from './components/MyOrders';
 import Wishlist from './components/Wishlist';
 import OrderSummary from './pages/OrderSummary';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsConditions from './pages/TermsConditions';
 
 
 function App() {
@@ -31,6 +33,9 @@ function App() {
           <Route path='/myorders' element={<MyOrders/>}/>
           <Route path='/wishlist' element={<Wishlist/>}/>
           <Route path='/ordersummary' element={<OrderSummary/>}/>
+          <Route path='/privacypolicy' element={<PrivacyPolicy/>}/>
+          <Route path='/termsconditions' element={<TermsConditions/>}/>
+
         </Routes>
       </BrowserRouter>
     </div>

@@ -33,6 +33,14 @@ function AccountMob() {
     const logout = () => {
         navigate('/login')
     }
+
+    const privacyAndPolicyPage = () => {
+        navigate('/privacypolicy')
+    }
+
+    const termsAndConditionsPage = () => {
+        navigate('/termsconditions')
+    }
     return (
         <div className='min-h-screen flex flex-col gap-6'>
             <NavbarMob />
@@ -72,7 +80,7 @@ function AccountMob() {
                         </div>
                         <img src={forward} alt="forward" />
                     </div>
-                    <div className='w-full py-4 border-b-2 border-[#F2F2F2] flex justify-between items-center'>
+                    <div className='w-full py-4 border-b-2 border-[#F2F2F2] flex justify-between items-center' onClick={termsAndConditionsPage}>
                         <div className='flex flex-row gap-4 items-center'>
                             <div className='w-[39px] h-[39px] rounded-full bg-[#F7F7F8] flex justify-center items-center'>
                                 <img src={terms} alt="profile" />
@@ -81,7 +89,7 @@ function AccountMob() {
                         </div>
                         <img src={forward} alt="forward" />
                     </div>
-                    <div className='w-full py-4 border-b-2 border-[#F2F2F2] flex justify-between items-center'>
+                    <div className='w-full py-4 border-b-2 border-[#F2F2F2] flex justify-between items-center' onClick={privacyAndPolicyPage}>
                         <div className='flex flex-row gap-4 items-center'>
                             <div className='w-[39px] h-[39px] rounded-full bg-[#F7F7F8] flex justify-center items-center'>
                                 <img src={privacy} alt="profile" />
