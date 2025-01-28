@@ -41,7 +41,8 @@ function AccountMob() {
     const termsAndConditionsPage = () => {
         navigate('/termsconditions')
     }
-    return (
+    
+    return ( 
         <div className='min-h-screen flex flex-col gap-6'>
             <NavbarMob />
             <div className='w-full h-auto px-3 py-6 flex flex-col  gap-6  mt-[120px] pb-6'>
