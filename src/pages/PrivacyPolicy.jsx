@@ -7,6 +7,8 @@ import Footer from '../components/Footer'
 
 function PrivacyPolicy() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' })
+        const isTab = useMediaQuery({query:  '(max-width: 1024px)' });
+    
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -14,7 +16,7 @@ function PrivacyPolicy() {
     return (
         <div className='min-h-screen flex flex-col '>
             {isMobile ? <NavbarMob /> : <Navbar />}
-            <div className='w-full h-auto lg:px-12 px-3 py-6 flex flex-col lg:gap-12 gap-6 lg:mt-[175px] mt-[120px] lg:pb-12 pb-6'>
+            <div className='w-full h-auto lg:px-12 px-3 py-6 flex flex-col lg:gap-12 gap-6 lg:mt-[175px] md:mt-[175px] mt-[120px] lg:pb-12 pb-6'>
                 <span className='lg:text-2xl text-xl font-[600] font-montserrat'>Privacy Policy</span>
                 <div className='w-full flex flex-col lg:gap-12 gap-6 text-left lg:pb-12 pb-6'>
                     <div className='flex flex-col lg:gap-6 gap-3'>
@@ -123,7 +125,7 @@ function PrivacyPolicy() {
 
                 </div>
             </div>
-            {isMobile ? <FooterMob /> : <Footer />}
+            {isTab ? <FooterMob /> : <Footer />}
 
         </div>
     )

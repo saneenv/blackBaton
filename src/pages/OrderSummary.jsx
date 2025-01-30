@@ -10,11 +10,13 @@ import top from '../images/OrderSummary/top.png'
 
 function OrderSummary() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' })
+        const isTab = useMediaQuery({query:  '(max-width: 1024px)' });
+    
     return (
         <div className='min-h-screen flex flex-col'>
             {isMobile ? <NavbarMob /> : <Navbar />}
-            <div className='w-full h-auto lg:px-12 px-3 lg:gap-6 gap-3 lg:pt-12 pt-6 flex lg:flex-row flex-col lg:mt-[175px] mt-[120px] lg:pb-12 pb-6'>
-                <div className='flex flex-row gap-2 items-center  lg:hidden'>
+            <div className='w-full h-auto lg:px-12 px-3 lg:gap-6 gap-3 lg:pt-12 pt-6 flex lg:flex-row flex-col lg:mt-[175px] md:mt-[175px] mt-[120px] lg:pb-12 pb-6'>
+                <div className='flex flex-row gap-2 items-center  md:hidden'>
                     <span className='text-xs font-[500] font-montserrat text-[#828282] cursor-pointer' >Home</span>
                     <span className='text-[#828282]'>{">"}</span>
                     <span className='text-xs font-[400] font-montserrat text-[#3C4242]' >Account</span>
@@ -156,7 +158,7 @@ function OrderSummary() {
                 </div>
             </div>
             <div className='lg:pt-12 pt-6'>
-                {isMobile ? <FooterMob /> : <Footer />}
+                {isTab ? <FooterMob /> : <Footer />}
 
             </div>
         </div>

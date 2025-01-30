@@ -18,7 +18,7 @@ function Footer() {
         navigate('/termsconditions')
     }
     return (
-        <div className='w-full h-auto p-12 bg-[black] flex flex-col gap-8'>
+        <div className='w-full h-auto lg:px-12 px-3 py-12 bg-[black] flex flex-col gap-8'>
             <div className='flex flex-row gap-[8%]'>
                 <div className='flex flex-col gap-8'>
                     <span className='text-2xl font-[600] font-montserrat  text-left text-[#F6F6F6]'>Need Help</span>

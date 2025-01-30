@@ -18,6 +18,8 @@ import Wishlist from '../components/Wishlist';
 function Account() {
     const [activeComponent, setActiveComponent] = useState("orders");
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+    const isTab = useMediaQuery({ query: '(max-width: 1024px)' });
+
     const navigate = useNavigate();
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -35,15 +37,15 @@ function Account() {
         <div className='min-h-screen flex flex-col '>
             {isMobile ? <NavbarMob /> : <Navbar />}
 
-            <div className='w-full h-auto lg:px-12 px-3 py-6 flex flex-col lg:gap-12 gap-6 lg:mt-[175px] mt-[120px] pb-12'>
+            <div className='w-full h-auto lg:px-12 px-3 py-6 flex flex-col lg:gap-12 gap-6 lg:mt-[175px] md:mt-[175px] mt-[120px] pb-12'>
                 <div className='flex flex-row gap-2 items-center'>
                     <span className='lg:text-base text-xs font-[500] font-montserrat text-[#828282] cursor-pointer' onClick={home}>Home</span>
                     <span className='text-[#828282]'>{">"}</span>
                     <span className='lg:text-base text-xs font-[400] font-montserrat text-[#3C4242]'>Account</span>
                 </div>
 
-                <div className='flex flex-row w-full h-auto gap-12'>
-                    <div className='w-[25%] flex flex-col gap-6'>
+                <div className='flex flex-row w-full h-auto lg:gap-12 md:gap-4'>
+                    <div className='w-[35%] flex flex-col gap-6'>
                         <div className='flex flex-col gap-3'>
                             <div className='flex flex-row gap-2'>
                                 <img src={line} alt="line" />
@@ -103,9 +105,9 @@ function Account() {
 
                         </div>
                     </div>
-                    <div className='w-[75%] h-auto pb-12' >
+                    <div className='w-[65%] h-auto lg:pb-12 md:pb-[15%]' >
                         {activeComponent === "orders" && <MyOrders />}
-                        {activeComponent === "wishlist" && <Wishlist/>}
+                        {activeComponent === "wishlist" && <Wishlist />}
                         {activeComponent === "info" && <MyInfo />}
                     </div>
 
@@ -113,7 +115,7 @@ function Account() {
 
             </div>
             <div className='pt-12'>
-                {isMobile ? <FooterMob /> : <Footer />}
+                {isTab ? <FooterMob /> : <Footer />}
 
             </div>
 

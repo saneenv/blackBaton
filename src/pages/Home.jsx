@@ -31,6 +31,7 @@ import NavbarMob from '../components/NavbarMob';
 
 function Home() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+    const isTab = useMediaQuery({query:  '(max-width: 1024px)' });
     const [startIndex, setStartIndex] = useState(0);
     const [disableNext, setDisableNext] = useState(false); // Disable ">" button
     const [disablePrev, setDisablePrev] = useState(true); // Disable "<" button initially
@@ -39,31 +40,31 @@ function Home() {
             window.scrollTo(0, 0);
         }, []);
     const items = [
-        <div className='h-[280px] bg-[yellow] relative '>
+        <div className='lg:h-[280px] h-[250px]  relative '>
             <img src={running} alt="running" className='w-full h-full' />
             <div className='absolute top-0 left-0 w-full h-full px-12 py-12 flex items-end '>
                 <div className='w-auto h-[35px] bg-[white] rounded-2xl px-5 flex justify-center items-center text-base font-[600] font-montserrat'>Running</div>
             </div>
         </div>,
-        <div className='h-[280px] bg-[#3aba84]  relative'>
+        <div className='lg:h-[280px] h-[250px] relative'>
             <img src={basketball} alt="basketball" className='w-full h-full' />
             <div className='absolute top-0 left-0 w-full h-full px-12 py-12 flex items-end '>
                 <div className='w-auto h-[35px] bg-[white] rounded-2xl px-5 flex justify-center items-center text-base font-[600] font-montserrat'>Basketball</div>
             </div>
         </div>,
-        <div className='h-[280px] bg-[#8534ee] relative'>
+        <div className='lg:h-[280px] h-[250px]  relative'>
             <img src={football} alt="football" className='w-full h-full' />
             <div className='absolute top-0 left-0 w-full h-full px-12 py-12 flex items-end '>
                 <div className='w-auto h-[35px] bg-[white] rounded-2xl px-5 flex justify-center items-center text-base font-[600] font-montserrat'>Football</div>
             </div>
         </div>,
-        <div className='h-[280px] bg-[red] relative'>
+        <div className='lg:h-[280px] h-[250px]  relative'>
             <img src={running} alt="running" className='w-full h-full' />
             <div className='absolute top-0 left-0 w-full h-full px-12 py-12 flex items-end '>
                 <div className='w-auto h-[35px] bg-[white] rounded-2xl px-5 flex justify-center items-center text-base font-[600] font-montserrat'>Running</div>
             </div>
         </div>,
-        <div className='h-[280px] bg-[green] relative'>
+        <div className='h-[280px]  relative'>
             <img src={basketball} alt="basketball" className='w-full h-full' />
             <div className='absolute top-0 left-0 w-full h-full px-12 py-12 flex items-end '>
                 <div className='w-auto h-[35px] bg-[white] rounded-2xl px-5 flex justify-center items-center text-base font-[600] font-montserrat'>Basketball</div>
@@ -107,9 +108,9 @@ function Home() {
         <div className='min-h-screen flex flex-col'>
             {isMobile ? <NavbarMob /> : <Navbar />}
 
-            <div className='w-full lg:h-[735px] h-[565px] relative lg:mt-[175px] mt-[120px]'>
-                <img src={banner1} alt="banner1" className='w-full h-full lg:block hidden' />
-                <img src={bannermob} alt="bannermob" className='w-full h-full lg:hidden' />
+            <div className='w-full lg:h-[735px] md:h-[600px]  h-[565px] relative lg:mt-[175px] md:mt-[175px] mt-[120px]'>
+                <img src={banner1} alt="banner1" className='w-full h-full md:block hidden' />
+                <img src={bannermob} alt="bannermob" className='w-full h-full md:hidden' />
                 {/* <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black via-transparent to-transparent"></div> */}
                 <div className="absolute top-0 left-0 w-full h-full flex flex-col gap-3 items-center justify-center">
                     <span className="text-white lg:text-6xl text-3xl font-[800] font-montserrat">
@@ -145,14 +146,14 @@ function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className=' grid-cols-3 w-full  gap-2 lg:grid hidden'>
+                    <div className=' grid-cols-3 w-full  gap-2 md:grid hidden'>
                         {items.slice(startIndex, startIndex + 3).map((item, index) => (
                             <React.Fragment key={index}>
                                 {item}
                             </React.Fragment>
                         ))}
                     </div>
-                    <div className=' grid-cols-1 w-full  gap-2 lg:hidden'>
+                    <div className=' grid-cols-1 w-full  gap-2 md:hidden'>
                         {items.slice(startIndex, startIndex + 1).map((item, index) => (
                             <React.Fragment key={index}>
                                 {item}
@@ -167,9 +168,9 @@ function Home() {
                             <span className='lg:text-xl text-base font-[600] font-montserrat'>Popular Products</span>
                         </div>
                     </div>
-                    <div className='grid lg:grid-cols-4 grid-cols-2 w-full  gap-5 '>
+                    <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 w-full  gap-5 '>
                         <div className='flex flex-col gap-2 cursor-pointer' onClick={fullimage}>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product1} alt="product1" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3  flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -192,7 +193,7 @@ function Home() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product2} alt="product2" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -215,7 +216,7 @@ function Home() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product3} alt="product3" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -238,7 +239,7 @@ function Home() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product4} alt="product4" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -263,7 +264,7 @@ function Home() {
 
 
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product1} alt="product1" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -286,7 +287,7 @@ function Home() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product2} alt="product2" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -309,7 +310,7 @@ function Home() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product3} alt="product3" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -332,7 +333,7 @@ function Home() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product4} alt="product4" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -358,8 +359,8 @@ function Home() {
                     </div>
                 </div>
 
-                <div className='w-full flex lg:flex-row flex-col lg:gap-0 gap-3 lg:h-[600px] h-auto mt-3'>
-                    <div className='lg:w-[50%] w-full lg:h-full h-[284px] relative'>
+                <div className='w-full flex md:flex-row flex-col lg:gap-0 gap-3 lg:h-[600px] h-auto mt-3'>
+                    <div className='lg:w-[50%] w-full lg:h-full md:h-[450px] h-[284px] relative'>
                         <img src={men} alt="men" className='w-full h-full' />
                         <div className='absolute top-0 left-0 w-full h-full flex flex-col lg:gap-3 gap-2 justify-center items-center'>
                             <div className='w-auto lg:px-3 px-2 h-[57px] bg-[black] flex justify-center items-center'>
@@ -368,7 +369,7 @@ function Home() {
                             <img src={button} alt="button" className='cursor-pointer' onClick={productPage} />
                         </div>
                     </div>
-                    <div className='lg:w-[50%] w-full lg:h-full h-[284px] relative'>
+                    <div className='lg:w-[50%] w-full lg:h-full md:h-[450px] h-[284px] relative'>
                         <img src={women} alt="women" className='w-full h-full' />
                         <div className='absolute top-0 left-0 w-full h-full flex flex-col lg:gap-3 gap-2 justify-center items-center'>
                             <div className='w-auto lg:px-3 px-2 h-[57px] bg-[black] flex justify-center items-center'>
@@ -388,9 +389,9 @@ function Home() {
                             <span className='lg:text-xl text-base font-[600] font-montserrat'>Trending Products</span>
                         </div>
                     </div>
-                    <div className='grid lg:grid-cols-4 grid-cols-2 w-full  gap-5 '>
+                    <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 w-full  gap-5 '>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product5} alt="product5" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -413,7 +414,7 @@ function Home() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product6} alt="product6" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -436,7 +437,7 @@ function Home() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product3} alt="product3" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -459,7 +460,7 @@ function Home() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product4} alt="product4" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -484,7 +485,7 @@ function Home() {
 
 
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product1} alt="product1" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -507,7 +508,7 @@ function Home() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product2} alt="product2" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -530,7 +531,7 @@ function Home() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product3} alt="product3" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -553,7 +554,7 @@ function Home() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product4} alt="product4" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -581,8 +582,8 @@ function Home() {
 
 
 
-                <div className='w-full flex lg:flex-row flex-col lg:gap-0 gap-3 lg:h-[600px] h-auto mt-3'>
-                    <div className='lg:w-[50%] w-full lg:h-full h-[284px] relative'>
+                <div className='w-full flex md:flex-row flex-col lg:gap-0 gap-3 lg:h-[600px] h-auto mt-3'>
+                    <div className='lg:w-[50%] w-full lg:h-full md:h-[450px] h-[284px] relative'>
                         <img src={accessories} alt="accessories" className='w-full h-full' />
                         <div className='absolute top-0 left-0 w-full h-full flex flex-col lg:gap-3 gap-2 justify-center items-center'>
                             <div className='w-auto lg:px-3 px-2 h-[57px] bg-[black] flex justify-center items-center'>
@@ -591,7 +592,7 @@ function Home() {
                             <img src={button} alt="button" />
                         </div>
                     </div>
-                    <div className='lg:w-[50%] w-full lg:h-full h-[284px] relative'>
+                    <div className='lg:w-[50%] w-full lg:h-full md:h-[450px] h-[284px] relative'>
                         <img src={kids} alt="kids" className='w-full h-full' />
                         <div className='absolute top-0 left-0 w-full h-full flex flex-col lg:gap-3 gap-2 justify-center items-center'>
                             <div className='w-auto lg:px-3 px-2 h-[57px] bg-[black] flex justify-center items-center'>
@@ -612,12 +613,12 @@ function Home() {
                         {/* Repeat the content multiple times for infinite scrolling */}
                         {Array.from({ length: 15 }).map((_, index) => (
                             <React.Fragment key={index}>
-                                <img src={star} alt="star" className="lg:inline-block hidden" />
-                                <img src={starmob} alt="starmob" className='inline-block lg:hidden' />
-                                <span className="text-[white] lg:text-2xl text-sm font-[600] font-montserrat inline-block">
+                                <img src={star} alt="star" className="md:inline-block hidden" />
+                                <img src={starmob} alt="starmob" className='inline-block md:hidden' />
+                                <span className="text-[white] lg:text-2xl md:text-xl text-sm font-[600] font-montserrat inline-block">
                                     Find your perfect fit for every activity
                                 </span>
-                                <img src={starmob} alt="starmob" className='inline-block lg:hidden' />
+                                <img src={starmob} alt="starmob" className='inline-block md:hidden' />
                             </React.Fragment>
                         ))}
                     </div>
@@ -637,7 +638,7 @@ function Home() {
                 </div>
             </div>
 
-            {isMobile ? <FooterMob /> : <Footer />}
+            {isTab ? <FooterMob /> : <Footer />}
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React, { useEffect } from 'react'
 import NavbarMob from '../components/NavbarMob'
 import Navbar from '../components/Navbar'
 import { useMediaQuery } from 'react-responsive'
@@ -31,6 +31,8 @@ import returns from '../images/FullImage/Returns.png'
 
 function FullImage() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+    const isTab = useMediaQuery({ query: '(max-width: 1024px)' });
+
     const navigate = useNavigate();
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -45,14 +47,14 @@ function FullImage() {
         <div className='min-h-screen flex flex-col '>
             {isMobile ? <NavbarMob /> : <Navbar />}
 
-            <div className='w-full h-auto lg:px-12 px-3 py-6 flex flex-col lg:gap-12 gap-6 lg:mt-[175px] mt-[120px] pb-12'>
+            <div className='w-full h-auto lg:px-12 px-3 py-6 flex flex-col lg:gap-12 gap-6 lg:mt-[175px] md:mt-[175px] mt-[120px] pb-12'>
                 <div className='flex flex-row gap-2 items-center'>
                     <span className='lg:text-base text-xs font-[500] font-montserrat text-[#828282] cursor-pointer' onClick={home}>Home</span>
                     <span className='text-[#828282]'>{">"}</span>
                     <span className='lg:text-base text-xs font-[400] font-montserrat text-[#3C4242]'>Stride T-shirt</span>
                 </div>
 
-                <div className='w-full flex lg:flex-row flex-col lg:h-[689px] h-auto lg:gap-0 gap-8'>
+                <div className='w-full flex lg:flex-row flex-col lg:h-[689px]  h-auto lg:gap-0 gap-8'>
                     <div className='flex flex-row gap-4 lg:w-[50%] w-full h-full'>
                         <div className='w-[25%] h-full lg:flex hidden flex-col justify-center items-center gap-6'>
                             <div className='w-[70%] h-[100px] rounded-[10px] bg-[#EEEEEE] flex justify-center items-center'>
@@ -191,10 +193,10 @@ function FullImage() {
                     <span className='lg:text-lg text-sm font-[500] text-left font-montserrat'>Our KD signature apparel collection celebrates the next generation of do-it-all athletes with
                         pieces you can wear anywhere. This relaxed-fit
                         tee is made from soft midweight cotton. The graphics feature the official stamp of approval from Easy Money.</span>
-                     <div className='lg:w-1/2 w-full h-[190px] bg-[#F6F6F6]'>
-                         <div className='flex flex-col w-full h-full'>
-                               <div className='w-full h-1/2 border-b-2 border-[#BEBCBD]'>
-                                 <div className='grid grid-cols-3 w-full h-full'>
+                    <div className='lg:w-1/2 w-full h-[190px] bg-[#F6F6F6]'>
+                        <div className='flex flex-col w-full h-full'>
+                            <div className='w-full h-1/2 border-b-2 border-[#BEBCBD]'>
+                                <div className='grid grid-cols-3 w-full h-full'>
                                     <div className='border-r-2 border-[#BEBCBD] flex justify-center  text-left lg:pl-12 pl-3 flex-col gap-2'>
                                         <span className='lg:text-base text-xs font-[400] font-montserrat text-[#807D7E]'>Fabric</span>
                                         <span className='text-[#3C4242] lg:text-base text-xs font-[500] font-montserrat'>Bio-washed Cotton</span>
@@ -207,11 +209,11 @@ function FullImage() {
                                         <span className='lg:text-base text-xs font-[400] font-montserrat text-[#807D7E]'>Fit</span>
                                         <span className='text-[#3C4242] lg:text-base text-xs font-[500] font-montserrat'>Regular-fit</span>
                                     </div>
-                                 </div>
-                               </div>
-                               <div className='w-full h-1/2'>
-                               <div className='grid grid-cols-3 w-full h-full'>
-                               <div className='border-r-2 border-[#BEBCBD] flex justify-center  text-left lg:pl-12 pl-3 flex-col gap-2'>
+                                </div>
+                            </div>
+                            <div className='w-full h-1/2'>
+                                <div className='grid grid-cols-3 w-full h-full'>
+                                    <div className='border-r-2 border-[#BEBCBD] flex justify-center  text-left lg:pl-12 pl-3 flex-col gap-2'>
                                         <span className='lg:text-base text-xs font-[400] font-montserrat text-[#807D7E]'>Neck</span>
                                         <span className='text-[#3C4242] lg:text-base text-xs font-[500] font-montserrat'>Round Neck</span>
                                     </div>
@@ -223,10 +225,10 @@ function FullImage() {
                                         <span className='lg:text-base text-xs font-[400] font-montserrat text-[#807D7E]'>Style</span>
                                         <span className='text-[#3C4242] lg:text-base text-xs font-[500] font-montserrat'>Casual Wear</span>
                                     </div>
-                                 </div>
-                               </div>
-                         </div>
-                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
 
@@ -237,9 +239,9 @@ function FullImage() {
                             <span className='lg:text-xl text-base font-[600] font-montserrat'>Similar Products</span>
                         </div>
                     </div>
-                    <div className='grid lg:grid-cols-4 grid-cols-2 w-full  gap-5 '>
+                    <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 w-full  gap-5 '>
                         <div className='flex flex-col gap-2 cursor-pointer'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product1} alt="product1" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -262,7 +264,7 @@ function FullImage() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product2} alt="product2" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -285,7 +287,7 @@ function FullImage() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product3} alt="product3" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -308,7 +310,7 @@ function FullImage() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product4} alt="product4" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -333,7 +335,7 @@ function FullImage() {
 
 
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product1} alt="product1" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -356,7 +358,7 @@ function FullImage() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product2} alt="product2" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -379,7 +381,7 @@ function FullImage() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product3} alt="product3" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -402,7 +404,7 @@ function FullImage() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product4} alt="product4" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -428,7 +430,7 @@ function FullImage() {
                     </div>
                 </div>
             </div>
-            {isMobile ? <FooterMob /> : <Footer />}
+            {isTab ? <FooterMob /> : <Footer />}
 
         </div>
     )

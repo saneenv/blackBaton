@@ -29,7 +29,7 @@ function Navbar() {
     }
     return (
         <div className='flex flex-col'>
-        <div className='w-full h-[120px] bg-[#000000] border-b-2 border-[#B2B2B2] flex flex-col px-12 gap-3 fixed top-0 left-0 z-50'>
+        <div className='w-full h-[120px] bg-[#000000] border-b-2 border-[#B2B2B2] flex flex-col lg:px-12 px-5 gap-3 fixed top-0 left-0 z-50'>
             <div className='w-full h-[40%]  flex justify-between items-end'>
                 <div className='flex flex-row gap-5'>
                     <div className='flex flex-row gap-2'>
@@ -58,7 +58,7 @@ function Navbar() {
             <div className='w-full h-[60%]  flex justify-center items-center gap-8'>
                 <img src={logo} alt="logo" className='cursor-pointer' onClick={homePage} />
                 <div className='w-[60%] h-[70%] rounded-[10px] bg-[#FFFFFF] flex flex-row'>
-                    <div className='h-full w-[25%]  flex flex-row gap-5 justify-center items-center border-r-2 border-[#B2B2B2] cursor-pointer'>
+                    <div className='h-full w-[25%]  flex flex-row lg:gap-5 gap-2 justify-center items-center border-r-2 border-[#B2B2B2] cursor-pointer'>
                         <span className='font-[400] text-sm font-dmSans'>All Category</span>
                         <img src={arrow} alt="arrow" />
                     </div>
@@ -87,8 +87,8 @@ function Navbar() {
         </div>
          
 
-        <div className='w-full h-[55px] bg-[#000000] flex justify-between items-center px-12 fixed top-[120px] left-0 z-40'>
-            <div className='flex flex-row gap-12'>
+        <div className='w-full h-[55px] bg-[#000000] flex justify-between items-center lg:px-12 px-5 fixed top-[120px] left-0 z-40'>
+            <div className='flex flex-row lg:gap-12 gap-5'>
                 <div className='flex flex-row gap-2'>
                     <img src={bars} alt="bars" />
                     <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>All Categories</span>
@@ -100,7 +100,7 @@ function Navbar() {
 
 
             </div>
-            <div className='flex flex-row gap-12'>
+            <div className='flex flex-row lg:gap-12 gap-5'>
 
                 <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>LIMITED SALE</span>
                 <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>Best Seller</span>

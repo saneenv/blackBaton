@@ -19,6 +19,8 @@ import Filter from '../components/Filter'
 
 function Products() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+    const isTab = useMediaQuery({ query: '(max-width: 1024px)' });
+
 
     const navigate = useNavigate();
     const home = () => {
@@ -89,7 +91,7 @@ function Products() {
         <div className='min-h-screen flex flex-col '>
             {isMobile ? <NavbarMob /> : <Navbar />}
 
-            <div className='w-full h-auto lg:px-12 px-3 py-6 flex flex-col lg:gap-12 gap-6 lg:mt-[175px] mt-[120px] pb-12' >
+            <div className='w-full h-auto lg:px-12 px-3 py-6 flex flex-col lg:gap-12 gap-6 lg:mt-[175px] md:mt-[175px] mt-[120px] pb-12' >
                 <div className='flex justify-between items-center'>
                     <div className='flex flex-row gap-2 items-center'>
                         <span className='lg:text-base text-xs font-[500] font-montserrat text-[#828282] cursor-pointer' onClick={home}>Home</span>
@@ -98,10 +100,10 @@ function Products() {
                     </div>
 
                     {!showFilter && (
-                        <img src={filter} alt="filter" onClick={toggleFilter} className='cursor-pointer lg:flex hidden'  />
+                        <img src={filter} alt="filter" onClick={toggleFilter} className='cursor-pointer lg:flex hidden' />
                     )}
-                    <img src={filter} alt="filter"  className='cursor-pointer lg:hidden flex'  onClick={handleFilterClick} />
-                         
+                    <img src={filter} alt="filter" className='cursor-pointer lg:hidden flex' onClick={handleFilterClick} />
+
                 </div>
 
                 <div className='pb-12 flex flex-row gap-5'>
@@ -417,11 +419,11 @@ function Products() {
                         </div>
                     )}
                     <div
-                        className={`grid w-full gap-5 ${showFilter ? "lg:grid-cols-3 grid-cols-2" : "lg:grid-cols-4 grid-cols-2"
+                        className={`grid w-full gap-5 ${showFilter ? "lg:grid-cols-3 grid-cols-2" : "lg:grid-cols-4 md:grid-cols-3 grid-cols-2"
                             }`}
                     >
                         <div className='flex flex-col gap-2 cursor-pointer'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product1} alt="product1" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -444,7 +446,7 @@ function Products() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product2} alt="product2" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -467,7 +469,7 @@ function Products() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product3} alt="product3" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -490,7 +492,7 @@ function Products() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product4} alt="product4" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -515,7 +517,7 @@ function Products() {
 
 
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product1} alt="product1" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -538,7 +540,7 @@ function Products() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product2} alt="product2" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -561,7 +563,7 @@ function Products() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product3} alt="product3" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -584,7 +586,7 @@ function Products() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product4} alt="product4" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -609,7 +611,7 @@ function Products() {
 
 
                         <div className='flex flex-col gap-2 cursor-pointer'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product1} alt="product1" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -632,7 +634,7 @@ function Products() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product2} alt="product2" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -655,7 +657,7 @@ function Products() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product3} alt="product3" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -678,7 +680,7 @@ function Products() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product4} alt="product4" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -703,7 +705,7 @@ function Products() {
 
 
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product1} alt="product1" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -726,7 +728,7 @@ function Products() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product2} alt="product2" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -749,7 +751,7 @@ function Products() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product3} alt="product3" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -772,7 +774,7 @@ function Products() {
                             </div>
                         </div>
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                 <img src={product4} alt="product4" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
@@ -803,7 +805,7 @@ function Products() {
 
 
             {showFilterMob && <Filter closeFilterMob={closeFilterMob} />}
-            {isMobile ? <FooterMob /> : <Footer />}
+            {isTab ? <FooterMob /> : <Footer />}
         </div >
 
     )

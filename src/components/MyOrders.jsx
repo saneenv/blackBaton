@@ -18,11 +18,11 @@ function MyOrders() {
     }
     return (
         <div className='w-full h-auto flex flex-col lg:gap-6 gap-4 text-start'>
-            <div className='lg:hidden flex'>
+            <div className='md:hidden flex'>
                 <NavbarMob />
             </div>
             <div className='flex flex-col w-full lg:mt-0 mt-[120px] lg:px-0 px-3'>
-            <div className='flex flex-row gap-2 items-center mt-3 lg:hidden'>
+            <div className='flex flex-row gap-2 items-center mt-3 md:hidden'>
                     <span className='text-xs font-[500] font-montserrat text-[#828282] cursor-pointer' onClick={homePage}>Home</span>
                     <span className='text-[#828282]'>{">"}</span>
                     <span className='text-xs font-[400] font-montserrat text-[#3C4242]' onClick={accountPage}>Account</span>
