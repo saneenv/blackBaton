@@ -1,13 +1,11 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
+import { useSelector } from "react-redux";
 import banner1 from '../images/Home/banner1.png'
 import bannermob from '../images/Home/bannermob.png'
 import line from '../images/Home/line.png'
-import running from '../images/Home/running.png'
-import basketball from '../images/Home/basketball.png'
-import football from '../images/Home/football.png'
 import cart from '../images/Home/cart.png'
 import product1 from '../images/Home/product1.png'
 import product2 from '../images/Home/product2.png'
@@ -30,77 +28,58 @@ import NavbarMob from '../components/NavbarMob';
 
 
 function Home() {
+    const categoryImages = useSelector((state) => state.category.images);
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
-    const isTab = useMediaQuery({query:  '(max-width: 1024px)' });
+    const isTab = useMediaQuery({ query: '(max-width: 1024px)' });
+    const [categories, setCategories] = useState([]);
     const [startIndex, setStartIndex] = useState(0);
     const [disableNext, setDisableNext] = useState(false); // Disable ">" button
     const [disablePrev, setDisablePrev] = useState(true); // Disable "<" button initially
-    const navigate = useNavigate();
-     useEffect(() => {
-            window.scrollTo(0, 0);
-        }, []);
-    const items = [
-        <div className='lg:h-[280px] h-[250px]  relative '>
-            <img src={running} alt="running" className='w-full h-full' />
-            <div className='absolute top-0 left-0 w-full h-full px-12 py-12 flex items-end '>
-                <div className='w-auto h-[35px] bg-[white] rounded-2xl px-5 flex justify-center items-center text-base font-[600] font-montserrat'>Running</div>
-            </div>
-        </div>,
-        <div className='lg:h-[280px] h-[250px] relative'>
-            <img src={basketball} alt="basketball" className='w-full h-full' />
-            <div className='absolute top-0 left-0 w-full h-full px-12 py-12 flex items-end '>
-                <div className='w-auto h-[35px] bg-[white] rounded-2xl px-5 flex justify-center items-center text-base font-[600] font-montserrat'>Basketball</div>
-            </div>
-        </div>,
-        <div className='lg:h-[280px] h-[250px]  relative'>
-            <img src={football} alt="football" className='w-full h-full' />
-            <div className='absolute top-0 left-0 w-full h-full px-12 py-12 flex items-end '>
-                <div className='w-auto h-[35px] bg-[white] rounded-2xl px-5 flex justify-center items-center text-base font-[600] font-montserrat'>Football</div>
-            </div>
-        </div>,
-        <div className='lg:h-[280px] h-[250px]  relative'>
-            <img src={running} alt="running" className='w-full h-full' />
-            <div className='absolute top-0 left-0 w-full h-full px-12 py-12 flex items-end '>
-                <div className='w-auto h-[35px] bg-[white] rounded-2xl px-5 flex justify-center items-center text-base font-[600] font-montserrat'>Running</div>
-            </div>
-        </div>,
-        <div className='h-[280px]  relative'>
-            <img src={basketball} alt="basketball" className='w-full h-full' />
-            <div className='absolute top-0 left-0 w-full h-full px-12 py-12 flex items-end '>
-                <div className='w-auto h-[35px] bg-[white] rounded-2xl px-5 flex justify-center items-center text-base font-[600] font-montserrat'>Basketball</div>
-            </div>
-        </div>
-    ];
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
-    // Function to move to the next set of items
+    const navigate = useNavigate();
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
+        fetch(`${apiBaseUrl}/getCategories/BLACKBATON_ERP24`)
+            .then(response => response.json())
+            .then(data => {
+                setCategories(data);
+                setDisableNext(data.length <= 3);
+            })
+            .catch(error => console.error("Error fetching categories:", error));
+    }, [apiBaseUrl]);
+
     const nextSlide = () => {
-        if (startIndex < items.length - 3) {
-            setStartIndex((prevIndex) => prevIndex + 1);
-            setDisablePrev(false); // Enable "<" button
-            if (startIndex + 1 === items.length - 3) {
-                setDisableNext(true); // Disable ">" button if we reach the last set
+        if (startIndex < categories.length - 3) {
+            setStartIndex(prevIndex => prevIndex + 1);
+            setDisablePrev(false);
+            if (startIndex + 1 >= categories.length - 3) {
+                setDisableNext(true);
             }
         }
     };
 
-    // Function to move to the previous set of items
     const prevSlide = () => {
         if (startIndex > 0) {
-            setStartIndex((prevIndex) => prevIndex - 1);
-            setDisableNext(false); // Enable ">" button
+            setStartIndex(prevIndex => prevIndex - 1);
+            setDisableNext(false);
             if (startIndex - 1 === 0) {
-                setDisablePrev(true); // Disable "<" button if we reach the first set
+                setDisablePrev(true);
             }
         }
     };
 
-    const fullimage = () =>{
-        navigate('/fullimage');
-    } 
 
-    const productPage = () => {
-        navigate('/products')
+    const fullimage = () => {
+        navigate('/fullimage');
     }
+
+    const productPage = (categoryId, categoryName) => {
+        navigate('/products', { state: { categoryId, categoryName } });
+    };
 
 
 
@@ -131,7 +110,7 @@ function Home() {
                     <div className='flex flex-row justify-between w-full'>
                         <div className='flex flex-row gap-4  items-center'>
                             <img src={line} alt="line" />
-                            <span className='lg:text-xl text-base font-[600] font-montserrat'>Shop By Sport</span>
+                            <span className='lg:text-xl text-base font-[600] font-montserrat'>Shop By Category</span>
                         </div>
                         <div className='flex flex-row gap-2 items-center '>
                             <div
@@ -146,18 +125,43 @@ function Home() {
                             </div>
                         </div>
                     </div>
-                    <div className=' grid-cols-3 w-full  gap-2 md:grid hidden'>
-                        {items.slice(startIndex, startIndex + 3).map((item, index) => (
-                            <React.Fragment key={index}>
-                                {item}
-                            </React.Fragment>
+                    <div className='grid-cols-3 w-full gap-2 md:grid hidden'>
+                        {categories.slice(startIndex, startIndex + 3).map((category) => (
+                            <div key={category.Id} className="lg:h-[280px] h-[250px] relative">
+                                <img
+                                    src={categoryImages[category.Id] || "/images/CategoryImage/commonCategory.jpg"} // Use image from Redux
+                                    alt={category.Name}
+                                    className="w-full h-full"
+                                />
+                                <div className="absolute top-0 left-0 w-full h-full px-12 py-12 flex items-end">
+                                    <div
+                                        className="w-auto h-[35px] bg-[white] hover:bg-[red] hover:text-[white] rounded-2xl px-5 flex justify-center items-center text-base font-[600] font-montserrat cursor-pointer"
+                                        onClick={() => productPage(category.Id, category.Name)}
+                                    >
+                                        {category.Name}
+                                    </div>
+                                </div>
+                            </div>
                         ))}
                     </div>
-                    <div className=' grid-cols-1 w-full  gap-2 md:hidden'>
-                        {items.slice(startIndex, startIndex + 1).map((item, index) => (
-                            <React.Fragment key={index}>
-                                {item}
-                            </React.Fragment>
+
+                    <div className='grid grid-cols-1 w-full gap-2 md:hidden'>
+                        {categories.slice(startIndex, startIndex + 1).map((category) => (
+                            <div key={category.Id} className="lg:h-[280px] h-[250px] relative">
+                                <img
+                                    src={categoryImages[category.Id] || "/images/CategoryImage/commonCategory.jpg"} // Use image from Redux
+                                    alt={category.Name}
+                                    className="w-full h-full"
+                                />
+                                <div className="absolute top-0 left-0 w-full h-full px-12 py-12 flex items-end">
+                                    <div
+                                        className="w-auto h-[35px] bg-[white] hover:bg-[red] hover:text-[white] rounded-2xl px-5 flex justify-center items-center text-base font-[600] font-montserrat cursor-pointer"
+                                        onClick={() => productPage(category.Id, category.Name)}
+                                    >
+                                        {category.Name}
+                                    </div>
+                                </div>
+                            </div>
                         ))}
                     </div>
                 </div>

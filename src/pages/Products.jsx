@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMediaQuery } from 'react-responsive'
+import { useLocation } from 'react-router-dom'
+import axios from 'axios';
 import NavbarMob from '../components/NavbarMob'
 import Navbar from '../components/Navbar'
 import FooterMob from '../components/FooterMob'
 import Footer from '../components/Footer'
 import filter from '../images/Products/filter.png'
 import product1 from '../images/Home/product1.png'
-import product2 from '../images/Home/product2.png'
-import product3 from '../images/Home/product3.png'
-import product4 from '../images/Home/product4.png'
 import heart from '../images/Home/heart.png'
 import cart from '../images/Home/cart.png'
 import forward from '../images/Products/forwardpng.png'
@@ -20,7 +19,6 @@ import Filter from '../components/Filter'
 function Products() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const isTab = useMediaQuery({ query: '(max-width: 1024px)' });
-
 
     const navigate = useNavigate();
     const home = () => {
@@ -39,6 +37,24 @@ function Products() {
     const [isSizeExpanded, setIsSizeExpanded] = useState(true);
     const [isDressExpanded, setIsDressExpanded] = useState(true);
     const [showFilterMob, setShowFilterMob] = useState(false);
+    const location = useLocation();
+    const { categoryId, categoryName } = location.state || {};
+    const [products, setProducts] = useState([]);
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+    // Fetch product data from the API
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get(`${apiBaseUrl}/getProductByCategory/BLACKBATON_ERP24?Id=${categoryId}`);
+                setProducts(response.data); // Set the fetched products to state
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+
+        fetchProducts();
+    }, [apiBaseUrl,categoryId]);
 
 
     const handleMinChange = (e) => {
@@ -96,7 +112,7 @@ function Products() {
                     <div className='flex flex-row gap-2 items-center'>
                         <span className='lg:text-base text-xs font-[500] font-montserrat text-[#828282] cursor-pointer' onClick={home}>Home</span>
                         <span className='text-[#828282]'>{">"}</span>
-                        <span className='lg:text-base text-xs font-[400] font-montserrat text-[#3C4242]'>Men</span>
+                        <span className='lg:text-base text-xs font-[400] font-montserrat text-[#3C4242]'>{categoryName}</span>
                     </div>
 
                     {!showFilter && (
@@ -422,103 +438,11 @@ function Products() {
                         className={`grid w-full gap-5 ${showFilter ? "lg:grid-cols-3 grid-cols-2" : "lg:grid-cols-4 md:grid-cols-3 grid-cols-2"
                             }`}
                     >
-                        <div className='flex flex-col gap-2 cursor-pointer'>
+                        {products.map((product) => (
+                        <div key={product.ID} className='flex flex-col gap-2 cursor-pointer'>
                             <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                <img src={product1} alt="product1" />
-                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                    <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                        <img src={heart} alt="heart" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div className='flex flex-col gap-1'>
-                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
-                                    <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                        <img src={cart} alt="cart" />
-                                        <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                    </div>
-                                </div>
-                                <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                    $11.00
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                <img src={product2} alt="product2" />
-                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                    <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                        <img src={heart} alt="heart" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div className='flex flex-col gap-1'>
-                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
-                                    <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                        <img src={cart} alt="cart" />
-                                        <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                    </div>
-                                </div>
-                                <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                    $11.00
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                <img src={product3} alt="product3" />
-                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                    <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                        <img src={heart} alt="heart" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div className='flex flex-col gap-1'>
-                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
-                                    <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                        <img src={cart} alt="cart" />
-                                        <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                    </div>
-                                </div>
-                                <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                    $11.00
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                <img src={product4} alt="product4" />
-                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                    <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                        <img src={heart} alt="heart" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div className='flex flex-col gap-1'>
-                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
-                                    <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                        <img src={cart} alt="cart" />
-                                        <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                    </div>
-                                </div>
-                                <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                    $11.00
-                                </div>
-                            </div>
-                        </div>
+                                <img src={product1} alt={product.ItemName} />
 
-
-                        <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                <img src={product1} alt="product1" />
                                 <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                     <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                         <img src={heart} alt="heart" />
@@ -527,276 +451,18 @@ function Products() {
                             </div>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col gap-1'>
-                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
+                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>{product.ItemName}</span>
                                     <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                         <img src={cart} alt="cart" />
                                         <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
                                     </div>
                                 </div>
                                 <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                    $11.00
+                                ${product.MRP}
                                 </div>
                             </div>
                         </div>
-                        <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                <img src={product2} alt="product2" />
-                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                    <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                        <img src={heart} alt="heart" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div className='flex flex-col gap-1'>
-                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
-                                    <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                        <img src={cart} alt="cart" />
-                                        <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                    </div>
-                                </div>
-                                <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                    $11.00
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                <img src={product3} alt="product3" />
-                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                    <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                        <img src={heart} alt="heart" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div className='flex flex-col gap-1'>
-                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
-                                    <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                        <img src={cart} alt="cart" />
-                                        <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                    </div>
-                                </div>
-                                <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                    $11.00
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                <img src={product4} alt="product4" />
-                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                    <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                        <img src={heart} alt="heart" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div className='flex flex-col gap-1'>
-                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
-                                    <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                        <img src={cart} alt="cart" />
-                                        <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                    </div>
-                                </div>
-                                <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                    $11.00
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div className='flex flex-col gap-2 cursor-pointer'>
-                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                <img src={product1} alt="product1" />
-                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                    <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                        <img src={heart} alt="heart" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div className='flex flex-col gap-1'>
-                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
-                                    <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                        <img src={cart} alt="cart" />
-                                        <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                    </div>
-                                </div>
-                                <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                    $11.00
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                <img src={product2} alt="product2" />
-                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                    <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                        <img src={heart} alt="heart" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div className='flex flex-col gap-1'>
-                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
-                                    <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                        <img src={cart} alt="cart" />
-                                        <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                    </div>
-                                </div>
-                                <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                    $11.00
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                <img src={product3} alt="product3" />
-                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                    <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                        <img src={heart} alt="heart" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div className='flex flex-col gap-1'>
-                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
-                                    <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                        <img src={cart} alt="cart" />
-                                        <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                    </div>
-                                </div>
-                                <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                    $11.00
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                <img src={product4} alt="product4" />
-                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                    <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                        <img src={heart} alt="heart" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div className='flex flex-col gap-1'>
-                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
-                                    <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                        <img src={cart} alt="cart" />
-                                        <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                    </div>
-                                </div>
-                                <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                    $11.00
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                <img src={product1} alt="product1" />
-                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                    <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                        <img src={heart} alt="heart" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div className='flex flex-col gap-1'>
-                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
-                                    <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                        <img src={cart} alt="cart" />
-                                        <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                    </div>
-                                </div>
-                                <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                    $11.00
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                <img src={product2} alt="product2" />
-                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                    <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                        <img src={heart} alt="heart" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div className='flex flex-col gap-1'>
-                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
-                                    <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                        <img src={cart} alt="cart" />
-                                        <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                    </div>
-                                </div>
-                                <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                    $11.00
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                <img src={product3} alt="product3" />
-                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                    <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                        <img src={heart} alt="heart" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div className='flex flex-col gap-1'>
-                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
-                                    <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                        <img src={cart} alt="cart" />
-                                        <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                    </div>
-                                </div>
-                                <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                    $11.00
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex flex-col gap-2'>
-                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                <img src={product4} alt="product4" />
-                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                    <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                        <img src={heart} alt="heart" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div className='flex flex-col gap-1'>
-                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                    <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
-                                    <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                        <img src={cart} alt="cart" />
-                                        <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                    </div>
-                                </div>
-                                <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                    $11.00
-                                </div>
-                            </div>
-                        </div>
-
+                        ))}
 
                     </div>
                 </div>

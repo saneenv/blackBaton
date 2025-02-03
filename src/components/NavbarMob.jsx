@@ -12,8 +12,6 @@ import profile from '../images/Navbar/profile.png'
 import logo from '../images/Navbar/logomob.png'
 
 
-
-
 function NavbarMob() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const navigate = useNavigate()
