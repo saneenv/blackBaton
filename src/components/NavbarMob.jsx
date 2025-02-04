@@ -25,11 +25,10 @@ function NavbarMob() {
         navigate('/accountmob')
     }
 
-    const homePage = () =>{
+    const homePage = () => {
         navigate('/')
         window.location.reload();
-  }
-
+    }
 
     return (
         <div className='w-full h-auto bg-[black] py-6 px-3 gap-6 flex flex-col fixed top-0 left-0 z-50'>
@@ -60,7 +59,7 @@ function NavbarMob() {
                 <div className=''>
                     <img src={dropdown} alt="dropdown" onClick={toggleSidebar} />
                 </div>
-                <img src={logo} alt="logo" onClick={homePage}/>
+                <img src={logo} alt="logo" onClick={homePage} />
                 <div className='h-[41px] w-[60%]  flex flex-row'>
                     <div className='w-[20%] bg-[white] h-full flex justify-center items-center rounded-l-[7px]'>
                         <img src={smallsearch} alt="smallsearch" />
@@ -72,11 +71,11 @@ function NavbarMob() {
                 </div>
                 <div className='flex flex-row gap-2'>
                     <img src={cart} alt="cart" />
-                    <img src={profile} alt="profile"  onClick={accountPage}/>
+                    <img src={profile} alt="profile" onClick={accountPage} />
 
                 </div>
 
- 
+
             </div>
 
             {/* Sidebar Component */}

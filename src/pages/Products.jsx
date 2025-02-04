@@ -458,7 +458,7 @@ function Products() {
                                     </div>
                                 </div>
                                 <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                ${product.MRP}
+                                ₹{product.MRP}
                                 </div>
                             </div>
                         </div>

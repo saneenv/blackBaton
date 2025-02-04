@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import contact from '../images/Navbar/contact.png'
 import mail from '../images/Navbar/mail.png'
@@ -14,102 +14,145 @@ import logo from '../images/Navbar/logo.png'
 
 
 function Navbar() {
+
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [categories, setCategories] = useState([]);
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+    // Fetch categories from API
+    useEffect(() => {
+        fetch(`${apiBaseUrl}/getCategories/BLACKBATON_ERP24`)
+            .then(response => response.json())
+            .then(data => setCategories(data))
+            .catch(error => console.error("Error fetching categories:", error));
+    }, [apiBaseUrl]);
+
+
     const navigate = useNavigate();
     const cartpage = () => {
         navigate('/cart')
     }
 
-    const accountpage = () =>{
+    const accountpage = () => {
         navigate('/account');
     }
 
-    const homePage = () =>{
-          navigate('/')
-          window.location.reload();
+    const homePage = () => {
+        navigate('/')
+        window.location.reload();
     }
+
+    const productPage = (categoryId, categoryName) => {
+        navigate('/products', { state: { categoryId, categoryName } });
+    };
     return (
         <div className='flex flex-col'>
-        <div className='w-full h-[120px] bg-[#000000] border-b-2 border-[#B2B2B2] flex flex-col lg:px-12 px-5 gap-3 fixed top-0 left-0 z-50'>
-            <div className='w-full h-[40%]  flex justify-between items-end'>
-                <div className='flex flex-row gap-5'>
+            <div className='w-full h-[120px] bg-[#000000] border-b-2 border-[#B2B2B2] flex flex-col lg:px-12 px-5 gap-3 fixed top-0 left-0 z-50'>
+                <div className='w-full h-[40%]  flex justify-between items-end'>
+                    <div className='flex flex-row gap-5'>
+                        <div className='flex flex-row gap-2'>
+                            <img src={contact} alt="contact" />
+                            <span className='text-[#CACACA] font-[400] font-dmSans text-sm'>(414) 857 - 0107</span>
+                        </div>
+                        <div className='flex flex-row gap-2'>
+                            <img src={mail} alt="mail" />
+                            <span className='text-[#CACACA] font-[400] font-dmSans text-sm'>Blackbatton@gmail.com</span>
+                        </div>
+                    </div>
+
+
                     <div className='flex flex-row gap-2'>
-                        <img src={contact} alt="contact" />
-                        <span className='text-[#CACACA] font-[400] font-dmSans text-sm'>(414) 857 - 0107</span>
-                    </div>
-                    <div className='flex flex-row gap-2'>
-                        <img src={mail} alt="mail" />
-                        <span className='text-[#CACACA] font-[400] font-dmSans text-sm'>Blackbatton@gmail.com</span>
-                    </div>
-                </div>
-
-
-                <div className='flex flex-row gap-2'>
-                    <div className='w-[25px] h-[25px] rounded-full bg-[#FFFFFF] flex justify-center items-center cursor-pointer'>
-                        <img src={twitter} alt="twitter" />
-                    </div>
-                    <div className='w-[25px] h-[25px] rounded-full bg-[#FFFFFF] flex justify-center items-center cursor-pointer'>
-                        <img src={facebook} alt="facebook" />
-                    </div>
-                    <div className='w-[25px] h-[25px] rounded-full bg-[#FFFFFF] flex justify-center items-center cursor-pointer'>
-                        <img src={insta} alt="insta" />
+                        <div className='w-[25px] h-[25px] rounded-full bg-[#FFFFFF] flex justify-center items-center cursor-pointer'>
+                            <img src={twitter} alt="twitter" />
+                        </div>
+                        <div className='w-[25px] h-[25px] rounded-full bg-[#FFFFFF] flex justify-center items-center cursor-pointer'>
+                            <img src={facebook} alt="facebook" />
+                        </div>
+                        <div className='w-[25px] h-[25px] rounded-full bg-[#FFFFFF] flex justify-center items-center cursor-pointer'>
+                            <img src={insta} alt="insta" />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className='w-full h-[60%]  flex justify-center items-center gap-8'>
-                <img src={logo} alt="logo" className='cursor-pointer' onClick={homePage} />
-                <div className='w-[60%] h-[70%] rounded-[10px] bg-[#FFFFFF] flex flex-row'>
-                    <div className='h-full w-[25%]  flex flex-row lg:gap-5 gap-2 justify-center items-center border-r-2 border-[#B2B2B2] cursor-pointer'>
-                        <span className='font-[400] text-sm font-dmSans'>All Category</span>
-                        <img src={arrow} alt="arrow" />
+                <div className='w-full h-[60%]  flex justify-center items-center gap-8'>
+                    <img src={logo} alt="logo" className='cursor-pointer' onClick={homePage} />
+                    <div className='w-[60%] h-[70%] rounded-[10px] bg-[#FFFFFF] flex flex-row'>
+                        <div className='h-full w-[25%]  flex flex-row lg:gap-5 gap-2 justify-center items-center border-r-2 border-[#B2B2B2] cursor-pointer'>
+                            <span className='font-[400] text-sm font-dmSans'>All Category</span>
+                            <img src={arrow} alt="arrow" />
+                        </div>
+                        <div className='h-full w-[65%]  border-r-2 border-[#B2B2B2]'>
+                            <input type="text" className='w-full h-full font-dmSans pl-5 outline-none' placeholder='Search Products...' />
+                        </div>
+                        <div className='h-full w-[10%]  flex justify-center items-center cursor-pointer'>
+                            <img src={search} alt="search" />
+                        </div>
                     </div>
-                    <div className='h-full w-[65%]  border-r-2 border-[#B2B2B2]'>
-                        <input type="text" className='w-full h-full font-dmSans pl-5 outline-none' placeholder='Search Products...' />
-                    </div>
-                    <div className='h-full w-[10%]  flex justify-center items-center cursor-pointer'>
-                        <img src={search} alt="search" />
-                    </div>
-                </div>
 
-                <div className='flex flex-row gap-4'>
-                    <div className='flex flex-row gap-2 cursor-pointer' onClick={cartpage}>
-                        <img src={cart} alt="cart" />
-                        <span className='text-sm font-[400] font-dmSans text-[#CACACA]'>Cart</span>
-                    </div>
-                    <div className='flex flex-row border-r-2 border-[#B2B2B2]'>
-                       
-                    </div>
-                    <div className='flex flex-row gap-2 cursor-pointer' onClick={accountpage}>
-                        <img src={profile} alt="profile" />
-                        <span className='text-sm font-[400] font-dmSans text-[#CACACA]'>Account</span>
+                    <div className='flex flex-row gap-4'>
+                        <div className='flex flex-row gap-2 cursor-pointer' onClick={cartpage}>
+                            <img src={cart} alt="cart" />
+                            <span className='text-sm font-[400] font-dmSans text-[#CACACA]'>Cart</span>
+                        </div>
+                        <div className='flex flex-row border-r-2 border-[#B2B2B2]'>
+
+                        </div>
+                        <div className='flex flex-row gap-2 cursor-pointer' onClick={accountpage}>
+                            <img src={profile} alt="profile" />
+                            <span className='text-sm font-[400] font-dmSans text-[#CACACA]'>Account</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-         
 
-        <div className='w-full h-[55px] bg-[#000000] flex justify-between items-center lg:px-12 px-5 fixed top-[120px] left-0 z-40'>
-            <div className='flex flex-row lg:gap-12 gap-5'>
-                <div className='flex flex-row gap-2'>
-                    <img src={bars} alt="bars" />
-                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>All Categories</span>
+
+            <div className='w-full h-[55px] bg-[#000000] flex justify-between items-center lg:px-12 px-5 fixed top-[120px] left-0 z-40'>
+                <div className='flex flex-row lg:gap-12 gap-5'>
+                    <div
+                        className="relative flex flex-row gap-2 cursor-pointer"
+                        onMouseEnter={() => setShowDropdown(true)}
+                        onMouseLeave={() => setShowDropdown(false)}
+                    >
+                        <img src={bars} alt="bars" />
+                        <span className="font-[400] text-sm font-dmSans text-[white]">All Categories</span>
+
+                        {/* Dropdown Menu */}
+                        {showDropdown && (
+                            <div className="absolute top-6 left-0 w-[200px] bg-white shadow-lg border border-gray-200 rounded-lg p-2">
+                                <ul className="text-black">
+                                    {categories.length > 0 ? (
+                                        categories.map(category => (
+                                            <li
+                                                key={category.Id}
+                                                className="p-2 hover:bg-gray-200 cursor-pointer"
+                                                onClick={() => productPage(category.Id, category.Name)}
+                                            >
+                                                {category.Name}
+                                            </li>
+                                        ))
+                                    ) : (
+                                        <li className="p-2 text-gray-500">Loading...</li>
+                                    )}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>Men</span>
+                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>Women</span>
+
+                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>Kids</span>
+
+
                 </div>
-                <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>Men</span>
-                <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>Women</span>
+                <div className='flex flex-row lg:gap-12 gap-5'>
 
-                <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>Kids</span>
+                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>LIMITED SALE</span>
+                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>Best Seller</span>
+
+                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>New Arrival</span>
 
 
+                </div>
             </div>
-            <div className='flex flex-row lg:gap-12 gap-5'>
-
-                <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>LIMITED SALE</span>
-                <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>Best Seller</span>
-
-                <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>New Arrival</span>
-
-
-            </div>
-        </div>
         </div>
     )
 }
