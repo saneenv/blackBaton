@@ -451,7 +451,7 @@ function Products() {
                             </div>
                             <div className='flex justify-between'>
                                 <div className='flex flex-col gap-1'>
-                                    <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>{product.ItemName}</span>
+                                    <span className='lg:text-base text-sm font-[600]f font-montserrat text-left'>{product.ItemName}</span>
                                     <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                         <img src={cart} alt="cart" />
                                         <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
