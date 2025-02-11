@@ -14,6 +14,8 @@ import Wishlist from './components/Wishlist';
 import OrderSummary from './pages/OrderSummary';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsConditions from './pages/TermsConditions';
+import SearchPage from './pages/SearchPage';
+import SubCatProducts from './pages/SubCatProducts';
 
 
 function App() {
@@ -35,6 +37,9 @@ function App() {
           <Route path='/ordersummary' element={<OrderSummary/>}/>
           <Route path='/privacypolicy' element={<PrivacyPolicy/>}/>
           <Route path='/termsconditions' element={<TermsConditions/>}/>
+          <Route path='/searchpage' element={<SearchPage/>}/>
+          <Route path='/subcategoryproducts' element={<SubCatProducts/>}/>
+
 
         </Routes>
       </BrowserRouter>

@@ -16,7 +16,7 @@ import top from '../images/Products/top.png'
 import Filter from '../components/Filter'
 
 
-function Products() {
+function SubCatProducts() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const isTab = useMediaQuery({ query: '(max-width: 1024px)' });
 
@@ -48,7 +48,7 @@ function Products() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get(`${apiBaseUrl}/getProductByCategory/BLACKBATON_ERP24?Id=${categoryId}`);
+                const response = await axios.get(`${apiBaseUrl}/getProductBySubCategory/BLACKBATON_ERP24?Id=${categoryId}`);
                 setProducts(response.data); // Set the fetched products to state
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -486,4 +486,4 @@ function Products() {
     )
 }
 
-export default Products
+export default SubCatProducts

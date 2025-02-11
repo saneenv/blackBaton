@@ -5,7 +5,6 @@ import mail from '../images/Navbar/mail.png'
 import twitter from '../images/Navbar/twitter.png'
 import facebook from '../images/Navbar/facebook.png'
 import insta from '../images/Navbar/insta.png'
-import arrow from '../images/Navbar/arrow.png'
 import search from '../images/Navbar/search.png'
 import cart from '../images/Navbar/cart.png'
 import profile from '../images/Navbar/profile.png'
@@ -18,6 +17,9 @@ function Navbar() {
     const [showDropdown, setShowDropdown] = useState(false);
     const [categories, setCategories] = useState([]);
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+    const [searchQuery, setSearchQuery] = useState('');
+
+
 
     // Fetch categories from API
     useEffect(() => {
@@ -45,6 +47,12 @@ function Navbar() {
     const productPage = (categoryId, categoryName) => {
         navigate('/products', { state: { categoryId, categoryName } });
     };
+
+    const handleSearch = () => {
+        if (searchQuery.trim() !== '') {
+            navigate('/searchpage', { state: { filtered: searchQuery } });
+        }
+    };
     return (
         <div className='flex flex-col'>
             <div className='w-full h-[120px] bg-[#000000] border-b-2 border-[#B2B2B2] flex flex-col lg:px-12 px-5 gap-3 fixed top-0 left-0 z-50'>
@@ -52,11 +60,11 @@ function Navbar() {
                     <div className='flex flex-row gap-5'>
                         <div className='flex flex-row gap-2'>
                             <img src={contact} alt="contact" />
-                            <span className='text-[#CACACA] font-[400] font-dmSans text-sm'>(414) 857 - 0107</span>
+                            <span className='text-[#CACACA] font-[400] font-dmSans text-sm hover:text-[red] cursor-pointer'>(414) 857 - 0107</span>
                         </div>
                         <div className='flex flex-row gap-2'>
                             <img src={mail} alt="mail" />
-                            <span className='text-[#CACACA] font-[400] font-dmSans text-sm'>Blackbatton@gmail.com</span>
+                            <span className='text-[#CACACA] font-[400] font-dmSans text-sm hover:text-[red] cursor-pointer'>Blackbatton@gmail.com</span>
                         </div>
                     </div>
 
@@ -73,17 +81,24 @@ function Navbar() {
                         </div>
                     </div>
                 </div>
-                <div className='w-full h-[60%]  flex justify-center items-center gap-8'>
+                <div className='w-full h-[60%]  flex justify-between items-center  '>
                     <img src={logo} alt="logo" className='cursor-pointer' onClick={homePage} />
-                    <div className='w-[60%] h-[70%] rounded-[10px] bg-[#FFFFFF] flex flex-row'>
-                        <div className='h-full w-[25%]  flex flex-row lg:gap-5 gap-2 justify-center items-center border-r-2 border-[#B2B2B2] cursor-pointer'>
+                    <div className='w-[50%] h-[70%] rounded-[10px] bg-[#FFFFFF] flex flex-row'>
+                        {/* <div className='h-full w-[25%]  flex flex-row lg:gap-5 gap-2 justify-center items-center border-r-2 border-[#B2B2B2] cursor-pointer'>
                             <span className='font-[400] text-sm font-dmSans'>All Category</span>
                             <img src={arrow} alt="arrow" />
+                        </div> */}
+                        <div className='h-full w-[90%]  border-r-2 border-[#B2B2B2]'>
+                            <input
+                                type="text"
+                                className='w-full h-full font-dmSans pl-5 outline-none rounded-l-[10px]'
+                                placeholder='Search Products...'
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                            />
                         </div>
-                        <div className='h-full w-[65%]  border-r-2 border-[#B2B2B2]'>
-                            <input type="text" className='w-full h-full font-dmSans pl-5 outline-none' placeholder='Search Products...' />
-                        </div>
-                        <div className='h-full w-[10%]  flex justify-center items-center cursor-pointer'>
+                        <div className='h-full w-[10%]  flex justify-center items-center cursor-pointer' onClick={handleSearch}>
                             <img src={search} alt="search" />
                         </div>
                     </div>
@@ -91,14 +106,14 @@ function Navbar() {
                     <div className='flex flex-row gap-4'>
                         <div className='flex flex-row gap-2 cursor-pointer' onClick={cartpage}>
                             <img src={cart} alt="cart" />
-                            <span className='text-sm font-[400] font-dmSans text-[#CACACA]'>Cart</span>
+                            <span className='text-sm font-[400] font-dmSans text-[#CACACA] hover:text-[red]'>Cart</span>
                         </div>
                         <div className='flex flex-row border-r-2 border-[#B2B2B2]'>
 
                         </div>
                         <div className='flex flex-row gap-2 cursor-pointer' onClick={accountpage}>
                             <img src={profile} alt="profile" />
-                            <span className='text-sm font-[400] font-dmSans text-[#CACACA]'>Account</span>
+                            <span className='text-sm font-[400] font-dmSans text-[#CACACA] hover:text-[red]'>Account</span>
                         </div>
                     </div>
                 </div>
@@ -113,7 +128,7 @@ function Navbar() {
                         onMouseLeave={() => setShowDropdown(false)}
                     >
                         <img src={bars} alt="bars" />
-                        <span className="font-[400] text-sm font-dmSans text-[white]">All Categories</span>
+                        <span className="font-[400] text-sm font-dmSans text-[white] hover:text-[red]">All Categories</span>
 
                         {/* Dropdown Menu */}
                         {showDropdown && (
@@ -136,19 +151,19 @@ function Navbar() {
                             </div>
                         )}
                     </div>
-                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>Men</span>
-                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>Women</span>
+                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]'>Men</span>
+                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]'>Women</span>
 
-                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>Kids</span>
+                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]'>Kids</span>
 
 
                 </div>
                 <div className='flex flex-row lg:gap-12 gap-5'>
 
-                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>LIMITED SALE</span>
-                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>Best Seller</span>
+                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red] '>LIMITED SALE</span>
+                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]'>Best Seller</span>
 
-                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer'>New Arrival</span>
+                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]'>New Arrival</span>
 
 
                 </div>

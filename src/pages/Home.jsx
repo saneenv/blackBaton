@@ -106,6 +106,23 @@ function Home() {
         navigate('/products', { state: { categoryId, categoryName } });
     };
 
+    const newarrival = (categoryId, categoryName) => {
+        navigate('/products', { state: { categoryId: 155, categoryName: 'NEW ARRIVAL' } });
+    };
+
+
+    const searchpage = async () => {
+        navigate('/searchpage', { state: { filtered: '' } });
+    };
+
+
+    const mensubcategorypage = (categoryId) => {
+        navigate('/subcategoryproducts', { state: { categoryId: 157,categoryName: 'MEN'} });
+    };
+
+    const womensubcategorypage = (categoryId) => {
+        navigate('/subcategoryproducts', { state: { categoryId: 158,categoryName: 'WOMEN'} });
+    };
 
 
     return (
@@ -217,16 +234,25 @@ function Home() {
                                             <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
                                         </div>
                                     </div>
-                                    <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                        ₹{product.MRP}
+                                    <div className='flex flex-col gap-1 items-end'>
+                                        <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
+                                            ₹{product.MRP}
+                                        </div>
+                                        <span className="text-sm font-montserrat">
+                                            Offer Price:
+                                            <span className="line-through text-gray-500 ml-1">₹{product.MRP}</span>
+                                            <span className="text-red-600 font-bold ml-1">₹0</span>
+                                        </span>
                                     </div>
+
+
                                 </div>
                             </div>
                         ))}
 
                     </div>
                     <div className='w-full flex items-end justify-end'>
-                        <span className='text-right underline cursor-pointer hover:text-[red] '>See All</span>
+                        <span className='text-right underline cursor-pointer hover:text-[red] text-base font-[500] font-montserrat' onClick={() => newarrival(691, 'NEW ARRIVAL', 'HOME')}>See All</span>
                     </div>
                 </div>
 
@@ -237,7 +263,7 @@ function Home() {
                             <div className='w-auto lg:px-3 px-2 h-[57px] bg-[black] flex justify-center items-center'>
                                 <span className='lg:text-5xl text-2xl font-[800] font-montserrat text-[white]'>Men 's</span>
                             </div>
-                            <img src={button} alt="button" className='cursor-pointer' onClick={productPage} />
+                            <img src={button} alt="button" className='cursor-pointer' onClick={mensubcategorypage} />
                         </div>
                     </div>
                     <div className='lg:w-[50%] w-full lg:h-full md:h-[450px] h-[284px] relative'>
@@ -246,7 +272,7 @@ function Home() {
                             <div className='w-auto lg:px-3 px-2 h-[57px] bg-[black] flex justify-center items-center'>
                                 <span className='lg:text-5xl text-2xl font-[800] font-montserrat text-[white]'>women ’s</span>
                             </div>
-                            <img src={button} alt="button" />
+                            <img src={button} alt="button" className='cursor-pointer'  onClick={womensubcategorypage}/>
                         </div>
                     </div>
                 </div>
@@ -280,8 +306,15 @@ function Home() {
                                             <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
                                         </div>
                                     </div>
-                                    <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                        ₹{product.MRP}
+                                    <div className='flex flex-col gap-1 items-end'>
+                                        <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
+                                            ₹{product.MRP}
+                                        </div>
+                                        <span className="text-sm font-montserrat">
+                                            Offer Price:
+                                            <span className="line-through text-gray-500 ml-1">₹{product.MRP}</span>
+                                            <span className="text-red-600 font-bold ml-1">₹0</span>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -290,7 +323,7 @@ function Home() {
 
                     </div>
                     <div className='w-full flex items-end justify-end'>
-                        <span className='text-right underline cursor-pointer hover:text-[red] '>See All</span>
+                        <span className='text-right underline cursor-pointer hover:text-[red] text-base font-[500] font-montserrat' onClick={searchpage}>See All</span>
                     </div>
                 </div>
 

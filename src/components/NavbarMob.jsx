@@ -15,6 +15,8 @@ import logo from '../images/Navbar/logomob.png'
 function NavbarMob() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const navigate = useNavigate()
+    const [searchQuery, setSearchQuery] = useState('');
+
 
     // Function to toggle sidebar
     const toggleSidebar = () => {
@@ -29,6 +31,13 @@ function NavbarMob() {
         navigate('/')
         window.location.reload();
     }
+
+
+    const handleSearch = () => {
+        if (searchQuery.trim() !== '') {
+            navigate('/searchpage', { state: { filtered: searchQuery } });
+        }
+    };
 
     return (
         <div className='w-full h-auto bg-[black] py-6 px-3 gap-6 flex flex-col fixed top-0 left-0 z-50'>
@@ -61,11 +70,18 @@ function NavbarMob() {
                 </div>
                 <img src={logo} alt="logo" onClick={homePage} />
                 <div className='h-[41px] w-[60%]  flex flex-row'>
-                    <div className='w-[20%] bg-[white] h-full flex justify-center items-center rounded-l-[7px]'>
+                    <div className='w-[20%] bg-[white] h-full flex justify-center items-center rounded-l-[7px]' onClick={handleSearch}>
                         <img src={smallsearch} alt="smallsearch" />
                     </div>
                     <div className='w-[80%]  h-full border-none '>
-                        <input type="text" className='w-full h-full outline-none  px-4 rounded-r-[7px]' placeholder='Search Products...' />
+                        <input
+                         type="text" 
+                         className='w-full h-full outline-none  px-4 rounded-r-[7px]' 
+                         placeholder='Search Products...' 
+                         value={searchQuery}
+                         onChange={(e) => setSearchQuery(e.target.value)}
+                         onKeyDown={(e) => e.key === 'Enter' && handleSearch()} 
+                         />
                     </div>
 
                 </div>

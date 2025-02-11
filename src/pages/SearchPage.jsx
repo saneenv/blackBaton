@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import { useMediaQuery } from 'react-responsive'
 import { useLocation } from 'react-router-dom'
-import axios from 'axios';
+// import axios from 'axios';
 import NavbarMob from '../components/NavbarMob'
 import Navbar from '../components/Navbar'
 import FooterMob from '../components/FooterMob'
@@ -16,14 +16,14 @@ import top from '../images/Products/top.png'
 import Filter from '../components/Filter'
 
 
-function Products() {
+function SearchPage() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const isTab = useMediaQuery({ query: '(max-width: 1024px)' });
 
-    const navigate = useNavigate();
-    const home = () => {
-        navigate('/')
-    }
+    // const navigate = useNavigate();
+    // const home = () => {
+    //     navigate('/')
+    // }
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -38,25 +38,49 @@ function Products() {
     const [isDressExpanded, setIsDressExpanded] = useState(true);
     const [showFilterMob, setShowFilterMob] = useState(false);
     const location = useLocation();
-    const { categoryId, categoryName } = location.state || {};
-    console.log("ID",categoryId);
+    const [selectedItemName, setSelectedItemName] = useState('');
+    console.log(selectedItemName);
+    
+
+    const { filtered } = location.state || {};
+    console.log("filtered:",filtered);
+    
+
+    
     
     const [products, setProducts] = useState([]);
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
     // Fetch product data from the API
+    // useEffect(() => {
+    //     const fetchProducts = async () => {
+    //         try {
+    //             const response = await axios.get(`${apiBaseUrl}/getProductByFilter/BLACKBATON_ERP24?filter=${encodeURIComponent(filtered)}}`);
+    //             setProducts(response.data); // Set the fetched products to state
+    //         } catch (error) {
+    //             console.error('Error fetching products:', error);
+    //         }
+    //     };
+
+    //     fetchProducts();
+    // }, [apiBaseUrl,filtered]);
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get(`${apiBaseUrl}/getProductByCategory/BLACKBATON_ERP24?Id=${categoryId}`);
-                setProducts(response.data); // Set the fetched products to state
+                const response = await fetch(`${apiBaseUrl}/getProductByFilter/BLACKBATON_ERP24?filter=${encodeURIComponent(filtered)}`);
+                const data = await response.json();
+                setProducts(data);
+                if (data.length > 0) {
+                    setSelectedItemName(data[0].ItemName); // Set the selected item name from the first product
+                }
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
         };
 
         fetchProducts();
-    }, [apiBaseUrl,categoryId]);
+    }, [apiBaseUrl, filtered]);
 
 
     const handleMinChange = (e) => {
@@ -110,12 +134,12 @@ function Products() {
             {isMobile ? <NavbarMob /> : <Navbar />}
 
             <div className='w-full h-auto lg:px-12 px-3 py-6 flex flex-col lg:gap-12 gap-6 lg:mt-[175px] md:mt-[175px] mt-[120px] pb-12' >
-                <div className='flex justify-between items-center'>
-                    <div className='flex flex-row gap-2 items-center'>
+                <div className='flex justify-end items-center'>
+                    {/* <div className='flex flex-row gap-2 items-center'>
                         <span className='lg:text-base text-xs font-[500] font-montserrat text-[#828282] cursor-pointer' onClick={home}>Home</span>
                         <span className='text-[#828282]'>{">"}</span>
                         <span className='lg:text-base text-xs font-[400] font-montserrat text-[#3C4242]'>{categoryName}</span>
-                    </div>
+                    </div> */}
 
                     {!showFilter && (
                         <img src={filter} alt="filter" onClick={toggleFilter} className='cursor-pointer lg:flex hidden' />
@@ -486,4 +510,4 @@ function Products() {
     )
 }
 
-export default Products
+export default SearchPage
