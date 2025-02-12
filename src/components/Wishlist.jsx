@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import cart from '../images/Home/cart.png'
-import product1 from '../images/Home/product1.png'
+import product1 from '../images/Home/product2.png'
 import product2 from '../images/Home/product2.png'
 import product4 from '../images/Home/product4.png'
 import heart from '../images/Home/heart.png'

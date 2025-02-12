@@ -32,11 +32,38 @@ function NavbarMob() {
         window.location.reload();
     }
 
+    const cartpage = () => {
+        navigate('/cart')
+    }
 
     const handleSearch = () => {
         if (searchQuery.trim() !== '') {
             navigate('/searchpage', { state: { filtered: searchQuery } });
         }
+    };
+
+    const mensubcategorypage = (categoryId) => {
+        navigate('/subcategoryproducts', { state: { categoryId: 157, categoryName: "MEN'S" } });
+    };
+
+    const womensubcategorypage = (categoryId) => {
+        navigate('/subcategoryproducts', { state: { categoryId: 158, categoryName: "WOMEN'S" } });
+    };
+
+    const kidssubcategorypage = (categoryId) => {
+        navigate('/subcategoryproducts', { state: { categoryId: 159, categoryName: "KID'S" } });
+    };
+
+    const limitedsalesubcategorypage = (categoryId) => {
+        navigate('/subcategoryproducts', { state: { categoryId: 160, categoryName: "LIMITED SALE" } });
+    };
+
+    const bestsellersubcategorypage = (categoryId) => {
+        navigate('/subcategoryproducts', { state: { categoryId: 161, categoryName: "BEST SELLER" } });
+    };
+
+    const newarrival = (categoryId, categoryName) => {
+        navigate('/subcategoryproducts', { state: { categoryId: 163, categoryName: 'NEW ARRIVAL' } });
     };
 
     return (
@@ -75,18 +102,18 @@ function NavbarMob() {
                     </div>
                     <div className='w-[80%]  h-full border-none '>
                         <input
-                         type="text" 
-                         className='w-full h-full outline-none  px-4 rounded-r-[7px]' 
-                         placeholder='Search Products...' 
-                         value={searchQuery}
-                         onChange={(e) => setSearchQuery(e.target.value)}
-                         onKeyDown={(e) => e.key === 'Enter' && handleSearch()} 
-                         />
+                            type="text"
+                            className='w-full h-full outline-none  px-4 rounded-r-[7px]'
+                            placeholder='Search Products...'
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                        />
                     </div>
 
                 </div>
                 <div className='flex flex-row gap-2'>
-                    <img src={cart} alt="cart" />
+                    <img src={cart} alt="cart" onClick={cartpage} />
                     <img src={profile} alt="profile" onClick={accountPage} />
 
                 </div>
@@ -104,18 +131,18 @@ function NavbarMob() {
                     ></div>
                     <div className={`fixed top-0 left-0 w-[250px] h-full bg-[white] text-[black] z-50 transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                         <button onClick={toggleSidebar} className="text-white w-full p-2 flex justify-end items-end mt-2">
-                            <div className='border-2 border-[white] px-1 bg-[#E22E37] hover:bg-gray-700'>X</div>
+                            <div className='w-[25px] h-[25px] rounded-lg flex justify-center items-center bg-[red] text-white font-[600] text-lg'>X</div>
                         </button>
                         <ul className='mt-5'>
-                            <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-base font-[600] font-dmSans text-left' >All Categories</li>
-                            <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-base font-[600] font-dmSans text-left' >Men</li>
-                            <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-base font-[600] font-dmSans text-left' >Women</li>
-                            <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-base font-[600] font-dmSans text-left' >Kids</li>
-                            <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-base font-[600] font-dmSans text-left' >LIMITED SALE</li>
-                            <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-base font-[600] font-dmSans text-left' >BEST SELLER</li>
-                            <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-base font-[600] font-dmSans text-left' >NEW ARRIVALS</li>
-
+                            {/* <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-base font-[600] font-dmSans text-left'>All Categories</li> */}
+                            <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-sm font-[600] font-dmSans text-left' onClick={() => { mensubcategorypage(); setIsSidebarOpen(false); }}>Men</li>
+                            <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-sm font-[600] font-dmSans text-left' onClick={() => { womensubcategorypage(); setIsSidebarOpen(false); }}>Women</li>
+                            <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-sm font-[600] font-dmSans text-left' onClick={() => { kidssubcategorypage(); setIsSidebarOpen(false); }}>Kids</li>
+                            <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-sm font-[600] font-dmSans text-left' onClick={() => { limitedsalesubcategorypage(); setIsSidebarOpen(false); }}>LIMITED SALE</li>
+                            <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-sm font-[600] font-dmSans text-left' onClick={() => { bestsellersubcategorypage(); setIsSidebarOpen(false); }}>BEST SELLER</li>
+                            <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-sm font-[600] font-dmSans text-left' onClick={() => { newarrival(); setIsSidebarOpen(false); }}>NEW ARRIVALS</li>
                         </ul>
+
 
                     </div>
                 </>

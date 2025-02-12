@@ -16,6 +16,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsConditions from './pages/TermsConditions';
 import SearchPage from './pages/SearchPage';
 import SubCatProducts from './pages/SubCatProducts';
+import ImageUpload from './adminSide/ImageUpload';
 
 
 function App() {
@@ -39,8 +40,7 @@ function App() {
           <Route path='/termsconditions' element={<TermsConditions/>}/>
           <Route path='/searchpage' element={<SearchPage/>}/>
           <Route path='/subcategoryproducts' element={<SubCatProducts/>}/>
-
-
+          <Route path='/imageupload' element={<ImageUpload/>}/>
         </Routes>
       </BrowserRouter>
     </div>

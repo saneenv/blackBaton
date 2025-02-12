@@ -7,7 +7,7 @@ import banner1 from '../images/Home/banner1.png'
 import bannermob from '../images/Home/bannermob.png'
 import line from '../images/Home/line.png'
 import cart from '../images/Home/cart.png'
-import product1 from '../images/Home/product1.png'
+import product1 from '../images/Home/product2.png'
 import heart from '../images/Home/heart.png'
 import men from '../images/Home/men.png'
 import women from '../images/Home/women.png'
@@ -33,6 +33,8 @@ function Home() {
     const [disableNext, setDisableNext] = useState(false); // Disable ">" button
     const [disablePrev, setDisablePrev] = useState(true); // Disable "<" button initially
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+    const apiLocalUrl = process.env.REACT_APP_API_LOCAL_URL;
+
 
     const navigate = useNavigate();
     useEffect(() => {
@@ -52,7 +54,7 @@ function Home() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch(`${apiBaseUrl}/getProductByCategory/BLACKBATON_ERP24?Id=155`);
+                const response = await fetch(`${apiBaseUrl}/getProductBySubCategory/BLACKBATON_ERP24?Id=163`);
                 const data = await response.json();
                 setNewArrivals(data.slice(0, 8));
             } catch (error) {
@@ -107,7 +109,7 @@ function Home() {
     };
 
     const newarrival = (categoryId, categoryName) => {
-        navigate('/products', { state: { categoryId: 155, categoryName: 'NEW ARRIVAL' } });
+        navigate('/subcategoryproducts', { state: { categoryId: 163, categoryName: 'NEW ARRIVAL' } });
     };
 
 
@@ -117,11 +119,19 @@ function Home() {
 
 
     const mensubcategorypage = (categoryId) => {
-        navigate('/subcategoryproducts', { state: { categoryId: 157,categoryName: 'MEN'} });
+        navigate('/subcategoryproducts', { state: { categoryId: 157, categoryName: "MEN'S" } });
     };
 
     const womensubcategorypage = (categoryId) => {
-        navigate('/subcategoryproducts', { state: { categoryId: 158,categoryName: 'WOMEN'} });
+        navigate('/subcategoryproducts', { state: { categoryId: 158, categoryName: "WOMEN'S" } });
+    };
+
+    const accessoriessubcategorypage = (categoryId) => {
+        navigate('/subcategoryproducts', { state: { categoryId: 162, categoryName: "ACCESSORIES" } });
+    };
+
+    const kidssubcategorypage = (categoryId) => {
+        navigate('/subcategoryproducts', { state: { categoryId: 159, categoryName: "KID'S" } });
     };
 
 
@@ -217,29 +227,41 @@ function Home() {
                     <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 w-full  gap-5 '>
                         {newArrivals.map((product) => (
                             <div key={product.ID} className='flex flex-col gap-2 cursor-pointer' onClick={fullimage}>
-                                <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                    <img src={product1} alt={product.ItemName} />
+                                <div className='lg:h-[382px] md:h-[300px] h-[200px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                                    <img
+                                        src={`${apiLocalUrl}/uploads/${product.ID}.jpg?v=${Date.now()}`}
+                                        alt={product.ItemName}
+                                        onError={(e) => { e.target.onerror = null; e.target.src = product1; }}
+                                        className='mix-blend-multiply w-full h-full'
+                                    />
 
                                     <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                         <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                             <img src={heart} alt="heart" />
                                         </div>
                                     </div>
+
                                 </div>
-                                <div className='flex justify-between'>
-                                    <div className='flex flex-col gap-1'>
-                                        <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>{product.ItemName}</span>
-                                        <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
+                                <div className='flex justify-between w-full'>
+                                    <div className='flex flex-col gap-1 w-full'>
+                                        <span className='lg:text-base text-xs font-[600] font-montserrat text-left'>{product.ItemName}</span>
+                                        <div className='lg:w-[110px] lg:h-[35px] w-full h-[30px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                             <img src={cart} alt="cart" />
                                             <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
                                         </div>
+
                                     </div>
                                     <div className='flex flex-col gap-1 items-end'>
-                                        <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
+                                        <div className='lg:w-[84px] lg:h-[37px] w-[70px] h-[30px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
                                             ₹{product.MRP}
                                         </div>
-                                        <span className="text-sm font-montserrat">
+                                        <span className="text-sm font-montserrat lg:flex hidden text-nowrap">
                                             Offer Price:
+                                            <span className="line-through text-gray-500 ml-1">₹{product.MRP}</span>
+                                            <span className="text-red-600 font-bold ml-1">₹0</span>
+                                        </span>
+                                        <span className="text-sm font-montserrat lg:hidden flex text-nowrap">
+
                                             <span className="line-through text-gray-500 ml-1">₹{product.MRP}</span>
                                             <span className="text-red-600 font-bold ml-1">₹0</span>
                                         </span>
@@ -272,7 +294,7 @@ function Home() {
                             <div className='w-auto lg:px-3 px-2 h-[57px] bg-[black] flex justify-center items-center'>
                                 <span className='lg:text-5xl text-2xl font-[800] font-montserrat text-[white]'>women ’s</span>
                             </div>
-                            <img src={button} alt="button" className='cursor-pointer'  onClick={womensubcategorypage}/>
+                            <img src={button} alt="button" className='cursor-pointer' onClick={womensubcategorypage} />
                         </div>
                     </div>
                 </div>
@@ -289,33 +311,47 @@ function Home() {
                     <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 w-full  gap-5 '>
                         {allProducts.map((product) => (
                             <div key={product.ID} className='flex flex-col gap-2 cursor-pointer' onClick={fullimage}>
-                                <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                    <img src={product1} alt={product.ItemName} />
+                                <div className='lg:h-[382px] md:h-[300px] h-[200px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                                    <img
+                                        src={`${apiLocalUrl}/uploads/${product.ID}.jpg?v=${Date.now()}`}
+                                        alt={product.ItemName}
+                                        onError={(e) => { e.target.onerror = null; e.target.src = product1; }}
+                                        className='mix-blend-multiply w-full h-full'
+                                    />
 
                                     <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
                                         <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
                                             <img src={heart} alt="heart" />
                                         </div>
                                     </div>
+
                                 </div>
-                                <div className='flex justify-between'>
-                                    <div className='flex flex-col gap-1'>
-                                        <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>{product.ItemName}</span>
-                                        <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
+                                <div className='flex justify-between w-full'>
+                                    <div className='flex flex-col gap-1 w-full'>
+                                        <span className='lg:text-base text-xs font-[600] font-montserrat text-left'>{product.ItemName}</span>
+                                        <div className='lg:w-[110px] lg:h-[35px] w-full h-[30px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                             <img src={cart} alt="cart" />
                                             <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
                                         </div>
+
                                     </div>
                                     <div className='flex flex-col gap-1 items-end'>
-                                        <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
+                                        <div className='lg:w-[84px] lg:h-[37px] w-[70px] h-[30px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
                                             ₹{product.MRP}
                                         </div>
-                                        <span className="text-sm font-montserrat">
+                                        <span className="text-sm font-montserrat lg:flex hidden text-nowrap">
                                             Offer Price:
                                             <span className="line-through text-gray-500 ml-1">₹{product.MRP}</span>
                                             <span className="text-red-600 font-bold ml-1">₹0</span>
                                         </span>
+                                        <span className="text-sm font-montserrat lg:hidden flex text-nowrap">
+
+                                            <span className="line-through text-gray-500 ml-1">₹{product.MRP}</span>
+                                            <span className="text-red-600 font-bold ml-1">₹0</span>
+                                        </span>
                                     </div>
+
+
                                 </div>
                             </div>
                         ))}
@@ -336,7 +372,7 @@ function Home() {
                             <div className='w-auto lg:px-3 px-2 h-[57px] bg-[black] flex justify-center items-center'>
                                 <span className='lg:text-5xl text-2xl font-[800] font-montserrat text-[white]'>Accessories</span>
                             </div>
-                            <img src={button} alt="button" />
+                            <img src={button} alt="button" className='cursor-pointer' onClick={accessoriessubcategorypage} />
                         </div>
                     </div>
                     <div className='lg:w-[50%] w-full lg:h-full md:h-[450px] h-[284px] relative'>
@@ -345,7 +381,7 @@ function Home() {
                             <div className='w-auto lg:px-3 px-2 h-[57px] bg-[black] flex justify-center items-center'>
                                 <span className='lg:text-5xl text-2xl font-[800] font-montserrat text-[white]'>Kid’s</span>
                             </div>
-                            <img src={button} alt="button" />
+                            <img src={button} alt="button" className='cursor-pointer' onClick={kidssubcategorypage} />
                         </div>
                     </div>
                 </div>

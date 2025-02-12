@@ -53,6 +53,32 @@ function Navbar() {
             navigate('/searchpage', { state: { filtered: searchQuery } });
         }
     };
+
+
+    const mensubcategorypage = (categoryId) => {
+        navigate('/subcategoryproducts', { state: { categoryId: 157,categoryName: "MEN'S"} });
+    };
+
+    const womensubcategorypage = (categoryId) => {
+        navigate('/subcategoryproducts', { state: { categoryId: 158,categoryName: "WOMEN'S"} });
+    };
+
+   const kidssubcategorypage = (categoryId) => {
+        navigate('/subcategoryproducts', { state: { categoryId: 159,categoryName: "KID'S"} });
+    };
+
+    const limitedsalesubcategorypage = (categoryId) => {
+        navigate('/subcategoryproducts', { state: { categoryId: 160,categoryName: "LIMITED SALE"} });
+    };
+
+    const bestsellersubcategorypage = (categoryId) => {
+        navigate('/subcategoryproducts', { state: { categoryId: 161,categoryName: "BEST SELLER"} });
+    };
+
+    const newarrival = (categoryId, categoryName) => {
+        navigate('/subcategoryproducts', { state: { categoryId: 163, categoryName: 'NEW ARRIVAL' } });
+    };
+
     return (
         <div className='flex flex-col'>
             <div className='w-full h-[120px] bg-[#000000] border-b-2 border-[#B2B2B2] flex flex-col lg:px-12 px-5 gap-3 fixed top-0 left-0 z-50'>
@@ -151,19 +177,19 @@ function Navbar() {
                             </div>
                         )}
                     </div>
-                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]'>Men</span>
-                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]'>Women</span>
+                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]' onClick={mensubcategorypage}>Men</span>
+                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]' onClick={womensubcategorypage}>Women</span>
 
-                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]'>Kids</span>
+                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]' onClick={kidssubcategorypage}>Kids</span>
 
 
                 </div>
                 <div className='flex flex-row lg:gap-12 gap-5'>
 
-                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red] '>LIMITED SALE</span>
-                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]'>Best Seller</span>
+                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red] ' onClick={limitedsalesubcategorypage}>LIMITED SALE</span>
+                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]' onClick={bestsellersubcategorypage}>Best Seller</span>
 
-                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]'>New Arrival</span>
+                    <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]' onClick={newarrival}>New Arrival</span>
 
 
                 </div>

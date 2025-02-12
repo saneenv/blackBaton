@@ -8,7 +8,7 @@ import Navbar from '../components/Navbar'
 import FooterMob from '../components/FooterMob'
 import Footer from '../components/Footer'
 import filter from '../images/Products/filter.png'
-import product1 from '../images/Home/product1.png'
+import product1 from '../images/Home/product2.png'
 import heart from '../images/Home/heart.png'
 import cart from '../images/Home/cart.png'
 import forward from '../images/Products/forwardpng.png'
@@ -40,16 +40,18 @@ function SearchPage() {
     const location = useLocation();
     const [selectedItemName, setSelectedItemName] = useState('');
     console.log(selectedItemName);
-    
+
 
     const { filtered } = location.state || {};
-    console.log("filtered:",filtered);
-    
+    console.log("filtered:", filtered);
 
-    
-    
+
+
+
     const [products, setProducts] = useState([]);
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+    const apiLocalUrl = process.env.REACT_APP_API_LOCAL_URL;
+
 
     // Fetch product data from the API
     // useEffect(() => {
@@ -465,36 +467,49 @@ function SearchPage() {
                             }`}
                     >
                         {products.map((product) => (
-                        <div key={product.ID} className='flex flex-col gap-2 cursor-pointer'>
-                            <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                                <img src={product1} alt={product.ItemName} />
+                            <div key={product.ID} className='flex flex-col gap-2 cursor-pointer' >
+                                <div className='lg:h-[382px] md:h-[300px] h-[200px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                                    <img
+                                        src={`${apiLocalUrl}/uploads/${product.ID}.jpg?v=${Date.now()}`}
+                                        alt={product.ItemName}
+                                        onError={(e) => { e.target.onerror = null; e.target.src = product1; }}
+                                        className='mix-blend-multiply w-full h-full'
+                                    />
+                                    <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
+                                        <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
+                                            <img src={heart} alt="heart" />
+                                        </div>
+                                    </div>
 
-                                <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                    <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                        <img src={heart} alt="heart" />
-                                    </div>
                                 </div>
-                            </div>
-                            <div className='flex justify-between'>
-                                <div className='flex flex-col gap-1'>
-                                    <span className='lg:text-base text-sm font-[600]f font-montserrat text-left'>{product.ItemName}</span>
-                                    <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                        <img src={cart} alt="cart" />
-                                        <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
+                                <div className='flex justify-between w-full'>
+                                    <div className='flex flex-col gap-1 w-full'>
+                                        <span className='lg:text-base text-xs font-[600] font-montserrat text-left'>{product.ItemName}</span>
+                                        <div className='lg:w-[110px] lg:h-[35px] w-full h-[30px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
+                                            <img src={cart} alt="cart" />
+                                            <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
+                                        </div>
+
                                     </div>
-                                </div>
-                                <div className='flex flex-col gap-1 items-end'>
-                                        <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
+                                    <div className='flex flex-col gap-1 items-end'>
+                                        <div className='lg:w-[84px] lg:h-[37px] w-[70px] h-[30px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
                                             ₹{product.MRP}
                                         </div>
-                                        <span className="text-sm font-montserrat">
+                                        <span className="text-sm font-montserrat lg:flex hidden text-nowrap">
                                             Offer Price:
                                             <span className="line-through text-gray-500 ml-1">₹{product.MRP}</span>
                                             <span className="text-red-600 font-bold ml-1">₹0</span>
                                         </span>
+                                        <span className="text-sm font-montserrat lg:hidden flex text-nowrap">
+
+                                            <span className="line-through text-gray-500 ml-1">₹{product.MRP}</span>
+                                            <span className="text-red-600 font-bold ml-1">₹0</span>
+                                        </span>
                                     </div>
+
+
+                                </div>
                             </div>
-                        </div>
                         ))}
 
                     </div>
