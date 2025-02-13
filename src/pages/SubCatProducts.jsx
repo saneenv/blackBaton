@@ -107,6 +107,10 @@ function SubCatProducts() {
         setShowFilterMob(false);
     };
 
+    const fullimage = (id, itemName) => {
+        navigate('/fullimage', { state: { id, itemName } });
+    };
+
     return (
         <div className='min-h-screen flex flex-col '>
             {isMobile ? <NavbarMob /> : <Navbar />}
@@ -443,7 +447,7 @@ function SubCatProducts() {
                             }`}
                     >
                         {products.map((product) => (
-                            <div key={product.ID} className='flex flex-col gap-2 cursor-pointer'>
+                            <div key={product.ID} className='flex flex-col gap-2 cursor-pointer' onClick={() => fullimage(product.ID, product.ItemName)}>
                                 <div className='lg:h-[382px] md:h-[300px] h-[200px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                     <img
                                         src={`${apiLocalUrl}/uploads/${product.ID}.jpg?v=${Date.now()}`}
@@ -452,8 +456,8 @@ function SubCatProducts() {
                                         className='mix-blend-multiply w-full h-full'
                                     />
 
-                                    <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                        <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
+                                    <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-2 flex justify-end'>
+                                        <div className='lg:w-[33px] w-[23px] lg:h-[33px] h-[23px] rounded-full bg-[white] flex justify-center items-center'>
                                             <img src={heart} alt="heart" />
                                         </div>
                                     </div>

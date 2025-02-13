@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 // import { useNavigate } from 'react-router-dom'
 import { useMediaQuery } from 'react-responsive'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 // import axios from 'axios';
 import NavbarMob from '../components/NavbarMob'
 import Navbar from '../components/Navbar'
@@ -44,6 +44,7 @@ function SearchPage() {
 
     const { filtered } = location.state || {};
     console.log("filtered:", filtered);
+    const navigate = useNavigate();
 
 
 
@@ -129,6 +130,10 @@ function SearchPage() {
 
     const closeFilterMob = () => {
         setShowFilterMob(false);
+    };
+
+    const fullimage = (id, itemName) => {
+        navigate('/fullimage', { state: { id, itemName } });
     };
 
     return (
@@ -467,7 +472,7 @@ function SearchPage() {
                             }`}
                     >
                         {products.map((product) => (
-                            <div key={product.ID} className='flex flex-col gap-2 cursor-pointer' >
+                            <div key={product.ID} className='flex flex-col gap-2 cursor-pointer' onClick={() => fullimage(product.ID, product.ItemName)}>
                                 <div className='lg:h-[382px] md:h-[300px] h-[200px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                     <img
                                         src={`${apiLocalUrl}/uploads/${product.ID}.jpg?v=${Date.now()}`}
@@ -475,8 +480,8 @@ function SearchPage() {
                                         onError={(e) => { e.target.onerror = null; e.target.src = product1; }}
                                         className='mix-blend-multiply w-full h-full'
                                     />
-                                    <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                        <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
+                                    <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-2 flex justify-end'>
+                                        <div className='lg:w-[33px] w-[23px] lg:h-[33px] h-[23px] rounded-full bg-[white] flex justify-center items-center'>
                                             <img src={heart} alt="heart" />
                                         </div>
                                     </div>

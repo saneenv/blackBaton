@@ -1,14 +1,14 @@
-import React, { useEffect,useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import NavbarMob from '../components/NavbarMob'
 import Navbar from '../components/Navbar'
 import { useMediaQuery } from 'react-responsive'
 import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import top from '../images/FullImage/top.png'
 import down from '../images/FullImage/down.png'
 import sideimage1 from '../images/FullImage/sideimage1.png'
 import sideimage2 from '../images/FullImage/sideimage2.png'
 import sideimage3 from '../images/FullImage/sideimage3.png'
-import mainimage from '../images/FullImage/mainimage.png'
 import star from '../images/FullImage/star.png'
 import message from '../images/FullImage/message.png'
 import cart1 from '../images/FullImage/cart.png'
@@ -28,9 +28,27 @@ import returns from '../images/FullImage/Returns.png'
 
 function FullImage() {
     const [similarProducts, setSimilarProducts] = useState([]);
+    const [product, setProduct] = useState([]);
+    const [selectedItemName, setSelectedItemName] = useState('');
+
 
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const isTab = useMediaQuery({ query: '(max-width: 1024px)' });
+
+    const location = useLocation();
+    const { id, itemName } = location.state || {}; // Get the passed state
+    console.log(selectedItemName);
+
+
+    console.log("id", id);
+    console.log("itemname", itemName);
+
+    const cutitemId = itemName ? itemName.split(' ')[0] : '';
+
+    console.log("cutitemid", cutitemId);
+
+
+
 
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -40,19 +58,40 @@ function FullImage() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch(`${apiBaseUrl}/getProductByFilter/BLACKBATON_ERP24?filter=`);
+                const response = await fetch(`${apiBaseUrl}/getProductById/BLACKBATON_ERP24?Id=${id}`);
                 const data = await response.json();
-                setSimilarProducts(data.slice(0, 8));
+                if (data.length > 0) {
+                    setProduct(data[0]); // Extracting first object from array
+                }
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
         };
 
         fetchProducts();
-    }, [apiBaseUrl]);
+    }, [apiBaseUrl, id]);
 
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch(`${apiBaseUrl}/getProductByFilter/BLACKBATON_ERP24?filter=${encodeURIComponent(cutitemId)}`);
+                const data = await response.json();
+                setSimilarProducts(data);
+
+                if (data.length > 0) {
+                    setSelectedItemName(data[0].ItemName); // Set the selected item name from the first product
+                }
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+
+        fetchProducts();
+    }, [apiBaseUrl, cutitemId]);
 
     const navigate = useNavigate();
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -60,6 +99,13 @@ function FullImage() {
     const home = () => {
         navigate('/')
     }
+
+    const fullimage = (id, itemName) => {
+        navigate('/fullimage', { state: { id, itemName } });
+        window.scrollTo(0, 0); // Scroll to the top after navigation
+    };
+
+
 
 
     return (
@@ -70,7 +116,7 @@ function FullImage() {
                 <div className='flex flex-row gap-2 items-center'>
                     <span className='lg:text-base text-xs font-[500] font-montserrat text-[#828282] cursor-pointer' onClick={home}>Home</span>
                     <span className='text-[#828282]'>{">"}</span>
-                    <span className='lg:text-base text-xs font-[400] font-montserrat text-[#3C4242]'>Stride T-shirt</span>
+                    <span className='lg:text-base text-xs font-[400] font-montserrat text-[#3C4242]'>{itemName}</span>
                 </div>
 
                 <div className='w-full flex lg:flex-row flex-col lg:h-[689px]  h-auto lg:gap-0 gap-8'>
@@ -95,13 +141,12 @@ function FullImage() {
                             </div>
                         </div>
                         <div className='lg:w-[75%] w-full h-full'>
-                            <img src={mainimage} alt="mainimage" className='w-full h-full' />
+                            <img src={`${apiLocalUrl}/uploads/${product.ID}.jpg?v=${Date.now()}`} alt="mainimage" className='w-full h-full' onError={(e) => { e.target.onerror = null; e.target.src = product1; }} />
                         </div>
 
                     </div>
                     <div className='flex flex-col lg:gap-10 gap-5 lg:w-[50%] w-full h-full lg:px-[4%] px-0 '>
-                        <span className='lg:text-4xl text-xl font-[600] font-montserrat text-left'>Kevin Durant
-                            Men's Basketball T-shirt</span>
+                        <span className='lg:text-4xl text-xl font-[600] font-montserrat text-left'>{product.ItemName}</span>
                         <div className='flex flex-row gap-6'>
                             <div className='flex flex-row gap-2'>
                                 <img src={star} alt="star" />
@@ -116,7 +161,7 @@ function FullImage() {
                         </div>
                         <div className='lg:hidden flex flex-row gap-3 items-center'>
                             <span className='font-[400] font-montserrat text-sm'>MRP</span>
-                            <span className='font-[600] font-montserrat text-base'>₹ 1,499.00</span>
+                            <span className='font-[600] font-montserrat text-base'>₹ {product.MRP}</span>
 
                         </div>
 
@@ -168,7 +213,7 @@ function FullImage() {
                                 <span className='lg:text-lg text-base font-[600] font-montserrat text-[white]'>Add to cart</span>
                             </div>
                             <div className='w-[25%] h-[46px] border-2 border-[black] rounded-[8px] lg:flex hidden items-center justify-center'>
-                                <span className='text-lg font-[600] font-montserrat'>$500</span>
+                                <span className='text-lg font-[600] font-montserrat'>₹ {product.MRP}</span>
                             </div>
                         </div>
 
@@ -259,8 +304,8 @@ function FullImage() {
                         </div>
                     </div>
                     <div className='grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 w-full  gap-5 '>
-                    {similarProducts.map((product) => (
-                            <div key={product.ID} className='flex flex-col gap-2 cursor-pointer' >
+                        {similarProducts.map((product) => (
+                            <div key={product.ID} className='flex flex-col gap-2 cursor-pointer' onClick={() => fullimage(product.ID, product.ItemName)}>
                                 <div className='lg:h-[382px] md:h-[300px] h-[200px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                     <img
                                         src={`${apiLocalUrl}/uploads/${product.ID}.jpg?v=${Date.now()}`}
@@ -269,8 +314,8 @@ function FullImage() {
                                         className='mix-blend-multiply w-full h-full'
                                     />
 
-                                    <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                        <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
+                                    <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-2 flex justify-end'>
+                                        <div className='lg:w-[33px] w-[23px] lg:h-[33px] h-[23px] rounded-full bg-[white] flex justify-center items-center'>
                                             <img src={heart} alt="heart" />
                                         </div>
                                     </div>
