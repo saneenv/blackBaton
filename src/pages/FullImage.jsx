@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import top from '../images/FullImage/top.png'
 import down from '../images/FullImage/down.png'
-import sideimage1 from '../images/FullImage/sideimage1.png'
-import sideimage2 from '../images/FullImage/sideimage2.png'
-import sideimage3 from '../images/FullImage/sideimage3.png'
+// import sideimage1 from '../images/FullImage/sideimage1.png'
+// import sideimage2 from '../images/FullImage/sideimage2.png'
+// import sideimage3 from '../images/FullImage/sideimage3.png'
 import star from '../images/FullImage/star.png'
 import message from '../images/FullImage/message.png'
 import cart1 from '../images/FullImage/cart.png'
@@ -123,13 +123,14 @@ function FullImage() {
                     <div className='flex flex-row gap-4 lg:w-[50%] w-full h-full'>
                         <div className='w-[25%] h-full lg:flex hidden flex-col justify-center items-center gap-6'>
                             <div className='w-[70%] h-[100px] rounded-[10px] bg-[#EEEEEE] flex justify-center items-center'>
-                                <img src={sideimage1} alt="sideimage1" />
+                            <img src={`${apiLocalUrl}/uploads1/${product.ID}.jpg?v=${Date.now()}`} alt="sideimg1" className='w-full h-full' onError={(e) => { e.target.onerror = null; e.target.src = product1; }} />
+
                             </div>
                             <div className='w-[70%] h-[100px] rounded-[10px] bg-[#EEEEEE] flex justify-center items-center'>
-                                <img src={sideimage2} alt="sideimage2" />
+                            <img src={`${apiLocalUrl}/uploads2/${product.ID}.jpg?v=${Date.now()}`} alt="sideimg2" className='w-full h-full' onError={(e) => { e.target.onerror = null; e.target.src = product1; }} />
                             </div>
                             <div className='w-[70%] h-[100px] rounded-[10px] bg-[#EEEEEE] flex justify-center items-center'>
-                                <img src={sideimage3} alt="sideimage3" />
+                            <img src={`${apiLocalUrl}/uploads3/${product.ID}.jpg?v=${Date.now()}`} alt="sideimg3" className='w-full h-full' onError={(e) => { e.target.onerror = null; e.target.src = product1; }} />
                             </div>
                             <div className='flex flex-col gap-2'>
                                 <div className='w-[35px] h-[35px] rounded-full border-2 border-[black] flex justify-center items-center'>
