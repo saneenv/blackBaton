@@ -9,8 +9,8 @@ import down from '../images/FullImage/down.png'
 // import sideimage1 from '../images/FullImage/sideimage1.png'
 // import sideimage2 from '../images/FullImage/sideimage2.png'
 // import sideimage3 from '../images/FullImage/sideimage3.png'
-import star from '../images/FullImage/star.png'
-import message from '../images/FullImage/message.png'
+// import star from '../images/FullImage/star.png'
+// import message from '../images/FullImage/message.png'
 import cart1 from '../images/FullImage/cart.png'
 import payment from '../images/FullImage/payment.png'
 import line from '../images/Home/line.png'
@@ -30,6 +30,11 @@ function FullImage() {
     const [similarProducts, setSimilarProducts] = useState([]);
     const [product, setProduct] = useState([]);
     const [selectedItemName, setSelectedItemName] = useState('');
+    const [startIndex, setStartIndex] = useState(0);
+    const [productDetails, setProductDetails] = useState([]);
+    const [selectedSize, setSelectedSize] = useState(""); // Track selected size
+
+
 
 
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -71,6 +76,24 @@ function FullImage() {
         fetchProducts();
     }, [apiBaseUrl, id]);
 
+    const [mainImage, setMainImage] = useState(null);
+
+    useEffect(() => {
+        if (product?.ID) {
+            setMainImage(`${apiLocalUrl}/uploads/${product.ID}.jpg?v=${Date.now()}`);
+        }
+    }, [product, apiLocalUrl]);
+
+    const images = [
+        `${apiLocalUrl}/uploads1/${product.ID}.jpg?v=${Date.now()}`,
+        `${apiLocalUrl}/uploads2/${product.ID}.jpg?v=${Date.now()}`,
+        `${apiLocalUrl}/uploads3/${product.ID}.jpg?v=${Date.now()}`,
+        `${apiLocalUrl}/uploads4/${product.ID}.jpg?v=${Date.now()}`,
+        `${apiLocalUrl}/uploads5/${product.ID}.jpg?v=${Date.now()}`,
+        `${apiLocalUrl}/uploads/${product.ID}.jpg?v=${Date.now()}`
+    ];
+    
+
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -90,6 +113,31 @@ function FullImage() {
         fetchProducts();
     }, [apiBaseUrl, cutitemId]);
 
+    useEffect(() => {
+        if (product?.ID) {  // Ensure product.ID is available before fetching
+            fetch(`${apiBaseUrl}/getProductDetails/BLACKBATON_ERP24?Id=${encodeURIComponent(product.ID)}`)
+                .then(response => response.json())
+                .then(data => {
+                    setProductDetails(data);
+                    const uniqueSizes = [...new Set(data.map((category) => category.Size))];
+                    if (uniqueSizes.length > 0) {
+                        setSelectedSize(uniqueSizes[0]); // Set first size as default
+                    }
+                })
+                .catch(error => console.error("Error fetching product details:", error));
+        }
+    }, [apiBaseUrl, product.ID]);  // Run only when product.ID is available
+    
+
+    // Extract unique sizes
+    const uniqueSizes = [...new Set(productDetails.map((category) => category.Size))];
+
+    // Get available colors for the selected size
+    const availableColors = productDetails
+        .filter((category) => category.Size === selectedSize)
+        .map((category) => category.Color);
+
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -105,8 +153,23 @@ function FullImage() {
         window.scrollTo(0, 0); // Scroll to the top after navigation
     };
 
+    const imagesPerPage = 3;
 
+    // Show only 3 images at a time
+    const visibleImages = images.slice(startIndex, startIndex + imagesPerPage);
 
+    // Handlers for navigation
+    const handleNext = () => {
+        if (startIndex + imagesPerPage < images.length) {
+            setStartIndex(startIndex + 1);
+        }
+    };
+
+    const handlePrev = () => {
+        if (startIndex > 0) {
+            setStartIndex(startIndex - 1);
+        }
+    };
 
     return (
         <div className='min-h-screen flex flex-col '>
@@ -119,36 +182,57 @@ function FullImage() {
                     <span className='lg:text-base text-xs font-[400] font-montserrat text-[#3C4242]'>{itemName}</span>
                 </div>
 
-                <div className='w-full flex lg:flex-row flex-col lg:h-[689px]  h-auto lg:gap-0 gap-8'>
+                <div className='w-full flex lg:flex-row flex-col lg:h-[589px]  h-auto lg:gap-0 gap-8'>
                     <div className='flex flex-row gap-4 lg:w-[50%] w-full h-full'>
                         <div className='w-[25%] h-full lg:flex hidden flex-col justify-center items-center gap-6'>
-                            <div className='w-[70%] h-[100px] rounded-[10px] bg-[#EEEEEE] flex justify-center items-center'>
-                            <img src={`${apiLocalUrl}/uploads1/${product.ID}.jpg?v=${Date.now()}`} alt="sideimg1" className='w-full h-full' onError={(e) => { e.target.onerror = null; e.target.src = product1; }} />
-
-                            </div>
-                            <div className='w-[70%] h-[100px] rounded-[10px] bg-[#EEEEEE] flex justify-center items-center'>
-                            <img src={`${apiLocalUrl}/uploads2/${product.ID}.jpg?v=${Date.now()}`} alt="sideimg2" className='w-full h-full' onError={(e) => { e.target.onerror = null; e.target.src = product1; }} />
-                            </div>
-                            <div className='w-[70%] h-[100px] rounded-[10px] bg-[#EEEEEE] flex justify-center items-center'>
-                            <img src={`${apiLocalUrl}/uploads3/${product.ID}.jpg?v=${Date.now()}`} alt="sideimg3" className='w-full h-full' onError={(e) => { e.target.onerror = null; e.target.src = product1; }} />
-                            </div>
+                            {visibleImages.map((src, index) => (
+                                <div key={index} className="w-[70%] h-[100px] rounded-[10px] bg-[#EEEEEE] flex justify-center items-center cursor-pointer"
+                                    onClick={() => setMainImage(src)} // Update the main image when clicked
+                                >
+                                    <img
+                                        src={src}
+                                        alt={`sideimg${index + 1}`}
+                                        className="w-full h-full"
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = product1;
+                                        }}
+                                    />
+                                </div>
+                            ))}
                             <div className='flex flex-col gap-2'>
-                                <div className='w-[35px] h-[35px] rounded-full border-2 border-[black] flex justify-center items-center'>
+                                <div
+                                    className={`w-[35px] h-[35px] rounded-full flex justify-center items-center border-2 border-black cursor-pointer ${startIndex > 0 ? 'bg-black' : 'bg-white'
+                                        }`} onClick={handlePrev}
+                                    disabled={startIndex === 0}
+                                >
                                     <img src={top} alt="top" />
                                 </div>
-                                <div className='w-[35px] h-[35px] rounded-full bg-[black] flex justify-center items-center'>
+                                <div
+                                    className={`w-[35px] h-[35px] rounded-full flex justify-center items-center border-2 border-black cursor-pointer ${startIndex + imagesPerPage >= images.length ? 'bg-white' : 'bg-black'
+                                        }`}
+                                    onClick={handleNext}
+                                    disabled={startIndex + imagesPerPage >= images.length}
+                                >
                                     <img src={down} alt="down" />
                                 </div>
                             </div>
                         </div>
                         <div className='lg:w-[75%] w-full h-full'>
-                            <img src={`${apiLocalUrl}/uploads/${product.ID}.jpg?v=${Date.now()}`} alt="mainimage" className='w-full h-full' onError={(e) => { e.target.onerror = null; e.target.src = product1; }} />
-                        </div>
+                            <img
+                                src={mainImage}
+                                alt="mainimage"
+                                className='w-full h-full'
+                                onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = product1;
+                                }}
+                            />                        </div>
 
                     </div>
                     <div className='flex flex-col lg:gap-10 gap-5 lg:w-[50%] w-full h-full lg:px-[4%] px-0 '>
                         <span className='lg:text-4xl text-xl font-[600] font-montserrat text-left'>{product.ItemName}</span>
-                        <div className='flex flex-row gap-6'>
+                        {/* <div className='flex flex-row gap-6'>
                             <div className='flex flex-row gap-2'>
                                 <img src={star} alt="star" />
                                 <span className='lg:text-lg text-sm font-[400] font-montserrat text-[#807D7E]'>4.5</span>
@@ -159,7 +243,7 @@ function FullImage() {
                                 <span className='lg:text-lg text-sm font-[400] font-montserrat text-[#807D7E] text-left'>120 comment</span>
 
                             </div>
-                        </div>
+                        </div> */}
                         <div className='lg:hidden flex flex-row gap-3 items-center'>
                             <span className='font-[400] font-montserrat text-sm'>MRP</span>
                             <span className='font-[600] font-montserrat text-base'>₹ {product.MRP}</span>
@@ -171,39 +255,30 @@ function FullImage() {
                         <div className='flex flex-col gap-3'>
                             <span className='lg:text-lg text-sm font-[500] text-[#3F4646] text-left'>Select Size</span>
                             <div className='flex flex-row gap-5'>
-                                <div className='w-[38px] h-[38px] rounded-[12px] border-2 border-[#BEBCBD] flex justify-center items-center text-sm font-[500] font-montserrat text-[#3C4242]'>
-                                    XS
-                                </div>
-                                <div className='w-[38px] h-[38px] rounded-[12px] border-2 border-[#BEBCBD] flex justify-center items-center text-sm font-[500] font-montserrat text-[#3C4242]'>
-                                    X
-                                </div>
-                                <div className='w-[38px] h-[38px] rounded-[12px] border-2 border-[#BEBCBD] flex justify-center items-center text-sm font-[500] font-montserrat text-[#3C4242]'>
-                                    M
-                                </div>
-                                <div className='w-[38px] h-[38px] rounded-[12px] border-2 border-[#BEBCBD] flex justify-center items-center text-sm font-[500] font-montserrat text-[#3C4242]'>
-                                    L
-                                </div>
-                                <div className='w-[38px] h-[38px] rounded-[12px] border-2 border-[#BEBCBD] flex justify-center items-center text-sm font-[500] font-montserrat text-[#3C4242]'>
-                                    XL
-                                </div>
+                                {uniqueSizes.map((size) => (
+                                    <div
+                                        key={size}
+                                        onClick={() => setSelectedSize(size)} // Update selected size on click
+                                        className={`w-[38px] h-[38px] rounded-[12px] border-2 flex justify-center items-center text-sm font-[500] font-montserrat text-[#3C4242] cursor-pointer 
+                                ${selectedSize === size ? "border-4 border-[#3C4242]" : "border-[#BEBCBD]"}`}
+                                    >
+                                        {size}
+                                    </div>
+                                ))}
+
                             </div>
                         </div>
 
                         <div className='flex flex-col gap-3'>
                             <span className='lg:text-lg text-sm font-[600] text-[black] text-left'>Colours Available </span>
                             <div className='flex flex-row gap-5'>
-                                <div className='w-[25px] h-[25px] rounded-full bg-[#3C4242]  '>
-
-                                </div>
-                                <div className='w-[25px] h-[25px] rounded-full  bg-[#EDD146]'>
-
-                                </div>
-                                <div className='w-[25px] h-[25px] rounded-full  bg-[#EB84B0]'>
-
-                                </div>
-                                <div className='w-[25px] h-[25px] rounded-full  bg-[#9C1F35]'>
-
-                                </div>
+                                {availableColors.map((color) => (
+                                    <div
+                                        key={color}
+                                        className="w-[25px] h-[25px] rounded-full"
+                                        style={{ backgroundColor: color }}
+                                    />
+                                ))}
 
                             </div>
                         </div>

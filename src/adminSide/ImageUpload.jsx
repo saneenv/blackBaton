@@ -147,6 +147,34 @@ function ImageUpload() {
     };
 
 
+    const handleImageUpload4 = async (event) => {
+        const selectedImage = event.target.files[0];
+        if (!selectedItem) {
+            alert('Please select an item before uploading an image.');
+            return;
+        }
+        setSelectedImage(selectedImage);
+        const imageFormat = selectedImage.name.split('.').pop().toLowerCase();
+        const formData = new FormData();
+        formData.append('image', selectedImage);
+        try {
+            const response = await fetch(`${apiLocalUrl}/upload-image4/${selectedItem}.${imageFormat}`, {
+                method: 'POST',
+                body: formData,
+            });
+            if (response.ok) {
+                alert('Image uploaded successfully.');
+            } else {
+                alert('Image upload failed.');
+            }
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            alert('Image uploaded successfully.');
+        }
+    };
+
+
+
     return (
         <div className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
             <h1 className="text-2xl font-bold text-center text-gray-700 mb-6">Image Upload</h1>
@@ -221,6 +249,19 @@ function ImageUpload() {
                         type="file"
                         accept="image/*"
                         onChange={handleImageUpload3}
+                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    />
+                </div>
+            )}
+
+
+            {selectedItem && (
+                <div className="mb-6">
+                    <label className="block text-gray-600 font-semibold mb-2">Upload extra Image 4:</label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload4}
                         className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                     />
                 </div>
