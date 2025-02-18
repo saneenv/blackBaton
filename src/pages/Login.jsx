@@ -1,8 +1,13 @@
 import React from 'react';
 import img from '../images/Login/img.png';
 import google from '../images/Login/google.png'
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+    const navigate = useNavigate();
+    const signuppage = () => {
+        navigate('/signup')
+    }
     return (
         <div className="min-h-screen flex flex-row ">
             {/* Left Section */}
@@ -45,6 +50,8 @@ function Login() {
                            <img src={google} alt="google" />
                            <span className='text-base font-[500] font-montserrat'>Sign In with Google</span>
                         </div>
+                        <span className='text-sm font-[600] font-montserrat text-[#49475A]'>Not a Member? <span className='text-[#6938EF] underline cursor-pointer' onClick={signuppage}>Register Here</span></span>
+
                     </div>
                 </div>
             </div>

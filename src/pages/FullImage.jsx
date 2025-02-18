@@ -34,9 +34,6 @@ function FullImage() {
     const [productDetails, setProductDetails] = useState([]);
     const [selectedSize, setSelectedSize] = useState(""); // Track selected size
 
-
-
-
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const isTab = useMediaQuery({ query: '(max-width: 1024px)' });
 
@@ -51,9 +48,6 @@ function FullImage() {
     const cutitemId = itemName ? itemName.split(' ')[0] : '';
 
     console.log("cutitemid", cutitemId);
-
-
-
 
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -222,7 +216,7 @@ function FullImage() {
                             <img
                                 src={mainImage}
                                 alt="mainimage"
-                                className='w-full h-full'
+                                className='object-cover w-full h-full'
                                 onError={(e) => {
                                     e.target.onerror = null;
                                     e.target.src = product1;
