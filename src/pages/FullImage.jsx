@@ -6,11 +6,6 @@ import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import top from '../images/FullImage/top.png'
 import down from '../images/FullImage/down.png'
-// import sideimage1 from '../images/FullImage/sideimage1.png'
-// import sideimage2 from '../images/FullImage/sideimage2.png'
-// import sideimage3 from '../images/FullImage/sideimage3.png'
-// import star from '../images/FullImage/star.png'
-// import message from '../images/FullImage/message.png'
 import cart1 from '../images/FullImage/cart.png'
 import payment from '../images/FullImage/payment.png'
 import line from '../images/Home/line.png'
@@ -22,8 +17,6 @@ import Footer from '../components/Footer'
 import fit from '../images/FullImage/Fit.png'
 import shipping from '../images/FullImage/shipping.png'
 import returns from '../images/FullImage/Returns.png'
-
-
 
 
 function FullImage() {
@@ -86,7 +79,7 @@ function FullImage() {
         `${apiLocalUrl}/uploads5/${product.ID}.jpg?v=${Date.now()}`,
         `${apiLocalUrl}/uploads/${product.ID}.jpg?v=${Date.now()}`
     ];
-    
+
 
 
     useEffect(() => {
@@ -121,7 +114,7 @@ function FullImage() {
                 .catch(error => console.error("Error fetching product details:", error));
         }
     }, [apiBaseUrl, product.ID]);  // Run only when product.ID is available
-    
+
 
     // Extract unique sizes
     const uniqueSizes = [...new Set(productDetails.map((category) => category.Size))];
@@ -216,28 +209,18 @@ function FullImage() {
                             <img
                                 src={mainImage}
                                 alt="mainimage"
-                                className='object-cover w-full h-full'
+                                className=' w-full h-full'
                                 onError={(e) => {
                                     e.target.onerror = null;
                                     e.target.src = product1;
                                 }}
-                            />                        </div>
+                            />
+                            </div>
 
                     </div>
                     <div className='flex flex-col lg:gap-10 gap-5 lg:w-[50%] w-full h-full lg:px-[4%] px-0 '>
                         <span className='lg:text-4xl text-xl font-[600] font-montserrat text-left'>{product.ItemName}</span>
-                        {/* <div className='flex flex-row gap-6'>
-                            <div className='flex flex-row gap-2'>
-                                <img src={star} alt="star" />
-                                <span className='lg:text-lg text-sm font-[400] font-montserrat text-[#807D7E]'>4.5</span>
-                            </div>
 
-                            <div className='lg:flex flex-row gap-2 hidden'>
-                                <img src={message} alt="message" />
-                                <span className='lg:text-lg text-sm font-[400] font-montserrat text-[#807D7E] text-left'>120 comment</span>
-
-                            </div>
-                        </div> */}
                         <div className='lg:hidden flex flex-row gap-3 items-center'>
                             <span className='font-[400] font-montserrat text-sm'>MRP</span>
                             <span className='font-[600] font-montserrat text-base'>₹ {product.MRP}</span>
