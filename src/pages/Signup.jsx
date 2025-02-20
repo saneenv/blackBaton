@@ -71,7 +71,7 @@ function Signup() {
 
             } else {
                 console.log('Response error:', data);
-                alert('Error in registration');
+                alert('Already Registered');
             }
         } catch (err) {
             console.error('Request error:', err);

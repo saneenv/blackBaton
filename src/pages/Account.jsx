@@ -13,12 +13,15 @@ import signout from '../images/Account/signout.png'
 import MyInfo from '../components/MyInfo';
 import MyOrders from '../components/MyOrders';
 import Wishlist from '../components/Wishlist';
+import { useDispatch } from 'react-redux';
+import { clearUser } from '../redux/Slices/UserSlice';
 
 
 function Account() {
     const [activeComponent, setActiveComponent] = useState("orders");
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const isTab = useMediaQuery({ query: '(max-width: 1024px)' });
+    const dispatch = useDispatch();
 
     const navigate = useNavigate();
     useEffect(() => {
@@ -30,7 +33,8 @@ function Account() {
     }
 
     const loginPage = () => {
-        navigate('/login')
+        dispatch(clearUser());
+        navigate('/login');
     }
 
     return (

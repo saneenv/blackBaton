@@ -1,5 +1,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import FullImage from './pages/FullImage';
@@ -19,9 +20,17 @@ import SubCatProducts from './pages/SubCatProducts';
 import ImageUpload from './adminSide/ImageUpload';
 import Signup from './pages/Signup';
 import Verify from './pages/Verify';
+import { useDispatch } from 'react-redux';
+import { loadUserFromStorage } from './redux/Slices/UserSlice';
+import ForgotPass from './pages/ForgotPass';
 
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadUserFromStorage());
+  }, [dispatch]);
   return (
     <div className="App">
       <BrowserRouter>
@@ -45,6 +54,8 @@ function App() {
           <Route path='/imageupload' element={<ImageUpload/>}/>
           <Route path='/signup' element={<Signup/>}/>
           <Route path='/verify' element={<Verify/>}/>
+          <Route path='/forgotpass' element={<ForgotPass/>}/>
+
         </Routes>
       </BrowserRouter>
     </div>

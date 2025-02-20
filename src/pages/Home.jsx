@@ -35,6 +35,10 @@ function Home() {
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const apiLocalUrl = process.env.REACT_APP_API_LOCAL_URL;
 
+    const userId = useSelector((state) => state.user.id);
+    console.log('Logged in User ID:', userId);
+    
+
 
     const navigate = useNavigate();
     useEffect(() => {
