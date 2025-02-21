@@ -7,6 +7,8 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../redux/Slices/UserSlice';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
 
 
 function Login() {
@@ -14,9 +16,14 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const dispatch = useDispatch();
     const [rememberMe, setRememberMe] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword((prevState) => !prevState);
+    };
 
 
     // Navigate to Signup Page
@@ -118,13 +125,22 @@ function Login() {
                             {/* Password Input */}
                             <div className='flex flex-col gap-2 text-left'>
                                 <span className='text-base font-[500] font-montserrat'>Password</span>
-                                <input
-                                    type="password"
-                                    className='lg:w-[430px] w-[350px] h-[48px] rounded-[12px] px-3 bg-[#EDEDED]'
-                                    placeholder='Enter your password'
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
+                                <div className='relative'>
+                                    <input
+                                        type={showPassword ? 'text' : 'password'}
+                                        className='lg:w-[430px] w-[350px] h-[48px] rounded-[12px] px-3 bg-[#EDEDED]'
+                                        placeholder='Enter your password'
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    />
+                                    <div
+                                        className='absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer'
+                                        onClick={togglePasswordVisibility}
+                                    >
+                                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                    </div>
+                                </div>
+
                                 <div className='flex justify-between items-center'>
                                     <div className='flex flex-row gap-1 items-center'>
                                         <input

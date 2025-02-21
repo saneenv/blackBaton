@@ -10,6 +10,9 @@ function Signup() {
     const [email, setEmail] = useState('');
     const [full_name, setFullName] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+
+
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const navigate = useNavigate();
     const loginpage = () => {
@@ -49,7 +52,7 @@ function Signup() {
 
         console.log(formData);
 
-
+        setLoading(true); // Start loading
         try {
             const response = await fetch(`${apiBaseUrl}/user/SignUp/BLACKBATON_ERP24`, {
                 method: 'POST',
@@ -78,6 +81,7 @@ function Signup() {
             alert('Error connecting to server');
         }
         finally {
+            setLoading(false);
         }
     };
 
@@ -137,10 +141,10 @@ function Signup() {
                         {/* <img src={google} alt="google" />
                         <span className='text-base font-[500] font-montserrat'>Sign In with Google</span> */}
                         <div className='w-full h-full'>
-                        <GoogleLogin
-                            onSuccess={handleGoogleSignup}
-                            onError={() => alert('Google Sign-In Failed')}
-                        />
+                            <GoogleLogin
+                                onSuccess={handleGoogleSignup}
+                                onError={() => alert('Google Sign-In Failed')}
+                            />
                         </div>
 
                     </div>
@@ -191,9 +195,15 @@ function Signup() {
                         </div>
 
                         <div className='flex flex-col gap-2'>
-                            <div className='lg:w-[430px] w-[350px] h-[48px] rounded-[35px]  bg-[#007AFF] flex justify-center items-center font-[600] font-montserrat text-base text-[white] cursor-pointer' onClick={handleSubmit}>
-                                Create an account
+
+                            <div
+                                className='lg:w-[430px] w-[350px] h-[48px] rounded-[35px] bg-[#007AFF] flex justify-center items-center font-[600] font-montserrat text-base text-[white] cursor-pointer'
+                                onClick={!loading ? handleSubmit : null}
+                                style={{ opacity: loading ? 0.7 : 1, pointerEvents: loading ? 'none' : 'auto' }}
+                            >
+                                {loading ? <span className="animate-spin">🔄</span> : "Create an account"}
                             </div>
+
                             <span className='text-sm font-[600] font-montserrat text-[#49475A]'>Already have an account? <span className='text-[#6938EF] underline cursor-pointer' onClick={loginpage}>Login</span></span>
                         </div>
                     </div>
