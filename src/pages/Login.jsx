@@ -46,6 +46,15 @@ function Login() {
             if (response.data.length > 0) {
                 const userData = response.data[0];
 
+                // Store user id in sessionStorage
+                sessionStorage.setItem('loginId', userData.id);
+
+                 // Store user name in sessionStorage
+                 sessionStorage.setItem('loginName', userData.full_name);
+                 sessionStorage.setItem('loginEmail', userData.email);
+
+               
+
                 // Dispatch user data to Redux
                 dispatch(setUser({ id: userData.id, rememberMe }));
 

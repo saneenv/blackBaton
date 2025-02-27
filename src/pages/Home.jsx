@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import banner1 from '../images/Home/banner1.png'
 import bannermob from '../images/Home/bannermob.png'
 import line from '../images/Home/line.png'
-import cart from '../images/Home/cart.png'
+// import cart from '../images/Home/cart.png'
 import product1 from '../images/Home/product2.png'
 import heart from '../images/Home/heart.png'
 import men from '../images/Home/men.png'
@@ -32,11 +32,22 @@ function Home() {
     const [startIndex, setStartIndex] = useState(0);
     const [disableNext, setDisableNext] = useState(false); // Disable ">" button
     const [disablePrev, setDisablePrev] = useState(true); // Disable "<" button initially
+    const [loginId, setLoginId] = useState(null);
+
+    console.log(loginId);
+    
+
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const apiLocalUrl = process.env.REACT_APP_API_LOCAL_URL;
 
     const userId = useSelector((state) => state.user.id);
     console.log('Logged in User ID:', userId);
+
+    useEffect(() => {
+        // Get userId from sessionStorage
+        const storedLoginId = sessionStorage.getItem('loginId');
+        setLoginId(storedLoginId);
+    }, []);
     
 
 
@@ -139,6 +150,17 @@ function Home() {
         navigate('/subcategoryproducts', { state: { categoryId: 159, categoryName: "KID'S" } });
     };
 
+    // const handleAddToCart = (event) => {
+    //     event.stopPropagation();
+    //     if (loginId) {
+    //         // If userId has a value, navigate to the cart page
+    //         navigate('/cart');
+    //     } else {
+    //         // If userId is null, undefined, or 0, show an alert and navigate to the login page
+    //         alert('Please login to continue.');
+    //         navigate('/login');
+    //     }
+    // };
 
     return (
         <div className='min-h-screen flex flex-col'>
@@ -250,10 +272,10 @@ function Home() {
                                 <div className='flex justify-between w-full'>
                                     <div className='flex flex-col gap-1 w-full'>
                                         <span className='lg:text-base text-xs font-[600] font-montserrat text-left'>{product.ItemName}</span>
-                                        <div className='lg:w-[110px] lg:h-[35px] w-full h-[30px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
+                                        {/* <div className='lg:w-[110px] lg:h-[35px] w-full h-[30px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer' onClick={(e) => handleAddToCart(e)}>
                                             <img src={cart} alt="cart" />
                                             <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                        </div>
+                                        </div> */}
 
                                     </div>
                                     <div className='flex flex-col gap-1 items-end'>
@@ -334,10 +356,10 @@ function Home() {
                                 <div className='flex justify-between w-full'>
                                     <div className='flex flex-col gap-1 w-full'>
                                         <span className='lg:text-base text-xs font-[600] font-montserrat text-left'>{product.ItemName}</span>
-                                        <div className='lg:w-[110px] lg:h-[35px] w-full h-[30px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
+                                        {/* <div className='lg:w-[110px] lg:h-[35px] w-full h-[30px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer' onClick={(e) => handleAddToCart(e)}>
                                             <img src={cart} alt="cart" />
                                             <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                        </div>
+                                        </div> */}
 
                                     </div>
                                     <div className='flex flex-col gap-1 items-end'>

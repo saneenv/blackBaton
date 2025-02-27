@@ -10,7 +10,7 @@ import Footer from '../components/Footer'
 import filter from '../images/Products/filter.png'
 import product1 from '../images/Home/product2.png'
 import heart from '../images/Home/heart.png'
-import cart from '../images/Home/cart.png'
+// import cart from '../images/Home/cart.png'
 import forward from '../images/Products/forwardpng.png'
 import top from '../images/Products/top.png'
 import Filter from '../components/Filter'
@@ -490,10 +490,10 @@ function SearchPage() {
                                 <div className='flex justify-between w-full'>
                                     <div className='flex flex-col gap-1 w-full'>
                                         <span className='lg:text-base text-xs font-[600] font-montserrat text-left'>{product.ItemName}</span>
-                                        <div className='lg:w-[110px] lg:h-[35px] w-full h-[30px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
+                                        {/* <div className='lg:w-[110px] lg:h-[35px] w-full h-[30px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                             <img src={cart} alt="cart" />
                                             <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                        </div>
+                                        </div> */}
 
                                     </div>
                                     <div className='flex flex-col gap-1 items-end'>

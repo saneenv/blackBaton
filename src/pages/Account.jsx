@@ -33,6 +33,10 @@ function Account() {
     }
 
     const loginPage = () => {
+        sessionStorage.removeItem('loginId');
+        sessionStorage.removeItem('loginName');
+        sessionStorage.removeItem('loginEmail');
+
         dispatch(clearUser());
         navigate('/login');
     }

@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar'
 import { useMediaQuery } from 'react-responsive'
 import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
+import { useSelector } from "react-redux";
 import top from '../images/FullImage/top.png'
 import down from '../images/FullImage/down.png'
 import cart1 from '../images/FullImage/cart.png'
@@ -11,7 +12,7 @@ import payment from '../images/FullImage/payment.png'
 import line from '../images/Home/line.png'
 import product1 from '../images/Home/product2.png'
 import heart from '../images/Home/heart.png'
-import cart from '../images/Home/cart.png'
+// import cart from '../images/Home/cart.png'
 import FooterMob from '../components/FooterMob'
 import Footer from '../components/Footer'
 import fit from '../images/FullImage/Fit.png'
@@ -26,6 +27,10 @@ function FullImage() {
     const [startIndex, setStartIndex] = useState(0);
     const [productDetails, setProductDetails] = useState([]);
     const [selectedSize, setSelectedSize] = useState(""); // Track selected size
+    const [selectedColor, setSelectedColor] = useState("");
+    const [loginId, setLoginId] = useState(null);
+
+
 
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const isTab = useMediaQuery({ query: '(max-width: 1024px)' });
@@ -33,6 +38,19 @@ function FullImage() {
     const location = useLocation();
     const { id, itemName } = location.state || {}; // Get the passed state
     console.log(selectedItemName);
+
+    useEffect(() => {
+        // Get userId from sessionStorage
+        const storedLoginId = sessionStorage.getItem('loginId');
+        setLoginId(storedLoginId);
+    }, []);
+
+    const LedName = sessionStorage.getItem('loginName')
+    const LedEmail = sessionStorage.getItem('loginEmail')
+
+
+    const userId = useSelector((state) => state.user.id);
+    console.log('Logged in User ID:', userId);
 
 
     console.log("id", id);
@@ -101,19 +119,47 @@ function FullImage() {
     }, [apiBaseUrl, cutitemId]);
 
     useEffect(() => {
-        if (product?.ID) {  // Ensure product.ID is available before fetching
+        if (product?.ID) {
             fetch(`${apiBaseUrl}/getProductDetails/BLACKBATON_ERP24?Id=${encodeURIComponent(product.ID)}`)
                 .then(response => response.json())
                 .then(data => {
                     setProductDetails(data);
+
+                    // Extract unique sizes
                     const uniqueSizes = [...new Set(data.map((category) => category.Size))];
                     if (uniqueSizes.length > 0) {
                         setSelectedSize(uniqueSizes[0]); // Set first size as default
+
+                        // Find available colors for the default size
+                        const colorsForDefaultSize = data
+                            .filter((detail) => detail.Size === uniqueSizes[0])
+                            .map((detail) => detail.Color);
+
+                        // If there's only one color, auto-select it
+                        if (colorsForDefaultSize.length === 1) {
+                            setSelectedColor(colorsForDefaultSize[0]);
+                        }
                     }
                 })
                 .catch(error => console.error("Error fetching product details:", error));
         }
-    }, [apiBaseUrl, product.ID]);  // Run only when product.ID is available
+    }, [apiBaseUrl, product.ID]);
+
+    const handleSizeSelection = (size) => {
+        setSelectedSize(size);
+
+        // Find available colors for the selected size
+        const colorsForSelectedSize = productDetails
+            .filter((detail) => detail.Size === size)
+            .map((detail) => detail.Color);
+
+        // If there's only one color, auto-select it
+        if (colorsForSelectedSize.length === 1) {
+            setSelectedColor(colorsForSelectedSize[0]);
+        } else {
+            setSelectedColor(""); // Reset selected color if there are multiple options
+        }
+    };
 
 
     // Extract unique sizes
@@ -140,7 +186,70 @@ function FullImage() {
         window.scrollTo(0, 0); // Scroll to the top after navigation
     };
 
-    const imagesPerPage = 3;
+    const handleAddToCart = async (event) => {
+        event.stopPropagation();
+
+        if (!loginId) {
+            alert('Please login to continue.');
+            navigate('/login');
+            return;
+        }
+
+        // Ensure a size and color are selected
+        if (!selectedSize || !selectedColor) {
+            alert('Please select a size and color.');
+            return;
+        }
+
+        // Find the uniqueCode for the selected size and color
+        const selectedProductDetail = productDetails.find(
+            (detail) => detail.Size === selectedSize && detail.Color === selectedColor
+        );
+
+        if (!selectedProductDetail) {
+            alert('Please select a valid size and color.');
+            return;
+        }
+
+        const uniqueCode = selectedProductDetail.Uniquecode;
+
+        // Prepare the data to be sent to the API
+        const cartData = {
+            itemId: product.ID,
+            uniqueCode: uniqueCode,
+            itemName: product.ItemName,
+            itemPrice: product.MRP,
+            quantity: 1,
+            ledname: LedName, 
+            ledcode: loginId, 
+            ledemail: LedEmail,
+        };
+
+        try {
+            const response = await fetch(`${apiBaseUrl}/cart/add/BLACKBATON_ERP24`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(cartData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add item to cart');
+            }
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert('Item added to cart successfully!');
+            } else {
+                alert('Failed to add item to cart. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error adding item to cart:', error);
+            alert('An error occurred while adding the item to the cart. Please try again.');
+        }
+    }; const imagesPerPage = 3;
 
     // Show only 3 images at a time
     const visibleImages = images.slice(startIndex, startIndex + imagesPerPage);
@@ -215,7 +324,7 @@ function FullImage() {
                                     e.target.src = product1;
                                 }}
                             />
-                            </div>
+                        </div>
 
                     </div>
                     <div className='flex flex-col lg:gap-10 gap-5 lg:w-[50%] w-full h-full lg:px-[4%] px-0 '>
@@ -235,33 +344,33 @@ function FullImage() {
                                 {uniqueSizes.map((size) => (
                                     <div
                                         key={size}
-                                        onClick={() => setSelectedSize(size)} // Update selected size on click
+                                        onClick={() => handleSizeSelection(size)} // Use the new handler
                                         className={`w-[38px] h-[38px] rounded-[12px] border-2 flex justify-center items-center text-sm font-[500] font-montserrat text-[#3C4242] cursor-pointer 
-                                ${selectedSize === size ? "border-4 border-[#3C4242]" : "border-[#BEBCBD]"}`}
+                    ${selectedSize === size ? "border-4 border-[#3C4242]" : "border-[#BEBCBD]"}`}
                                     >
                                         {size}
                                     </div>
                                 ))}
-
                             </div>
                         </div>
 
                         <div className='flex flex-col gap-3'>
-                            <span className='lg:text-lg text-sm font-[600] text-[black] text-left'>Colours Available </span>
+                            <span className='lg:text-lg text-sm font-[600] text-[black] text-left'>Colours Available</span>
                             <div className='flex flex-row gap-5'>
                                 {availableColors.map((color) => (
                                     <div
                                         key={color}
-                                        className="w-[25px] h-[25px] rounded-full"
+                                        onClick={() => setSelectedColor(color)} // Allow manual selection if needed
+                                        className={`w-[25px] h-[25px] rounded-full cursor-pointer ${selectedColor === color ? "border-2 border-black" : ""
+                                            }`}
                                         style={{ backgroundColor: color }}
                                     />
                                 ))}
-
                             </div>
                         </div>
 
                         <div className='flex flex-row gap-8'>
-                            <div className='lg:w-[35%] w-full h-[46px] bg-[black] rounded-[8px] flex flex-row gap-2 items-center justify-center'>
+                            <div className='lg:w-[35%] w-full h-[46px] bg-[black] rounded-[8px] flex flex-row gap-2 items-center justify-center cursor-pointer' onClick={(e) => handleAddToCart(e)}>
                                 <img src={cart1} alt="cart" />
                                 <span className='lg:text-lg text-base font-[600] font-montserrat text-[white]'>Add to cart</span>
                             </div>
@@ -377,10 +486,10 @@ function FullImage() {
                                 <div className='flex justify-between w-full'>
                                     <div className='flex flex-col gap-1 w-full'>
                                         <span className='lg:text-base text-xs font-[600] font-montserrat text-left'>{product.ItemName}</span>
-                                        <div className='lg:w-[110px] lg:h-[35px] w-full h-[30px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
+                                        {/* <div className='lg:w-[110px] lg:h-[35px] w-full h-[30px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
                                             <img src={cart} alt="cart" />
                                             <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                        </div>
+                                        </div> */}
 
                                     </div>
                                     <div className='flex flex-col gap-1 items-end'>
