@@ -52,6 +52,8 @@ function Login() {
                  // Store user name in sessionStorage
                  sessionStorage.setItem('loginName', userData.full_name);
                  sessionStorage.setItem('loginEmail', userData.email);
+                 sessionStorage.setItem('LedCode', userData.id);
+
 
                
 
