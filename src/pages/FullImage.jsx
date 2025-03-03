@@ -220,8 +220,8 @@ function FullImage() {
             itemName: product.ItemName,
             itemPrice: product.MRP,
             quantity: 1,
-            ledname: LedName, 
-            ledcode: loginId, 
+            ledname: LedName,
+            ledcode: loginId,
             ledemail: LedEmail,
         };
 

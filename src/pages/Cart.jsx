@@ -13,40 +13,143 @@ function Cart() {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [productDetails, setProductDetails] = useState({}); // To store color and size for each uniqueCode
 
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+    const apiLocalUrl = process.env.REACT_APP_API_LOCAL_URL;
+
+    const userId = useSelector((state) => state.user.id);
     const LedCode = sessionStorage.getItem('LedCode');
-    console.log('Logged in Ledcode ID in cartpage:', LedCode);
 
+    // Fetch product details (color and size) by uniqueCode
+    const fetchProductDetails = async (uniqueCode) => {
+        try {
+            const response = await fetch(
+                `${apiBaseUrl}/getProductByUniqueCode/BLACKBATON_ERP24?uniqueCode=${uniqueCode}`
+            );
+            if (!response.ok) {
+                throw new Error('Failed to fetch product details');
+            }
+            const data = await response.json();
+            if (data.length > 0) {
+                return data[0]; // Return the first item (color and size)
+            }
+            return null;
+        } catch (error) {
+            console.error('Error fetching product details:', error);
+            return null;
+        }
+    };
+
+    // Fetch cart items
     useEffect(() => {
         window.scrollTo(0, 0);
 
+        if (!LedCode && !userId) {
+            console.log("Skipping fetch: Both LedCode and userId are null");
+            return;
+        }
+
         const fetchCartItems = async () => {
             try {
+                const ledCodeOrUserId = LedCode || userId;
+                console.log("Fetching Cart Items for:", ledCodeOrUserId);
+
                 const response = await fetch(
-                    `http://192.168.0.104:8091/api/onlineorder/cart/items/BLACKBATON_ERP24/${LedCode}`
+                    `${apiBaseUrl}/cart/items/BLACKBATON_ERP24/${ledCodeOrUserId}`
                 );
-                if (!response.ok) {
-                    throw new Error('Failed to fetch cart items');
-                }
+
+                // if (!response.ok) {
+                //     alert('no items in cart');
+                // }
+
                 const data = await response.json();
                 if (data.success && data.items.length > 0) {
                     setCartItems(data.items);
+
+                    // Fetch product details for each item
+                    const details = {};
+                    for (const item of data.items) {
+                        const productInfo = await fetchProductDetails(item.uniqueCode);
+                        if (productInfo) {
+                            details[item.uniqueCode] = {
+                                color: productInfo.Color,
+                                size: productInfo.Size,
+                            };
+                        }
+                    }
+                    setProductDetails(details); // Store product details in state
                 } else {
-                    setCartItems([]); // Set to empty array instead of error
+                    setCartItems([]);
                 }
             } catch (error) {
-                setCartItems([]); // Handle as empty cart instead of showing error
+                setError(error.message);
+                setCartItems([]);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchCartItems();
-    }, [LedCode]);
+    }, [LedCode, userId, apiBaseUrl]);
+
+    const handleQuantityChange = async (sino, newQuantity) => {
+        try {
+            // Prevent quantity from going below 1
+            if (newQuantity < 1) {
+                alert('Quantity cannot be less than 1');
+                return;
+            }
+
+            // Find the item in the cartItems array
+            const itemToUpdate = cartItems.find((item) => item.sino === sino);
+
+            // Calculate the difference between the new quantity and the current quantity
+            const quantityDifference = newQuantity - itemToUpdate.quantity;
+
+            // Send API request to update quantity in the backend
+            const response = await fetch(`${apiBaseUrl}/cart/add/BLACKBATON_ERP24`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    itemId: itemToUpdate.itemId,
+                    uniqueCode: itemToUpdate.uniqueCode,
+                    itemName: itemToUpdate.itemName,
+                    itemPrice: itemToUpdate.itemPrice,
+                    quantity: quantityDifference, // Send the difference, not the new quantity
+                    ledname: itemToUpdate.ledname,
+                    ledcode: itemToUpdate.ledcode,
+                    ledemail: itemToUpdate.ledemail,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update quantity');
+            }
+
+            const data = await response.json();
+            console.log('Quantity updated successfully:', data);
+
+            // Update the cartItems state only after the API call succeeds
+            const updatedCartItems = cartItems.map((item) =>
+                item.sino === sino ? { ...item, quantity: newQuantity } : item
+            );
+            setCartItems(updatedCartItems);
+        } catch (error) {
+            console.error('Error updating quantity:', error);
+            alert('Failed to update quantity. Please try again.');
+        }
+    };
 
     const addresspage = () => {
         navigate('/address');
     };
+
+    const wishlistpage = () => {
+        navigate('/wishlist')
+    }
 
     if (loading) {
         return <div>Loading...</div>;
@@ -85,7 +188,7 @@ function Cart() {
                             </span>
                         </div>
 
-                        {cartItems.length === 0 ? (  
+                        {cartItems.length === 0 ? (
                             <div className="flex flex-col items-center justify-center h-[300px] bg-gray-100 rounded-md shadow-md p-6">
                                 <span className="text-lg font-semibold text-gray-700">Your cart is empty</span>
                                 <p className="text-sm text-gray-500">Add items to your cart to see them here.</p>
@@ -96,7 +199,7 @@ function Cart() {
                                     <div className='flex flex-row h-[115px] gap-5 items-center'>
                                         <div className='h-full w-[90px] bg-[white] rounded-[5px] p-3'>
                                             <img
-                                                src={`http://192.168.0.104:866/uploads/${item.itemId}.jpg?v=${Date.now()}`}
+                                                src={`${apiLocalUrl}/uploads/${item.itemId}.jpg?v=${Date.now()}`}
                                                 alt={item.itemName}
                                                 style={{ width: '100%', height: '100%', mixBlendMode: 'multiply' }}
                                             />
@@ -105,22 +208,47 @@ function Cart() {
                                             <span className='lg:text-base text-left text-sm font-[600] font-montserrat'>{item.itemName}</span>
                                             <span className='text-sm font-[400] font-montserrat text-left'>Qty: {item.quantity}</span>
                                             <span className='text-lg font-[600] font-montserrat text-left'>₹{item.itemPrice}</span>
+                                            <span className='text-lg font-[600] font-montserrat text-left'>
+
+                                                <div
+                                                    style={{
+                                                        display: 'inline-block',
+                                                        width: '16px',
+                                                        height: '16px',
+                                                        borderRadius: '50%',
+                                                        backgroundColor: productDetails[item.uniqueCode]?.color || 'transparent',
+                                                        border: productDetails[item.uniqueCode]?.color ? '1px solid #ccc' : 'none',
+
+                                                        verticalAlign: 'middle',
+                                                    }}
+                                                />
+                                                &nbsp;,  {productDetails[item.uniqueCode]?.size || 'N/A'}
+                                            </span>
                                         </div>
                                     </div>
                                     <div className='flex flex-col gap-3 items-end'>
                                         <span className='text-sm font-[400] font-montserrat'>Delivery by Sat Dec 28</span>
                                         <div className='lg:w-[50%] w-[30%] h-[36px] border-2 border-[#EAEAEC] rounded-[32px] flex flex-row justify-center items-center gap-3 '>
-                                            <span className='font-[500] text-sm font-montserrat cursor-pointer'>-</span>
-                                            <span className='font-[500] text-xl font-montserrat'>1</span>
-                                            <span className='font-[500] text-sm font-montserrat cursor-pointer'>+</span>
+                                            <span
+                                                className='font-[500] text-sm font-montserrat cursor-pointer'
+                                                onClick={() => handleQuantityChange(item.sino, item.quantity - 1)}
+                                            >
+                                                -
+                                            </span>
+                                            <span className='font-[500] text-xl font-montserrat'>{item.quantity}</span>
+                                            <span
+                                                className='font-[500] text-sm font-montserrat cursor-pointer'
+                                                onClick={() => handleQuantityChange(item.sino, item.quantity + 1)}
+                                            >
+                                                +
+                                            </span>
                                         </div>
-
                                     </div>
                                 </div>
                             ))
                         )}
 
-                        <div className='rounded-[5px] h-[60px] border-2 border-[#EAEAEC] justify-between flex items-center lg:px-5 px-1'>
+                        <div className='rounded-[5px] h-[60px] border-2 border-[#EAEAEC] justify-between flex items-center lg:px-5 px-1 cursor-pointer' onClick={wishlistpage}>
                             <span className='text-sm font-[400] font-montserrat'>Add More From Wishlist</span>
                         </div>
 

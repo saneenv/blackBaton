@@ -35,7 +35,7 @@ function Home() {
     const [loginId, setLoginId] = useState(null);
 
     console.log(loginId);
-    
+
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const apiLocalUrl = process.env.REACT_APP_API_LOCAL_URL;
@@ -48,7 +48,7 @@ function Home() {
         const storedLoginId = sessionStorage.getItem('loginId');
         setLoginId(storedLoginId);
     }, []);
-    
+
 
 
     const navigate = useNavigate();
@@ -93,6 +93,41 @@ function Home() {
 
         fetchProducts();
     }, [apiBaseUrl]);
+
+    const addToWishlist = async (product) => {
+        const apiUrl = `${apiBaseUrl}/wishlist/add/BLACKBATON_ERP24`;
+    
+        const payload = {
+            ID: product.ID,
+            ItemName: product.ItemName,
+            MRP: product.MRP,
+            ledcode: loginId,  // Assuming LedCode is available in your component state or props
+            Qty: product.Qty
+        };
+    
+        try {
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                console.log("Added to wishlist:", result);
+                alert("Item added to wishlist!");
+            } else {
+                console.error("Failed to add to wishlist");
+                alert("Already in Wishlist");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred while adding to wishlist.");
+        }
+    };
+    
 
     const nextSlide = () => {
         if (startIndex < categories.length - 3) {
@@ -263,9 +298,16 @@ function Home() {
                                     />
 
                                     <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-2 flex justify-end'>
-                                        <div className='lg:w-[33px] w-[23px] lg:h-[33px] h-[23px] rounded-full bg-[white] flex justify-center items-center'>
+                                        <div
+                                            className='lg:w-[33px] w-[23px] lg:h-[33px] h-[23px] rounded-full bg-[white] flex justify-center items-center cursor-pointer'
+                                            onClick={(e) => {
+                                                e.stopPropagation();  // Prevents the main div's click event
+                                                addToWishlist(product);
+                                            }}
+                                        >
                                             <img src={heart} alt="heart" />
                                         </div>
+
                                     </div>
 
                                 </div>

@@ -1,111 +1,146 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import cart from '../images/Home/cart.png'
+import React, { useState, useEffect } from 'react'
+// import { useNavigate } from 'react-router-dom'
+import { useMediaQuery } from 'react-responsive'
+import { useLocation, useNavigate } from 'react-router-dom'
+import axios from 'axios';
+import NavbarMob from '../components/NavbarMob'
+import Navbar from '../components/Navbar'
+import FooterMob from '../components/FooterMob'
+import Footer from '../components/Footer'
 import product1 from '../images/Home/product2.png'
-import product2 from '../images/Home/product2.png'
-import product4 from '../images/Home/product4.png'
-import heart from '../images/Home/heart.png'
-import NavbarMob from './NavbarMob'
+import { useSelector } from 'react-redux';
+
 
 
 function Wishlist() {
-    const navigate = useNavigate()
+    const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+    const isTab = useMediaQuery({ query: '(max-width: 1024px)' });
+    const [wishlistItems, setWishlistItems] = useState([]);
+
+    const userId = useSelector((state) => state.user.id);
+    const LedCode = sessionStorage.getItem('LedCode');
+
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+    const apiLocalUrl = process.env.REACT_APP_API_LOCAL_URL;
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
+        const fetchWishlist = async () => {
+            try {
+                const ledCodeOrUserId = LedCode || userId;
+                console.log("Fetching Cart Items for:", ledCodeOrUserId);
+                const response = await axios.get(`${apiBaseUrl}/wishlist/items/BLACKBATON_ERP24/${ledCodeOrUserId}`);
+                if (response.data.success) {
+                    setWishlistItems(response.data.items);
+                }
+            } catch (error) {
+                console.error("Error fetching wishlist data:", error);
+            }
+        };
+        fetchWishlist();
+    }, [LedCode,apiBaseUrl,userId]);
+
+
+    const location = useLocation();
+
+
+    const { filtered } = location.state || {};
+    console.log("filtered:", filtered);
+    const navigate = useNavigate();
+
+  
+
+    const fullimage = (id, itemName) => {
+        navigate('/fullimage', { state: { id, itemName } });
+    };
+
     const homePage = () => {
         navigate('/')
     }
     const accountPage = () => {
         navigate('/accountmob')
     }
+
     return (
-        <div className='w-full h-auto flex flex-col lg:gap-6 gap-4 text-start'>
-            <div className='md:hidden flex'>
-                <NavbarMob />
-            </div>
-            <div className='flex flex-col w-full lg:mt-0 mt-[120px] lg:px-0 px-3 lg:pb-0 pb-6'>
-            <div className='flex flex-row gap-2 items-center mt-3 md:hidden'>
-                    <span className='text-xs font-[500] font-montserrat text-[#828282] cursor-pointer' onClick={homePage}>Home</span>
-                    <span className='text-[#828282]'>{">"}</span>
-                    <span className='text-xs font-[400] font-montserrat text-[#3C4242]' onClick={accountPage}>Account</span>
-                    <span className='text-[#828282]'>{">"}</span>
-                    <span className='text-xs font-[400] font-montserrat text-[#3C4242]'>Wishlist</span>
+        <div className='min-h-screen flex flex-col '>
+            {isMobile ? <NavbarMob /> : <Navbar />}
+
+            <div className='w-full h-auto lg:px-12 px-3 py-6 flex flex-col lg:gap-12 gap-6 lg:mt-[175px] md:mt-[175px] mt-[120px] pb-12' >
+                <div className='flex justify-start items-center'>
+                    <div className='flex flex-row gap-2 items-center mt-3 md:hidden '>
+                        <span className='text-xs font-[500] font-montserrat text-[#828282] cursor-pointer' onClick={homePage}>Home</span>
+                        <span className='text-[#828282]'>{">"}</span>
+                        <span className='text-xs font-[400] font-montserrat text-[#3C4242]' onClick={accountPage}>Account</span>
+                        <span className='text-[#828282]'>{">"}</span>
+                        <span className='text-xs font-[400] font-montserrat text-[#3C4242]'>Wishlist</span>
+
+                    </div>
+
+                    <div className='md:flex flex-row gap-2 items-center mt-3 hidden '>
+                        
+                        <span className='text-3xl font-[800] font-montserrat text-[black]'>Wishlist</span>
+
+                    </div>
+
 
                 </div>
-                <span className='text-3xl font-[700] font-montserrat lg:flex hidden'>Wishlist</span>
-                <div className='grid lg:grid-cols-3 grid-cols-2 w-full  gap-5 mt-5'>
-                    <div className='flex flex-col gap-2 cursor-pointer'>
-                        <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                            <img src={product1} alt="product1" />
-                            <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                    <img src={heart} alt="heart" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex justify-between'>
-                            <div className='flex flex-col gap-1'>
-                                <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
-                                <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                    <img src={cart} alt="cart" />
-                                    <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                </div>
-                            </div>
-                            <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                $11.00
-                            </div>
-                        </div>
-                    </div>
-                    <div className='flex flex-col gap-2'>
-                        <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                            <img src={product2} alt="product2" />
-                            <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                    <img src={heart} alt="heart" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex justify-between'>
-                            <div className='flex flex-col gap-1'>
-                                <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
-                                <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                    <img src={cart} alt="cart" />
-                                    <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                </div>
-                            </div>
-                            <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                $11.00
-                            </div>
-                        </div>
-                    </div>
 
-                    <div className='flex flex-col gap-2'>
-                        <div className='lg:h-[382px] md:h-[400px] h-[330px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
-                            <img src={product4} alt="product4" />
-                            <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-3 flex justify-end'>
-                                <div className='w-[33px] h-[33px] rounded-full bg-[white] flex justify-center items-center'>
-                                    <img src={heart} alt="heart" />
+                <div className='pb-12 flex flex-row gap-5'>
+
+                    <div
+                        className='grid w-full gap-5 lg:grid-cols-4 md:grid-cols-3 grid-cols-2'
+                    >
+                        {wishlistItems.map((item) => (
+                            <div key={item.ID} className='flex flex-col gap-2 cursor-pointer' onClick={() => fullimage(item.ID, item.ItemName)}>
+                                <div className='lg:h-[382px] md:h-[300px] h-[200px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
+                                    <img
+                                        src={`${apiLocalUrl}/uploads/${item.ID}.jpg?v=${Date.now()}`}
+                                        alt={item.ItemName}
+                                        onError={(e) => { e.target.onerror = null; e.target.src = product1; }}
+                                        className='mix-blend-multiply w-full h-full'
+                                    />
+      
+
+                                </div>
+                                <div className='flex justify-between w-full'>
+                                    <div className='flex flex-col gap-1 w-full'>
+                                        <span className='lg:text-base text-xs font-[600] font-montserrat text-left'>{item.ItemName}</span>
+                                       
+
+                                    </div>
+                                    <div className='flex flex-col gap-1 items-end'>
+                                        <div className='lg:w-[84px] lg:h-[37px] w-[70px] h-[30px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
+                                        ₹{item.MRP}
+                                        </div>
+                                        <span className="text-sm font-montserrat lg:flex hidden text-nowrap">
+                                            Offer Price:
+                                            <span className="line-through text-gray-500 ml-1">₹{item.MRP}</span>
+                                            <span className="text-red-600 font-bold ml-1">₹0</span>
+                                        </span>
+                                        <span className="text-sm font-montserrat lg:hidden flex text-nowrap">
+
+                                            <span className="line-through text-gray-500 ml-1">₹{item.MRP}</span>
+                                            <span className="text-red-600 font-bold ml-1">₹0</span>
+                                        </span>
+                                    </div>
+
+
                                 </div>
                             </div>
-                        </div>
-                        <div className='flex justify-between'>
-                            <div className='flex flex-col gap-1'>
-                                <span className='lg:text-base text-sm font-[600] font-montserrat text-left'>Stride T-shirt</span>
-                                <span className='lg:text-sm text-xs font-[500] font-montserrat text-left text-[#807D7E]'>Short-Sleeve Running Top</span>
-                                <div className='w-[110px] h-[35px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                    <img src={cart} alt="cart" />
-                                    <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                </div>
-                            </div>
-                            <div className='w-[84px] h-[37px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                $11.00
-                            </div>
-                        </div>
+                   ))}
+
                     </div>
                 </div>
+
             </div>
 
-        </div>
+
+            {isTab ? <FooterMob /> : <Footer />}
+        </div >
+
     )
 }
 
