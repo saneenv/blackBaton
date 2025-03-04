@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 // import { useNavigate } from 'react-router-dom'
 import { useMediaQuery } from 'react-responsive'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useSelector } from "react-redux";
 // import axios from 'axios';
 import NavbarMob from '../components/NavbarMob'
 import Navbar from '../components/Navbar'
@@ -10,6 +11,7 @@ import Footer from '../components/Footer'
 import filter from '../images/Products/filter.png'
 import product1 from '../images/Home/product2.png'
 import heart from '../images/Home/heart.png'
+import filledHeart from '../images/Home/heart2.png';
 // import cart from '../images/Home/cart.png'
 import forward from '../images/Products/forwardpng.png'
 import top from '../images/Products/top.png'
@@ -19,6 +21,15 @@ import Filter from '../components/Filter'
 function SearchPage() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const isTab = useMediaQuery({ query: '(max-width: 1024px)' });
+    const [loginId, setLoginId] = useState(null);
+    useEffect(() => {
+        // Get userId from sessionStorage
+        const storedLoginId = sessionStorage.getItem('loginId');
+        setLoginId(storedLoginId);
+    }, []);
+
+    const userId = useSelector((state) => state.user.id);
+    console.log('Logged in User ID:', userId);
 
     // const navigate = useNavigate();
     // const home = () => {
@@ -48,7 +59,7 @@ function SearchPage() {
 
 
 
-
+    const [wishlistItems, setWishlistItems] = useState([]);
     const [products, setProducts] = useState([]);
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const apiLocalUrl = process.env.REACT_APP_API_LOCAL_URL;
@@ -96,6 +107,91 @@ function SearchPage() {
         setMaxPrice(value);
     };
 
+    const addToWishlist = async (product) => {
+        const apiUrl = `${apiBaseUrl}/wishlist/add/BLACKBATON_ERP24`;
+
+        const activeUserId = loginId || userId; // Use loginId if available, otherwise use userId
+
+        if (!activeUserId) {
+            console.error("No valid user ID found.");
+            alert("User ID is missing.");
+            return;
+        }
+
+        const payload = {
+            ID: product.ID,
+            ItemName: product.ItemName,
+            MRP: product.MRP,
+            ledcode: activeUserId,  // Use the determined user ID
+            Qty: product.Qty
+        };
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log("Added to wishlist:", result);
+                // Update the local state
+                setWishlistItems(prevItems => [...prevItems, product]);
+                alert("Item added to wishlist!");
+            } else {
+                console.error("Failed to add to wishlist");
+                alert("Already in Wishlist");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred while adding to wishlist.");
+        }
+    };
+
+    useEffect(() => {
+        const fetchWishlistItems = async () => {
+            try {
+                const activeUserId = loginId || userId; // Use loginId if available, otherwise use userId
+
+                if (!activeUserId) return; // Ensure there's a valid userId before making the API call
+
+                const response = await fetch(`${apiBaseUrl}/wishlist/items/BLACKBATON_ERP24/${activeUserId}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    setWishlistItems(data.items);
+                }
+            } catch (error) {
+                console.error("Error fetching wishlist items:", error);
+            }
+        };
+
+        fetchWishlistItems();
+    }, [loginId, apiBaseUrl, userId]);
+
+    const removeFromWishlist = async (productId) => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/wishlist/delete/BLACKBATON_ERP24/${productId}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                // Update the local state
+                setWishlistItems(prevItems => prevItems.filter(item => item.ID !== productId));
+                alert('Item removed from wishlist!');
+            } else {
+                console.error('Failed to remove item from wishlist');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while removing from wishlist.');
+        }
+    };
+
+
 
     const toggleFilter = () => {
         setShowFilter(!showFilter);
@@ -135,6 +231,8 @@ function SearchPage() {
     const fullimage = (id, itemName) => {
         navigate('/fullimage', { state: { id, itemName } });
     };
+
+
 
     return (
         <div className='min-h-screen flex flex-col '>
@@ -481,8 +579,23 @@ function SearchPage() {
                                         className='mix-blend-multiply w-full h-full'
                                     />
                                     <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-2 flex justify-end'>
-                                        <div className='lg:w-[33px] w-[23px] lg:h-[33px] h-[23px] rounded-full bg-[white] flex justify-center items-center'>
-                                            <img src={heart} alt="heart" />
+                                        <div
+                                            className='lg:w-[33px] w-[23px] lg:h-[33px] h-[23px] rounded-full bg-[white] flex justify-center items-center cursor-pointer'
+                                            onClick={(e) => {
+                                                e.stopPropagation(); // Prevents the main div's click event
+                                                if (wishlistItems.some(item => item.ID === product.ID)) {
+                                                    // Item is in wishlist, remove it
+                                                    removeFromWishlist(product.ID);
+                                                } else {
+                                                    // Item is not in wishlist, add it
+                                                    addToWishlist(product);
+                                                }
+                                            }}
+                                        >
+                                            <img
+                                                src={wishlistItems.some(item => item.ID === product.ID) ? filledHeart : heart}
+                                                alt="heart"
+                                            />
                                         </div>
                                     </div>
 

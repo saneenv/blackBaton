@@ -151,13 +151,21 @@ function Cart() {
         navigate('/wishlist')
     }
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    
+
+    // if (loading) {
+    //     return <div>Loading...</div>;
+    // }
 
     if (error) {
         return <div>Error: {error}</div>;
     }
+
+    const handlePlaceOrder = () => {
+        alert('Order placed successfully!');
+
+      };
+      
 
     return (
         <div className='min-h-screen flex flex-col'>
@@ -171,22 +179,16 @@ function Cart() {
                     <div className='lg:w-[70%] w-full h-auto flex flex-col gap-3'>
                         <div className='rounded-[5px] lg:h-[58px] h-auto border-2 border-[#EAEAEC] justify-between flex lg:flex-row flex-row lg:items-center items-start lg:py-0 py-3 lg:px-5 px-1 lg:gap-0 gap-3'>
                             <span className='lg:text-sm text-xs font-[400] font-montserrat text-left'>
-                                Deliver to:&nbsp;&nbsp;&nbsp;{cartItems[0]?.ledname || 'No delivery address'}
+                                Deliver to:&nbsp;&nbsp;&nbsp;
                             </span>
                             <span
                                 className='lg:w-[10%] w-[30%] h-[30px] border-2 border-[black] rounded-[3.51px] flex justify-center items-center lg:text-sm text-xs font-[400] font-montserrat cursor-pointer'
                                 onClick={addresspage}
                             >
-                                Change
-                            </span>
-                        </div>
-
-                        <div className='rounded-[5px] lg:h-[58px] h-auto border-2 border-[#EAEAEC] justify-between flex lg:flex-row flex-row lg:items-center items-start lg:py-0 py-3 lg:px-5 px-1 lg:gap-0 gap-3'>
-                            <span className='lg:text-sm text-xs font-[400] font-montserrat'>Available Offer:&nbsp;&nbsp;&nbsp;</span>
-                            <span className='lg:w-[10%] w-[30%] h-[30px] border-2 border-[black] rounded-[3.51px] flex justify-center items-center lg:text-sm text-xs font-[400] font-montserrat cursor-pointer'>
                                 Add
                             </span>
                         </div>
+
 
                         {cartItems.length === 0 ? (
                             <div className="flex flex-col items-center justify-center h-[300px] bg-gray-100 rounded-md shadow-md p-6">
@@ -253,7 +255,7 @@ function Cart() {
                         </div>
 
                         <div className='rounded-[5px] h-[100px] border-2 border-[#EAEAEC] justify-end lg:flex hidden items-center lg:px-5 px-1'>
-                            <div className='h-[50px] w-[30%] bg-[black] rounded-[5px] flex justify-center items-center text-base font-[500] font-montserrat text-[white] cursor-pointer'>
+                            <div className='h-[50px] w-[30%] bg-[black] rounded-[5px] flex justify-center items-center text-base font-[500] font-montserrat text-[white] cursor-pointer' onClick={handlePlaceOrder}>
                                 Place Order
                             </div>
                         </div>

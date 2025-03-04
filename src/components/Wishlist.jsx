@@ -9,6 +9,8 @@ import FooterMob from '../components/FooterMob'
 import Footer from '../components/Footer'
 import product1 from '../images/Home/product2.png'
 import { useSelector } from 'react-redux';
+import heart from '../images/Home/delete.png'
+
 
 
 
@@ -41,7 +43,19 @@ function Wishlist() {
             }
         };
         fetchWishlist();
-    }, [LedCode,apiBaseUrl,userId]);
+    }, [LedCode, apiBaseUrl, userId]);
+
+    const deleteWishlistItem = async (id) => {
+        try {
+            const response = await axios.delete(`${apiBaseUrl}/wishlist/delete/BLACKBATON_ERP24/${id}`);
+            if (response.data.success) {
+                setWishlistItems(prevItems => prevItems.filter(item => item.ID !== id));
+            }
+        } catch (error) {
+            console.error("Error deleting wishlist item:", error);
+        }
+    };
+    
 
 
     const location = useLocation();
@@ -51,7 +65,7 @@ function Wishlist() {
     console.log("filtered:", filtered);
     const navigate = useNavigate();
 
-  
+
 
     const fullimage = (id, itemName) => {
         navigate('/fullimage', { state: { id, itemName } });
@@ -80,7 +94,7 @@ function Wishlist() {
                     </div>
 
                     <div className='md:flex flex-row gap-2 items-center mt-3 hidden '>
-                        
+
                         <span className='text-3xl font-[800] font-montserrat text-[black]'>Wishlist</span>
 
                     </div>
@@ -102,18 +116,31 @@ function Wishlist() {
                                         onError={(e) => { e.target.onerror = null; e.target.src = product1; }}
                                         className='mix-blend-multiply w-full h-full'
                                     />
-      
+
+                                    <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-2 flex justify-end'>
+                                        <div
+                                            className='lg:w-[33px] w-[23px] lg:h-[33px] h-[23px] rounded-full bg-[white] flex justify-center items-center cursor-pointer'
+                                            onClick={(e) => {
+                                                e.stopPropagation(); // Prevents full image navigation
+                                                deleteWishlistItem(item.ID);
+                                            }}
+                                        >
+                                            <img src={heart} alt="delete" />
+                                        </div>
+                                    </div>
+
+
 
                                 </div>
                                 <div className='flex justify-between w-full'>
                                     <div className='flex flex-col gap-1 w-full'>
                                         <span className='lg:text-base text-xs font-[600] font-montserrat text-left'>{item.ItemName}</span>
-                                       
+
 
                                     </div>
                                     <div className='flex flex-col gap-1 items-end'>
                                         <div className='lg:w-[84px] lg:h-[37px] w-[70px] h-[30px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
-                                        ₹{item.MRP}
+                                            ₹{item.MRP}
                                         </div>
                                         <span className="text-sm font-montserrat lg:flex hidden text-nowrap">
                                             Offer Price:
@@ -130,7 +157,7 @@ function Wishlist() {
 
                                 </div>
                             </div>
-                   ))}
+                        ))}
 
                     </div>
                 </div>

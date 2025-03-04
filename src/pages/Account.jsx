@@ -80,7 +80,7 @@ function Account() {
                                     My orders
                                 </span>
                             </div>
-                            <div className={`w-full flex px-6 py-3 flex-row gap-4  items-center cursor-pointer ${activeComponent === "wishlist"
+                            {/* <div className={`w-full flex px-6 py-3 flex-row gap-4  items-center cursor-pointer ${activeComponent === "wishlist"
                                 ? "bg-[#F6F6F6] border-l-4 border-[black]"
                                 : ""
                                 }`}
@@ -92,7 +92,7 @@ function Account() {
                                 >
                                     Wishlist
                                 </span>
-                            </div>
+                            </div> */}
                             <div
                                 className={`w-full flex px-6 py-3 flex-row gap-4 items-center cursor-pointer ${activeComponent === "info"
                                     ? "bg-[#F6F6F6] border-l-4 border-[black]"
