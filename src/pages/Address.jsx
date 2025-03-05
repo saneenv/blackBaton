@@ -1,12 +1,22 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { useMediaQuery } from 'react-responsive'
 import NavbarMob from '../components/NavbarMob';
 import Navbar from '../components/Navbar';
 import FooterMob from '../components/FooterMob';
 import Footer from '../components/Footer';
+import AddressChange from '../components/AddressChange';
 
 function Address() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+    const [showAddressChange, setShowAddressChange] = useState(false);
+
+    const handleAddNewAddressClick = () => {
+        setShowAddressChange(true); // Show the AddressChange component
+    };
+
+    const handleCloseAddressChange = () => {
+        setShowAddressChange(false); // Hide the AddressChange component
+    };
 
     return (
         <div className='min-h-screen flex flex-col '>
@@ -25,7 +35,7 @@ function Address() {
                 </div>
                 <div className='w-full flex lg:flex-row flex-col gap-8 lg:pb-12 pb-6'>
                     <div className='lg:w-[70%] w-full  h-auto flex flex-col gap-3'>
-                        <div className='rounded-[5px] h-auto lg:px-5 px-1 py-5 border-2 border-[#EAEAEC] justify-between flex flex-col lg:gap-6 gap-3'>
+                        {/* <div className='rounded-[5px] h-auto lg:px-5 px-1 py-5 border-2 border-[#EAEAEC] justify-between flex flex-col lg:gap-6 gap-3'>
                             <div className='flex justify-between items-center'>
                                 <div className='flex flex-row lg:gap-4 gap-2 items-center'>
                                     <div className='w-[20px] h-[20px] rounded-full border-4 border-[black]'>
@@ -52,19 +62,21 @@ function Address() {
                                 <div className='h-[33px] p-3 flex justify-center items-center border-2 border-[black] text-sm font-[400] font-montserrat'>Edit</div>
 
                             </div>
-                        </div>
+                        </div> */}
 
 
-                        <div className='rounded-[5px] h-[60px] border-2 border-[#EAEAEC] justify-between lg:flex hidden items-center lg:px-5 px-1'>
+                        <div className='rounded-[5px] h-[60px] border-2 border-[#EAEAEC] justify-between lg:flex hidden items-center lg:px-5 px-1 cursor-pointer' onClick={handleAddNewAddressClick} >
                             <span className='text-sm font-[400] font-montserrat'>+ Add New Address
                             </span>
 
                         </div>
-                        <div className='rounded-[5px] h-[60px] border-2 border-[#EAEAEC] bg-[black] justify-center items-center lg:hidden flex text-sm font-[600] font-montserrat text-[white] lg:px-5 px-1'>
+                        <div className='rounded-[5px] h-[60px] border-2 border-[#EAEAEC] bg-[black] justify-center items-center lg:hidden flex text-sm font-[600] font-montserrat text-[white] lg:px-5 px-1' onClick={handleAddNewAddressClick}>
                             CHANGE OR ADD NEW ADDRESS
 
                         </div>
-
+                         {/* Conditionally Render AddressChange Component */}
+                         {showAddressChange && <AddressChange onClose={handleCloseAddressChange} />}
+                    
                     </div>
 
 
@@ -104,11 +116,13 @@ function Address() {
                     </div>
 
                 </div>
+                
             </div>
             <div className='lg:flex hidden'>
                 {isMobile ? <FooterMob /> : <Footer />}
 
             </div>
+            
         </div>
     )
 }

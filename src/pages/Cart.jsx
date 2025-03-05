@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import NavbarMob from '../components/NavbarMob';
 import Navbar from '../components/Navbar';
 import FooterMob from '../components/FooterMob';
@@ -14,6 +16,7 @@ function Cart() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [productDetails, setProductDetails] = useState({}); // To store color and size for each uniqueCode
+    const [hasAddress, setHasAddress] = useState(false);
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const apiLocalUrl = process.env.REACT_APP_API_LOCAL_URL;
@@ -151,7 +154,7 @@ function Cart() {
         navigate('/wishlist')
     }
 
-    
+
 
     // if (loading) {
     //     return <div>Loading...</div>;
@@ -162,10 +165,13 @@ function Cart() {
     }
 
     const handlePlaceOrder = () => {
+        if (!hasAddress) {
+            toast.error('Please add an address to continue');
+            return;
+        }
         alert('Order placed successfully!');
+    };
 
-      };
-      
 
     return (
         <div className='min-h-screen flex flex-col'>
@@ -182,7 +188,8 @@ function Cart() {
                                 Deliver to:&nbsp;&nbsp;&nbsp;
                             </span>
                             <span
-                                className='lg:w-[10%] w-[30%] h-[30px] border-2 border-[black] rounded-[3.51px] flex justify-center items-center lg:text-sm text-xs font-[400] font-montserrat cursor-pointer'
+                                className={`lg:w-[10%] w-[30%] h-[30px] border-2 ${!hasAddress ? 'border-[red]' : 'border-[black]'
+                                    } rounded-[3.51px] flex justify-center items-center lg:text-sm text-xs font-[400] font-montserrat cursor-pointer`}
                                 onClick={addresspage}
                             >
                                 Add
@@ -296,6 +303,7 @@ function Cart() {
                 </div>
             </div>
             <div className='lg:flex hidden'>{isMobile ? <FooterMob /> : <Footer />}</div>
+            <ToastContainer position="top-right" autoClose={3000} />
         </div>
     );
 }
