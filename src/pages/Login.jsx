@@ -86,6 +86,15 @@ function Login() {
 
             const userData = response.data;
 
+             // Store user id in sessionStorage
+             sessionStorage.setItem('loginId', userData.id);
+
+             // Store user name in sessionStorage
+             sessionStorage.setItem('loginName', userData.full_name);
+             sessionStorage.setItem('loginEmail', userData.email);
+             sessionStorage.setItem('LedCode', userData.id);
+
+
             dispatch(setUser({ id: userData.id, rememberMe }));
 
             alert('Google Sign-In successful!');

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Navbar from '../components/Navbar'
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import banner1 from '../images/Home/banner1.png'
 import bannermob from '../images/Home/bannermob.png'
 import line from '../images/Home/line.png'
-// import cart from '../images/Home/cart.png'
 import product1 from '../images/Home/product2.png'
 import heart from '../images/Home/heart.png'
 import filledHeart from '../images/Home/heart2.png';
@@ -35,6 +34,16 @@ function Home() {
     const [disablePrev, setDisablePrev] = useState(true); // Disable "<" button initially
     const [loginId, setLoginId] = useState(null);
     const [wishlistItems, setWishlistItems] = useState([]);
+
+    const shopByCategoryRef = useRef(null);
+
+     // Function to handle the "Shop Now" button click
+     const handleShopNowClick = () => {
+        if (shopByCategoryRef.current) {
+            shopByCategoryRef.current.scrollIntoView({ behavior: 'smooth' }); // Smooth scroll to the target div
+        }
+    };
+
 
     console.log(loginId);
 
@@ -103,7 +112,7 @@ function Home() {
     
         if (!activeUserId) {
             console.error("No valid user ID found.");
-            alert("User ID is missing.");
+            alert("Please Login First to Continue.");
             return;
         }
     
@@ -260,9 +269,9 @@ function Home() {
                     </span>
                 </div>
             </div>
-            <div className='w-full h-auto lg:px-12 px-3 lg:gap-12 gap-6 lg:pt-12 pt-6 flex flex-col'>
-                <div className='flex flex-col gap-2 mt-3'>
-                    <div className='flex flex-row justify-between w-full'>
+            <div className='w-full h-auto lg:px-12 px-3 lg:gap-12 gap-6 lg:pt-12 pt-6 flex flex-col' ref={shopByCategoryRef}>
+                <div className='flex flex-col gap-2 mt-3' >
+                    <div className='flex flex-row justify-between w-full' >
                         <div className='flex flex-row gap-4  items-center'>
                             <img src={line} alt="line" />
                             <span className='lg:text-xl text-base font-[600] font-montserrat'>Shop By Category</span>
@@ -545,7 +554,7 @@ function Home() {
                         <span className='lg:text-3xl text-2xl font-[600] font-montserrat'>WE ELEVATE YOUR<br /> PERFORMANCE IN STYLE!</span>
                         <span className='lg:text-lg text-xs font-[400] font-montserrat'>"Combining cutting-edge design with ultimate<br /> comfort,
                             our sportswear keeps you moving,<br /> looking, and feeling your best—every step of the<br /> way."</span>
-                        <span className='lg:w-[168px] w-[93px] lg:h-[46px] h-[30px] bg-[black] flex justify-center items-center text-[white] rounded-[8px] font-[600] lg:text-lg text-xs font-montserrat '>Shop Now</span>
+                        <span className='lg:w-[168px] w-[93px] lg:h-[46px] h-[30px] bg-[black] flex justify-center items-center text-[white] rounded-[8px] font-[600] lg:text-lg text-xs font-montserrat cursor-pointer' onClick={handleShopNowClick}>Shop Now</span>
                     </div>
                     <div className='lg:w-[50%] w-full  h-full lg:px-0 px-3'>
                         <img src={combined} alt="combined" className='w-full h-full' />

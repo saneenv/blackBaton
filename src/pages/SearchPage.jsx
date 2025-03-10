@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
-// import { useNavigate } from 'react-router-dom'
 import { useMediaQuery } from 'react-responsive'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useSelector } from "react-redux";
-// import axios from 'axios';
 import NavbarMob from '../components/NavbarMob'
 import Navbar from '../components/Navbar'
 import FooterMob from '../components/FooterMob'
@@ -12,7 +10,6 @@ import filter from '../images/Products/filter.png'
 import product1 from '../images/Home/product2.png'
 import heart from '../images/Home/heart.png'
 import filledHeart from '../images/Home/heart2.png';
-// import cart from '../images/Home/cart.png'
 import forward from '../images/Products/forwardpng.png'
 import top from '../images/Products/top.png'
 import Filter from '../components/Filter'
@@ -31,10 +28,6 @@ function SearchPage() {
     const userId = useSelector((state) => state.user.id);
     console.log('Logged in User ID:', userId);
 
-    // const navigate = useNavigate();
-    // const home = () => {
-    //     navigate('/')
-    // }
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -51,6 +44,9 @@ function SearchPage() {
     const location = useLocation();
     const [selectedItemName, setSelectedItemName] = useState('');
     console.log(selectedItemName);
+    const [categories, setCategories] = useState([]);
+    const [subCategories, setSubCategories] = useState([]);
+
 
 
     const { filtered } = location.state || {};
@@ -63,21 +59,6 @@ function SearchPage() {
     const [products, setProducts] = useState([]);
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const apiLocalUrl = process.env.REACT_APP_API_LOCAL_URL;
-
-
-    // Fetch product data from the API
-    // useEffect(() => {
-    //     const fetchProducts = async () => {
-    //         try {
-    //             const response = await axios.get(`${apiBaseUrl}/getProductByFilter/BLACKBATON_ERP24?filter=${encodeURIComponent(filtered)}}`);
-    //             setProducts(response.data); // Set the fetched products to state
-    //         } catch (error) {
-    //             console.error('Error fetching products:', error);
-    //         }
-    //     };
-
-    //     fetchProducts();
-    // }, [apiBaseUrl,filtered]);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -191,6 +172,35 @@ function SearchPage() {
         }
     };
 
+    // Fetch categories from the API
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch(`${apiBaseUrl}/getCategories/BLACKBATON_ERP24`);
+                const data = await response.json();
+                setCategories(data); // Set the fetched categories to state
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        fetchCategories();
+    }, [apiBaseUrl]);
+
+    useEffect(() => {
+        const fetchSubCategories = async () => {
+            try {
+                const response = await fetch(`${apiBaseUrl}/getSubCategories/BLACKBATON_ERP24`);
+                const data = await response.json();
+                setSubCategories(data); // Set the fetched categories to state
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        fetchSubCategories();
+    }, [apiBaseUrl]);
+
 
 
     const toggleFilter = () => {
@@ -240,12 +250,7 @@ function SearchPage() {
 
             <div className='w-full h-auto lg:px-12 px-3 py-6 flex flex-col lg:gap-12 gap-6 lg:mt-[175px] md:mt-[175px] mt-[120px] pb-12' >
                 <div className='flex justify-end items-center'>
-                    {/* <div className='flex flex-row gap-2 items-center'>
-                        <span className='lg:text-base text-xs font-[500] font-montserrat text-[#828282] cursor-pointer' onClick={home}>Home</span>
-                        <span className='text-[#828282]'>{">"}</span>
-                        <span className='lg:text-base text-xs font-[400] font-montserrat text-[#3C4242]'>{categoryName}</span>
-                    </div> */}
-
+  
                     {!showFilter && (
                         <img src={filter} alt="filter" onClick={toggleFilter} className='cursor-pointer lg:flex hidden' />
                     )}
@@ -261,45 +266,14 @@ function SearchPage() {
                                 <img src={filter} alt="filter" onClick={closeFilter} className='cursor-pointer' />
 
                             </div>
-                            <div className='flex flex-col border-b-2 border-[#BEBCBD] p-5  items-center gap-2'>
-                                <div className='flex w-full justify-between items-center'>
-                                    <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Tops</span>
-                                    <img src={forward} alt="forward" />
-                                </div>
-                                <div className='flex w-full justify-between items-center'>
-                                    <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Printed T-shirts</span>
-                                    <img src={forward} alt="forward" />
-                                </div>
-                                <div className='flex w-full justify-between items-center'>
-                                    <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Plain T-shirts</span>
-                                    <img src={forward} alt="forward" />
-                                </div>
-                                <div className='flex w-full justify-between items-center'>
-                                    <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Kurti</span>
-                                    <img src={forward} alt="forward" />
-                                </div>
-                                <div className='flex w-full justify-between items-center'>
-                                    <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Boxers</span>
-                                    <img src={forward} alt="forward" />
-                                </div>
-                                <div className='flex w-full justify-between items-center'>
-                                    <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Full sleeve T-shirts</span>
-                                    <img src={forward} alt="forward" />
-                                </div>
-                                <div className='flex w-full justify-between items-center'>
-                                    <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Joggers</span>
-                                    <img src={forward} alt="forward" />
-                                </div>
-                                <div className='flex w-full justify-between items-center'>
-                                    <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Payjamas</span>
-                                    <img src={forward} alt="forward" />
-                                </div>
-                                <div className='flex w-full justify-between items-center'>
-                                    <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Jeans</span>
-                                    <img src={forward} alt="forward" />
-                                </div>
+                            <div className='flex flex-col border-b-2 border-[#BEBCBD] p-5 items-center gap-2'>
+                                {categories.map((category) => (
+                                    <div key={category.Id} className='flex w-full justify-between items-center'>
+                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>{category.Name}</span>
+                                        <img src={forward} alt="forward" />
+                                    </div>
+                                ))}
                             </div>
-
                             <div className="flex justify-between border-b-2 border-[#BEBCBD] p-5 items-center cursor-pointer" onClick={togglePrice}>
                                 <span className="text-[#807D7E] text-xl font-[600] font-montserrat">Price</span>
                                 <img src={top} alt="top" className={`transform transition-transform duration-300 ${isPriceExpanded ? 'rotate-180' : ''
@@ -429,8 +403,6 @@ function SearchPage() {
                                 </div>
                             )}
 
-
-
                             <div className="flex justify-between border-b-2 border-[#BEBCBD] p-5 items-center cursor-pointer" onClick={toggleSize}>
                                 <span className="text-[#807D7E] text-xl font-[600] font-montserrat">Size</span>
                                 <img src={top} alt="top" className={`transform transition-transform duration-300 ${isSizeExpanded ? 'rotate-180' : ''
@@ -497,70 +469,12 @@ function SearchPage() {
 
                             {isDressExpanded && (
                                 <div className='flex flex-col  p-5  items-center gap-2'>
-                                    <div className='flex w-full justify-between items-center'>
-                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>T-shirts</span>
+                                      {subCategories.map((subCategory) => (
+                                    <div key={subCategory.Id} className='flex w-full justify-between items-center'>
+                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>{subCategory.Name}</span>
                                         <img src={forward} alt="forward" />
                                     </div>
-                                    <div className='flex w-full justify-between items-center'>
-                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Pants</span>
-                                        <img src={forward} alt="forward" />
-                                    </div>
-                                    <div className='flex w-full justify-between items-center'>
-                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Shorts</span>
-                                        <img src={forward} alt="forward" />
-                                    </div>
-                                    <div className='flex w-full justify-between items-center'>
-                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Bermuda Shorts</span>
-                                        <img src={forward} alt="forward" />
-                                    </div>
-                                    <div className='flex w-full justify-between items-center'>
-                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Gym Wear</span>
-                                        <img src={forward} alt="forward" />
-                                    </div>
-                                    <div className='flex w-full justify-between items-center'>
-                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Full sleeve T-shirts</span>
-                                        <img src={forward} alt="forward" />
-                                    </div>
-                                    <div className='flex w-full justify-between items-center'>
-                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Jackets</span>
-                                        <img src={forward} alt="forward" />
-                                    </div>
-                                    <div className='flex w-full justify-between items-center'>
-                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Sleeveless</span>
-                                        <img src={forward} alt="forward" />
-                                    </div>
-                                    <div className='flex w-full justify-between items-center'>
-                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Swimming Suits</span>
-                                        <img src={forward} alt="forward" />
-                                    </div>
-                                    <div className='flex w-full justify-between items-center'>
-                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Boxers</span>
-                                        <img src={forward} alt="forward" />
-                                    </div>
-                                    <div className='flex w-full justify-between items-center'>
-                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Sliders</span>
-                                        <img src={forward} alt="forward" />
-                                    </div>
-                                    <div className='flex w-full justify-between items-center'>
-                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Water Bottle & Shaker</span>
-                                        <img src={forward} alt="forward" />
-                                    </div>
-                                    <div className='flex w-full justify-between items-center'>
-                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Cut T-shirts</span>
-                                        <img src={forward} alt="forward" />
-                                    </div>
-                                    <div className='flex w-full justify-between items-center'>
-                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Polo T-shirts</span>
-                                        <img src={forward} alt="forward" />
-                                    </div>
-                                    <div className='flex w-full justify-between items-center'>
-                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Hoodies</span>
-                                        <img src={forward} alt="forward" />
-                                    </div>
-                                    <div className='flex w-full justify-between items-center'>
-                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>Socks</span>
-                                        <img src={forward} alt="forward" />
-                                    </div>
+                                ))}
                                 </div>
                             )}
                         </div>

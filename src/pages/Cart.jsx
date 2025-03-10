@@ -15,8 +15,10 @@ function Cart() {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [address, setAddress] = useState(null);
     const [productDetails, setProductDetails] = useState({}); // To store color and size for each uniqueCode
     const [hasAddress, setHasAddress] = useState(false);
+    
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const apiLocalUrl = process.env.REACT_APP_API_LOCAL_URL;
@@ -146,6 +148,27 @@ function Cart() {
         }
     };
 
+    useEffect(() => {
+        const fetchAddress = async () => {
+            try {
+                const ledCodeOrUserId = LedCode || userId;
+                console.log("Fetching Cart Items for:", ledCodeOrUserId);
+                const response = await fetch(`${apiBaseUrl}/user/getAddresses/${ledCodeOrUserId}`);
+                const data = await response.json();
+
+                if (data.success && data.data.length > 0) {
+                    // Get only active addresses
+                    const activeAddress = data.data.find(addr => addr.isActive);
+                    setAddress(activeAddress || null);
+                }
+            } catch (error) {
+                console.error('Error fetching address:', error);
+            }
+        };
+
+        fetchAddress();
+    }, [LedCode, apiBaseUrl, userId]);
+
     const addresspage = () => {
         navigate('/address');
     };
@@ -165,18 +188,19 @@ function Cart() {
     }
 
     const handlePlaceOrder = () => {
-        if (!hasAddress) {
+        if (!address) {
             toast.error('Please add an address to continue');
             return;
         }
-        alert('Order placed successfully!');
+        toast.success('Order placed successfully!');
     };
+    
 
 
     return (
         <div className='min-h-screen flex flex-col'>
             {isMobile ? <NavbarMob /> : <Navbar />}
-            <div className='h-[56px] bg-[black] justify-center lg:hidden flex items-center fixed bottom-0 left-0 w-full text-base font-[600] font-montserrat text-[white]'>
+            <div className='h-[56px] bg-[black] justify-center lg:hidden flex items-center fixed bottom-0 left-0 w-full text-base font-[600] font-montserrat text-[white]' onClick={handlePlaceOrder}>
                 Place Order
             </div>
             <div className='w-full h-auto lg:px-12 px-3 py-6 flex flex-col lg:gap-12 gap-6 lg:mt-[175px] mt-[120px] lg:pb-12 pb-6'>
@@ -186,15 +210,17 @@ function Cart() {
                         <div className='rounded-[5px] lg:h-[58px] h-auto border-2 border-[#EAEAEC] justify-between flex lg:flex-row flex-row lg:items-center items-start lg:py-0 py-3 lg:px-5 px-1 lg:gap-0 gap-3'>
                             <span className='lg:text-sm text-xs font-[400] font-montserrat text-left'>
                                 Deliver to:&nbsp;&nbsp;&nbsp;
+                                {address ? `${address.name}, ${address.address}, ${address.city}` : 'No address Selected'}
                             </span>
                             <span
-                                className={`lg:w-[10%] w-[30%] h-[30px] border-2 ${!hasAddress ? 'border-[red]' : 'border-[black]'
+                                className={`lg:w-[10%] w-[30%] h-[30px] border-2 ${!address ? 'border-[red]' : 'border-[black]'
                                     } rounded-[3.51px] flex justify-center items-center lg:text-sm text-xs font-[400] font-montserrat cursor-pointer`}
                                 onClick={addresspage}
                             >
                                 Add
                             </span>
                         </div>
+
 
 
                         {cartItems.length === 0 ? (
