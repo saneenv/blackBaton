@@ -223,10 +223,10 @@ function Products() {
                         <span className='lg:text-base text-xs font-[400] font-montserrat text-[#3C4242]'>{categoryName}</span>
                     </div>
 
-                    {!showFilter && (
+                    {/* {!showFilter && (
                         <img src={filter} alt="filter" onClick={toggleFilter} className='cursor-pointer lg:flex hidden' />
                     )}
-                    <img src={filter} alt="filter" className='cursor-pointer lg:hidden flex' onClick={handleFilterClick} />
+                    <img src={filter} alt="filter" className='cursor-pointer lg:hidden flex' onClick={handleFilterClick} /> */}
 
                 </div>
 

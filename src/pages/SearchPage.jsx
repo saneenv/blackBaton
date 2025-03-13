@@ -18,7 +18,10 @@ import Filter from '../components/Filter'
 function SearchPage() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const isTab = useMediaQuery({ query: '(max-width: 1024px)' });
+    const [colors, setColors] = useState([]);
+    const [sizes, setSizes] = useState([]);
     const [loginId, setLoginId] = useState(null);
+
     useEffect(() => {
         // Get userId from sessionStorage
         const storedLoginId = sessionStorage.getItem('loginId');
@@ -46,7 +49,9 @@ function SearchPage() {
     console.log(selectedItemName);
     const [categories, setCategories] = useState([]);
     const [subCategories, setSubCategories] = useState([]);
-
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [selectedColor, setSelectedColor] = useState(null);
+    const [selectedSize, setSelectedSize] = useState(null);
 
 
     const { filtered } = location.state || {};
@@ -78,15 +83,6 @@ function SearchPage() {
     }, [apiBaseUrl, filtered]);
 
 
-    const handleMinChange = (e) => {
-        const value = Math.min(Number(e.target.value), maxPrice - 10); // Ensure min < max
-        setMinPrice(value);
-    };
-
-    const handleMaxChange = (e) => {
-        const value = Math.max(Number(e.target.value), minPrice + 10); // Ensure max > min
-        setMaxPrice(value);
-    };
 
     const addToWishlist = async (product) => {
         const apiUrl = `${apiBaseUrl}/wishlist/add/BLACKBATON_ERP24`;
@@ -201,7 +197,109 @@ function SearchPage() {
         fetchSubCategories();
     }, [apiBaseUrl]);
 
+    useEffect(() => {
+        const fetchColorSizeData = async () => {
+            try {
+                const response = await fetch(`${apiBaseUrl}/getAllColorSize/BLACKBATON_ERP24`);
+                const data = await response.json();
 
+                // Extract unique colors and sizes
+                const uniqueColors = [...new Set(data.map(item => item.Color))];
+                const uniqueSizes = [...new Set(data.map(item => item.Size))];
+
+                setColors(uniqueColors);
+                setSizes(uniqueSizes);
+            } catch (error) {
+                console.error('Error fetching color and size data:', error);
+            }
+        };
+
+        fetchColorSizeData();
+    }, [apiBaseUrl]);
+
+    const handleSubCategoryClick = async (subCategoryId) => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/getProductBySubCategory/BLACKBATON_ERP24?Id=${subCategoryId}`);
+            const data = await response.json();
+            setProducts(data); // Update the products state with the fetched data
+        } catch (error) {
+            console.error('Error fetching products by subcategory:', error);
+        }
+    };
+
+    const handleCategoryClick = async (categoryId) => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/getProductByCategory/BLACKBATON_ERP24?Id=${categoryId}`);
+            const data = await response.json();
+            setProducts(data); // Update the products state with the fetched data
+        } catch (error) {
+            console.error('Error fetching products by category:', error);
+        }
+    };
+
+    const handleColorClick = async (color) => {
+        setSelectedColor(color); // Update selected color state
+        try {
+            // Fetch ItemId for the selected color
+            const response = await fetch(`${apiBaseUrl}/getAllColorSize/BLACKBATON_ERP24`);
+            const data = await response.json();
+            const filteredItems = data.filter(item => item.Color === color); // Filter by selected color
+            const itemIds = filteredItems.map(item => item.ItemId); // Extract ItemIds
+    
+            // Fetch products for the filtered ItemIds
+            const productPromises = itemIds.map(itemId =>
+                fetch(`${apiBaseUrl}/getProductById/BLACKBATON_ERP24?Id=${itemId}`)
+                    .then(res => res.json())
+            );
+            const products = await Promise.all(productPromises);
+            setProducts(products.flat()); // Update products state
+        } catch (error) {
+            console.error('Error fetching products by color:', error);
+        }
+    };
+
+    const handleSizeClick = async (size) => {
+        setSelectedSize(size); // Update selected size state
+        try {
+            // Fetch ItemId for the selected size
+            const response = await fetch(`${apiBaseUrl}/getAllColorSize/BLACKBATON_ERP24`);
+            const data = await response.json();
+            const filteredItems = data.filter(item => item.Size === size); // Filter by selected size
+            const itemIds = filteredItems.map(item => item.ItemId); // Extract ItemIds
+    
+            // Fetch products for the filtered ItemIds
+            const productPromises = itemIds.map(itemId =>
+                fetch(`${apiBaseUrl}/getProductById/BLACKBATON_ERP24?Id=${itemId}`)
+                    .then(res => res.json())
+            );
+            const products = await Promise.all(productPromises);
+            setProducts(products.flat()); // Update products state
+        } catch (error) {
+            console.error('Error fetching products by size:', error);
+        }
+    };
+
+    useEffect(() => {
+        // Filter products based on the price range
+        const filtered = products.filter(
+            (product) => product.MRP >= minPrice && product.MRP <= maxPrice
+        );
+        setFilteredProducts(filtered); // Update the filtered products state
+    }, [products, minPrice, maxPrice]); // Re-run when products, minPrice, or maxPrice changes
+    
+    useEffect(() => {
+        setFilteredProducts(products); // Initialize filteredProducts with all products
+    }, [products]);
+
+    const handleMinChange = (e) => {
+        const value = Math.min(Number(e.target.value), maxPrice - 10); // Ensure min < max
+        setMinPrice(value);
+    };
+    
+    const handleMaxChange = (e) => {
+        const value = Math.max(Number(e.target.value), minPrice + 10); // Ensure max > min
+        setMaxPrice(value);
+    };
 
     const toggleFilter = () => {
         setShowFilter(!showFilter);
@@ -250,7 +348,7 @@ function SearchPage() {
 
             <div className='w-full h-auto lg:px-12 px-3 py-6 flex flex-col lg:gap-12 gap-6 lg:mt-[175px] md:mt-[175px] mt-[120px] pb-12' >
                 <div className='flex justify-end items-center'>
-  
+
                     {!showFilter && (
                         <img src={filter} alt="filter" onClick={toggleFilter} className='cursor-pointer lg:flex hidden' />
                     )}
@@ -267,9 +365,13 @@ function SearchPage() {
 
                             </div>
                             <div className='flex flex-col border-b-2 border-[#BEBCBD] p-5 items-center gap-2'>
-                                {categories.map((category) => (
-                                    <div key={category.Id} className='flex w-full justify-between items-center'>
-                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>{category.Name}</span>
+                                {subCategories.map((subCategory) => (
+                                    <div
+                                        key={subCategory.Id}
+                                        className='flex w-full justify-between items-center cursor-pointer text-[#8A8989] hover:bg-[#e0dede] hover:text-[black]'
+                                        onClick={() => handleSubCategoryClick(subCategory.Id)} // Add onClick handler
+                                    >
+                                        <span className=' font-[400] text-base font-montserrat'>{subCategory.Name}</span>
                                         <img src={forward} alt="forward" />
                                     </div>
                                 ))}
@@ -345,60 +447,15 @@ function SearchPage() {
                             {isColorsExpanded && (
                                 <div className="flex flex-col items-center border-b-2 border-[#BEBCBD] px-5 py-8 gap-4">
                                     <div className='grid grid-cols-4 gap-4'>
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[#8434E1] border-2 border-[#F4F1F1]'></div>
-                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Purple</span>
-                                        </div>
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[black] border-2 border-[#F4F1F1]'></div>
-                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Black</span>
-                                        </div>
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[red] border-2 border-[#F4F1F1]'></div>
-                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Red</span>
-                                        </div>
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[orange] border-2 border-[#F4F1F1]'></div>
-                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Orange</span>
-                                        </div>
-
-
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[navy] border-2 border-[#F4F1F1]'></div>
-                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Navy</span>
-                                        </div>
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[white] border-2 border-[#F4F1F1]'></div>
-                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>White</span>
-                                        </div>
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[#D67E3B] border-2 border-[#F4F1F1]'></div>
-                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Broom</span>
-                                        </div>
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[green] border-2 border-[#F4F1F1]'></div>
-                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Green</span>
-                                        </div>
-
-
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[yellow] border-2 border-[#F4F1F1]'></div>
-                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Yellow</span>
-                                        </div>
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[gray] border-2 border-[#F4F1F1]'></div>
-                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Gray</span>
-                                        </div>
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[pink] border-2 border-[#F4F1F1]'></div>
-                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Pink</span>
-                                        </div>
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[37px] h-[37px] rounded-[12px] bg-[blue] border-2 border-[#F4F1F1]'></div>
-                                            <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>Blue</span>
-                                        </div>
-
-
+                                        {colors.map((color, index) => (
+                                            <div key={index} className='flex flex-col gap-2 items-center cursor-pointer ' onClick={() => handleColorClick(color)}>
+                                                <div
+                                                    className='w-[37px] h-[37px] rounded-[12px] border-2 border-[#F4F1F1]'
+                                                    style={{ backgroundColor: color.toLowerCase() }} // Set background color dynamically
+                                                ></div>
+                                                <span className='text-[#8A8989] text-sm font-[400] font-montserrat'>{color}</span>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             )}
@@ -412,55 +469,16 @@ function SearchPage() {
                             {isSizeExpanded && (
                                 <div className="flex flex-col items-center border-b-2 border-[#BEBCBD] px-5 py-8 gap-4">
                                     <div className='grid grid-cols-3 gap-4'>
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
-                                                XXS
+                                        {sizes.map((size, index) => (
+                                            <div key={index} className='flex flex-col gap-2 items-center cursor-pointer' onClick={() => handleSizeClick(size)}>
+                                                <div className='w-[61px] h-[32px] rounded-[12px] border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
+                                                    {size}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
-                                                XL
-                                            </div>                                    </div>
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
-                                                XS
-                                            </div>                                    </div>
-
-
-
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
-                                                S
-                                            </div>                                    </div>
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
-                                                M
-                                            </div>                                    </div>
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
-                                                L
-                                            </div>                                    </div>
-
-
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
-                                                XXL
-                                            </div>                                    </div>
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
-                                                3XL
-                                            </div>                                    </div>
-                                        <div className='flex flex-col gap-2 items-center'>
-                                            <div className='w-[61px] h-[32px] rounded-[12px]  border-2 border-[#BEBCBD] flex justify-center items-center font-[600] text-sm font-montserrat'>
-                                                4XL
-                                            </div>                                    </div>
-
-
-
+                                        ))}
                                     </div>
                                 </div>
                             )}
-
                             <div className="flex justify-between border-b-2 border-[#BEBCBD] p-5 items-center cursor-pointer" onClick={toggleDress}>
                                 <span className="text-[#807D7E] text-xl font-[600] font-montserrat">Dress Style</span>
                                 <img src={top} alt="top" className={`transform transition-transform duration-300 ${isDressExpanded ? 'rotate-180' : ''
@@ -468,22 +486,23 @@ function SearchPage() {
                             </div>
 
                             {isDressExpanded && (
-                                <div className='flex flex-col  p-5  items-center gap-2'>
-                                      {subCategories.map((subCategory) => (
-                                    <div key={subCategory.Id} className='flex w-full justify-between items-center'>
-                                        <span className='text-[#8A8989] font-[400] text-base font-montserrat'>{subCategory.Name}</span>
-                                        <img src={forward} alt="forward" />
-                                    </div>
-                                ))}
+                                <div className='flex flex-col p-5 items-center gap-2'>
+                                    {categories.map((category) => (
+                                        <div
+                                            key={category.Id}
+                                            className='flex w-full justify-between items-center cursor-pointer text-[#8A8989] hover:bg-[#e0dede] hover:text-[black]'
+                                            onClick={() => handleCategoryClick(category.Id)} // Add onClick handler
+                                        >
+                                            <span className=' font-[400] text-base font-montserrat'>{category.Name}</span>
+                                            <img src={forward} alt="forward" />
+                                        </div>
+                                    ))}
                                 </div>
                             )}
                         </div>
                     )}
-                    <div
-                        className={`grid w-full gap-5 ${showFilter ? "lg:grid-cols-3 grid-cols-2" : "lg:grid-cols-4 md:grid-cols-3 grid-cols-2"
-                            }`}
-                    >
-                        {products.map((product) => (
+                    <div className={`grid w-full gap-5 ${showFilter ? "lg:grid-cols-3 grid-cols-2" : "lg:grid-cols-4 md:grid-cols-3 grid-cols-2"}`}>
+                    {filteredProducts.map((product) => (
                             <div key={product.ID} className='flex flex-col gap-2 cursor-pointer' onClick={() => fullimage(product.ID, product.ItemName)}>
                                 <div className='lg:h-[382px] md:h-[300px] h-[200px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                     <img
@@ -512,16 +531,10 @@ function SearchPage() {
                                             />
                                         </div>
                                     </div>
-
                                 </div>
                                 <div className='flex justify-between w-full'>
                                     <div className='flex flex-col gap-1 w-full'>
                                         <span className='lg:text-base text-xs font-[600] font-montserrat text-left'>{product.ItemName}</span>
-                                        {/* <div className='lg:w-[110px] lg:h-[35px] w-full h-[30px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                            <img src={cart} alt="cart" />
-                                            <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                        </div> */}
-
                                     </div>
                                     <div className='flex flex-col gap-1 items-end'>
                                         <div className='lg:w-[84px] lg:h-[37px] w-[70px] h-[30px] rounded-[8px] bg-[#F6F6F6] flex justify-center items-center text-sm font-[700] font-montserrat'>
@@ -533,17 +546,13 @@ function SearchPage() {
                                             <span className="text-red-600 font-bold ml-1">₹0</span>
                                         </span>
                                         <span className="text-sm font-montserrat lg:hidden flex text-nowrap">
-
                                             <span className="line-through text-gray-500 ml-1">₹{product.MRP}</span>
                                             <span className="text-red-600 font-bold ml-1">₹0</span>
                                         </span>
                                     </div>
-
-
                                 </div>
                             </div>
                         ))}
-
                     </div>
                 </div>
 
