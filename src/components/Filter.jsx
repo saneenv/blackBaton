@@ -1,237 +1,156 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-function Filter({ closeFilterMob }) {
+function Filter({ closeFilterMob, onApply }) {
     const [selectedCategory, setSelectedCategory] = useState(''); // Track selected category
+    const [categories, setCategories] = useState([]);
+    const [subCategories, setSubCategories] = useState([]);
+    const [colors, setColors] = useState([]);
+    const [sizes, setSizes] = useState([]);
+    const [selectedSubCategories, setSelectedSubCategories] = useState([]);
+    const [selectedPriceRange, setSelectedPriceRange] = useState(null);
+
+
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch(`${apiBaseUrl}/getCategories/BLACKBATON_ERP24`);
+                const data = await response.json();
+                setCategories(data); // Set the fetched categories to state
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        fetchCategories();
+    }, [apiBaseUrl]);
+
+    useEffect(() => {
+        const fetchSubCategories = async () => {
+            try {
+                const response = await fetch(`${apiBaseUrl}/getSubCategories/BLACKBATON_ERP24`);
+                const data = await response.json();
+                setSubCategories(data); // Set the fetched categories to state
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        fetchSubCategories();
+    }, [apiBaseUrl]);
+
+    useEffect(() => {
+        const fetchColorSizeData = async () => {
+            try {
+                const response = await fetch(`${apiBaseUrl}/getAllColorSize/BLACKBATON_ERP24`);
+                const data = await response.json();
+
+                // Extract unique colors and sizes
+                const uniqueColors = [...new Set(data.map(item => item.Color))];
+                const uniqueSizes = [...new Set(data.map(item => item.Size))];
+
+                setColors(uniqueColors);
+                setSizes(uniqueSizes);
+            } catch (error) {
+                console.error('Error fetching color and size data:', error);
+            }
+        };
+
+        fetchColorSizeData();
+    }, [apiBaseUrl]);
+
+    // Handle checkbox change for subcategories
+    const handleSubCategoryChange = (subCategoryId) => {
+        setSelectedSubCategories((prevSelected) =>
+            prevSelected === subCategoryId ? null : subCategoryId // Toggle selection
+        );
+    };
+
+    // Handle checkbox change for price ranges
+    const handlePriceRangeChange = (priceRange) => {
+        setSelectedPriceRange(priceRange); // Set the selected price range
+    };
+    // Inside Filter component
+
+    const handleApply = () => {
+        const filters = {
+            subCategory: selectedSubCategories, // Pass the selected subcategory
+            priceRange: selectedPriceRange, // Pass the selected price range
+        };
+        onApply(filters); // Pass both filters to the parent component
+        closeFilterMob(); // Close the filter modal
+    };
 
     const contentMap = {
         Related: (
             <div className='w-full h-full flex flex-col gap-4 justify-start items-start p-5 '>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Tops</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Printed T-shirts</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Plain T-shirts</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Kurti</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Boxers</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Full sleeve T-shirts</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Joggers</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Payjamas</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Jeans</span>
-                </div>
+                {subCategories.map((subCategory) => (
+                    <div key={subCategory.Id} className='flex flex-row gap-3 items-center'>
+                        <input
+                            type="checkbox"
+                            checked={selectedSubCategories === subCategory.Id} // Check if this subcategory is selected
+                            onChange={() => handleSubCategoryChange(subCategory.Id)}
+                        />
+                        <span className='text-base font-[500] font-montserrat'>{subCategory.Name}</span>
+                    </div>
+                ))}
+
             </div>
         ),
         Price: (
             <div className='w-full h-full flex flex-col gap-4 justify-start items-start p-5 '>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Rs. 299 and Below</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Rs. 300 - Rs. 499</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Rs. 500 - Rs. 699</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Rs. 700 - Rs. 999</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Rs. 1000 - Rs. 1499</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Rs. 1500 and above</span>
-                </div>
-
+                {[
+                    { label: 'Rs. 299 and Below', minPrice: 0, maxPrice: 299 },
+                    { label: 'Rs. 300 - Rs. 499', minPrice: 300, maxPrice: 499 },
+                    { label: 'Rs. 500 - Rs. 699', minPrice: 500, maxPrice: 699 },
+                    { label: 'Rs. 700 - Rs. 999', minPrice: 700, maxPrice: 999 },
+                    { label: 'Rs. 1000 - Rs. 1499', minPrice: 1000, maxPrice: 1499 },
+                    { label: 'Rs. 1500 and above', minPrice: 1500, maxPrice: 5000 },
+                ].map((range, index) => (
+                    <div key={index} className='flex flex-row gap-3 items-center'>
+                        <input
+                            type="checkbox"
+                            checked={selectedPriceRange?.label === range.label} // Check if this price range is selected
+                            onChange={() => handlePriceRangeChange(range)}
+                        />
+                        <span className='text-base font-[500] font-montserrat'>{range.label}</span>
+                    </div>
+                ))}
             </div>
         ),
         Colors: (
             <div className='w-full h-full flex flex-col gap-4 justify-start items-start p-5 '>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Purple</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Black</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Red</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Orange</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Navy</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>White</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Broom</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Green</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Yellow</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Gray</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Pink</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Blue</span>
-                </div>
+                {colors.map((color, index) => (
+                    <div key={index} className='flex flex-row gap-3 items-center'>
+                        <input type="checkbox" />
+                        <span className='text-base font-[500] font-montserrat'>{color}</span>
+                    </div>
+                ))}
+
             </div>
         ),
         Size: (
             <div className='w-full h-full flex flex-col gap-4 justify-start items-start p-5 '>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>XXS</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>XL</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>XS</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>S</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>M</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>L</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>XXL</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>3XL</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>4XL</span>
-                </div>
+                {sizes.map((size, index) => (
+                    <div key={index} className='flex flex-row gap-3 items-center'>
+                        <input type="checkbox" />
+                        <span className='text-base font-[500] font-montserrat'>{size}</span>
+                    </div>
+                ))}
+
             </div>
         ),
         'Dress Style': (
             <div className='w-full h-full flex flex-col gap-4 justify-start items-start p-5 '>
+                {categories.map((category) => (
+                    <div key={category.Id} className='flex flex-row gap-3 items-center' >
+                        <input type="checkbox" />
+                        <span className='text-base font-[500] font-montserrat'>{category.Name}</span>
+                    </div>
+                ))}
 
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>T-shirts</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Pants</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Shorts</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Bermuda Shorts</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Gym Wear</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Full Sleeve T-shirts</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Jackets</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Sleeveless</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Swimming Suits</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Boxers</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Sliders</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Water Bottle and Shaker</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Cut T-shirts</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Polo T-shirts</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Hoodies</span>
-                </div>
-                <div className='flex flex-row gap-3 items-center'>
-                    <input type="checkbox" />
-                    <span className='text-base font-[500] font-montserrat'>Socks</span>
-                </div>
             </div>
         ),
     };
@@ -253,24 +172,31 @@ function Filter({ closeFilterMob }) {
                     </div>
                 ))}
             </div>
-            <div className='w-[70%] h-full relative'>
-                {contentMap[selectedCategory] || (
-                    <div className='w-full h-full flex items-center justify-center'>
-                        <span className='text-lg font-[500] font-montserrat'>Select a filter category</span>
+            <div className='w-[70%] h-full flex flex-col'>
+                {/* Close Button */}
+                <div className='w-full flex justify-end p-3'>
+                    <div
+                        className='w-[25px] h-[25px] rounded-lg flex justify-center items-center bg-[red] text-white font-[600] text-lg cursor-pointer'
+                        onClick={closeFilterMob}
+                    >
+                        X
                     </div>
-                )}
-                <div className='absolute top-0 left-0 flex w-full h-full flex-col '>
-                    <div className='w-full h-1/2  flex justify-end items-start p-3'>
-                       <div className='w-[25px] h-[25px] rounded-lg flex justify-center items-center bg-[red] text-white font-[600] text-lg' onClick={closeFilterMob}>
-                       X
-                       </div>
-                    </div>
-                    <div className='w-full h-1/2  flex items-end justify-center py-2'>
-                       <div className='w-[150px] h-[45px] bg-[gray] rounded-[12px] flex justify-center items-center text-white text-lg font-[700] font-montserrat'>
-                          Apply
-                       </div>
-                    </div>
+                </div>
 
+                {/* Filter Content */}
+                <div className='flex-1 overflow-y-auto'>
+                    {contentMap[selectedCategory] || (
+                        <div className='w-full h-full flex items-center justify-center'>
+                            <span className='text-lg font-[500] font-montserrat'>Select a filter category</span>
+                        </div>
+                    )}
+                </div>
+
+                {/* Apply Button */}
+                <div className='w-full flex justify-center py-2'>
+                    <div className='w-[150px] h-[45px] bg-[gray] rounded-[12px] flex justify-center items-center text-white text-lg font-[700] font-montserrat cursor-pointer' onClick={handleApply}>
+                        Apply
+                    </div>
                 </div>
             </div>
         </div>

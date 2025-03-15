@@ -58,8 +58,6 @@ function SearchPage() {
     console.log("filtered:", filtered);
     const navigate = useNavigate();
 
-
-
     const [wishlistItems, setWishlistItems] = useState([]);
     const [products, setProducts] = useState([]);
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -227,6 +225,14 @@ function SearchPage() {
         }
     };
 
+    // // Function to handle subcategory selection from Filter component
+    // const handleApplySubCategories = (selectedSubCategories) => {
+    //     if (selectedSubCategories.length > 0) {
+    //         // Fetch products for the first selected subcategory (or handle multiple subcategories as needed)
+    //         handleSubCategoryClick(selectedSubCategories[0]);
+    //     }
+    // };
+
     const handleCategoryClick = async (categoryId) => {
         try {
             const response = await fetch(`${apiBaseUrl}/getProductByCategory/BLACKBATON_ERP24?Id=${categoryId}`);
@@ -245,7 +251,7 @@ function SearchPage() {
             const data = await response.json();
             const filteredItems = data.filter(item => item.Color === color); // Filter by selected color
             const itemIds = filteredItems.map(item => item.ItemId); // Extract ItemIds
-    
+
             // Fetch products for the filtered ItemIds
             const productPromises = itemIds.map(itemId =>
                 fetch(`${apiBaseUrl}/getProductById/BLACKBATON_ERP24?Id=${itemId}`)
@@ -266,7 +272,7 @@ function SearchPage() {
             const data = await response.json();
             const filteredItems = data.filter(item => item.Size === size); // Filter by selected size
             const itemIds = filteredItems.map(item => item.ItemId); // Extract ItemIds
-    
+
             // Fetch products for the filtered ItemIds
             const productPromises = itemIds.map(itemId =>
                 fetch(`${apiBaseUrl}/getProductById/BLACKBATON_ERP24?Id=${itemId}`)
@@ -280,25 +286,52 @@ function SearchPage() {
     };
 
     useEffect(() => {
-        // Filter products based on the price range
-        const filtered = products.filter(
-            (product) => product.MRP >= minPrice && product.MRP <= maxPrice
-        );
-        setFilteredProducts(filtered); // Update the filtered products state
-    }, [products, minPrice, maxPrice]); // Re-run when products, minPrice, or maxPrice changes
-    
+        console.log("Fetched Products:", products); // Log the products array
+        if (Array.isArray(products)) {
+            const filtered = products.filter(
+                (product) => product.MRP >= minPrice && product.MRP <= maxPrice
+            );
+            setFilteredProducts(filtered); // Update the filtered products state
+            console.log("Filtered Products:", filtered); // Log the filtered products
+        } else {
+            console.error("Products is not an array:", products);
+            setFilteredProducts([]); // Set filteredProducts to an empty array if products is invalid
+        }
+    }, [products, minPrice, maxPrice]);
+
+
     useEffect(() => {
-        setFilteredProducts(products); // Initialize filteredProducts with all products
+        // Initialize filteredProducts with all products when products change
+        if (Array.isArray(products)) {
+            setFilteredProducts(products);
+        } else {
+            console.error("Products is not an array:", products);
+            setFilteredProducts([]); // Set filteredProducts to an empty array if products is invalid
+        }
     }, [products]);
+
 
     const handleMinChange = (e) => {
         const value = Math.min(Number(e.target.value), maxPrice - 10); // Ensure min < max
         setMinPrice(value);
     };
-    
+
     const handleMaxChange = (e) => {
         const value = Math.max(Number(e.target.value), minPrice + 10); // Ensure max > min
         setMaxPrice(value);
+    };
+    // Combined handler for both subcategory and price range filters
+    const handleApplyFilters = (filters) => {
+        if (filters.subCategory) {
+            // Handle subcategory filter
+            handleSubCategoryClick(filters.subCategory);
+        }
+        if (filters.priceRange) {
+            // Handle price range filter
+            setMinPrice(filters.priceRange.minPrice);
+            setMaxPrice(filters.priceRange.maxPrice);
+        }
+        console.log("Selected Price Range:", filters.priceRange);
     };
 
     const toggleFilter = () => {
@@ -502,7 +535,7 @@ function SearchPage() {
                         </div>
                     )}
                     <div className={`grid w-full gap-5 ${showFilter ? "lg:grid-cols-3 grid-cols-2" : "lg:grid-cols-4 md:grid-cols-3 grid-cols-2"}`}>
-                    {filteredProducts.map((product) => (
+                        {filteredProducts.map((product) => (
                             <div key={product.ID} className='flex flex-col gap-2 cursor-pointer' onClick={() => fullimage(product.ID, product.ItemName)}>
                                 <div className='lg:h-[382px] md:h-[300px] h-[200px] rounded-[12px] bg-[#EEEEEE] flex items-center justify-center relative'>
                                     <img
@@ -559,7 +592,13 @@ function SearchPage() {
             </div>
 
 
-            {showFilterMob && <Filter closeFilterMob={closeFilterMob} />}
+            {showFilterMob && (
+                <Filter
+                    closeFilterMob={closeFilterMob}
+                    onApply={handleApplyFilters} // Pass the handler function
+                />
+            )}
+
             {isTab ? <FooterMob /> : <Footer />}
         </div >
 
