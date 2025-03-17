@@ -119,7 +119,7 @@ function Wishlist() {
 
                                     <div className='absolute top-0 left-0 w-full h-full lg:p-6 p-2 flex justify-end'>
                                         <div
-                                            className='lg:w-[33px] w-[23px] lg:h-[33px] h-[23px] rounded-full bg-[white] flex justify-center items-center cursor-pointer'
+                                            className='lg:w-[33px] w-[23px] lg:h-[33px] h-[23px] rounded-full bg-[white] hover:bg-[red] flex justify-center items-center cursor-pointer'
                                             onClick={(e) => {
                                                 e.stopPropagation(); // Prevents full image navigation
                                                 deleteWishlistItem(item.ID);

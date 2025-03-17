@@ -8,6 +8,10 @@ function Filter({ closeFilterMob, onApply }) {
     const [sizes, setSizes] = useState([]);
     const [selectedSubCategories, setSelectedSubCategories] = useState([]);
     const [selectedPriceRange, setSelectedPriceRange] = useState(null);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedColors, setSelectedColors] = useState([]);
+    const [selectedSizes, setSelectedSizes] = useState([]);
+
 
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -68,20 +72,48 @@ function Filter({ closeFilterMob, onApply }) {
         );
     };
 
+    const handleCategoryChange = (categoryId) => {
+        setSelectedCategories((prevSelected) =>
+            prevSelected === categoryId ? null : categoryId // Toggle selection
+        );
+    };
+
     // Handle checkbox change for price ranges
     const handlePriceRangeChange = (priceRange) => {
         setSelectedPriceRange(priceRange); // Set the selected price range
     };
-    // Inside Filter component
+
+    const handleColorChange = (color) => {
+        setSelectedColors((prevSelected) =>
+            prevSelected.includes(color)
+                ? [] // Deselect if already selected
+                : [color] // Select only this color
+        );
+    };
+    
+    const handleSizeChange = (size) => {
+        setSelectedSizes((prevSelected) =>
+            prevSelected.includes(size)
+                ? [] // Deselect if already selected
+                : [size] // Select only this size
+        );
+    };
 
     const handleApply = () => {
         const filters = {
-            subCategory: selectedSubCategories, // Pass the selected subcategory
-            priceRange: selectedPriceRange, // Pass the selected price range
+            subCategory: selectedSubCategories,
+            priceRange: selectedPriceRange ? { 
+                minPrice: selectedPriceRange.minPrice, 
+                maxPrice: selectedPriceRange.maxPrice 
+            } : null,
+            category: selectedCategories,
+            size: selectedSizes,
+            color: selectedColors,
         };
-        onApply(filters); // Pass both filters to the parent component
+        onApply(filters); // Pass filters to the parent component
         closeFilterMob(); // Close the filter modal
     };
+
 
     const contentMap = {
         Related: (
@@ -124,32 +156,43 @@ function Filter({ closeFilterMob, onApply }) {
             <div className='w-full h-full flex flex-col gap-4 justify-start items-start p-5 '>
                 {colors.map((color, index) => (
                     <div key={index} className='flex flex-row gap-3 items-center'>
-                        <input type="checkbox" />
+                        <input
+                            type="checkbox"
+                            checked={selectedColors.includes(color)} // Check if color is selected
+                            onChange={() => handleColorChange(color)}
+                        />
                         <span className='text-base font-[500] font-montserrat'>{color}</span>
                     </div>
                 ))}
-
             </div>
         ),
         Size: (
             <div className='w-full h-full flex flex-col gap-4 justify-start items-start p-5 '>
                 {sizes.map((size, index) => (
                     <div key={index} className='flex flex-row gap-3 items-center'>
-                        <input type="checkbox" />
+                        <input
+                            type="checkbox"
+                            checked={selectedSizes.includes(size)} // Check if size is selected
+                            onChange={() => handleSizeChange(size)}
+                        />
                         <span className='text-base font-[500] font-montserrat'>{size}</span>
                     </div>
                 ))}
-
             </div>
         ),
         'Dress Style': (
             <div className='w-full h-full flex flex-col gap-4 justify-start items-start p-5 '>
                 {categories.map((category) => (
                     <div key={category.Id} className='flex flex-row gap-3 items-center' >
-                        <input type="checkbox" />
+                        <input type="checkbox"
+                            checked={selectedCategories === category.Id} // Check if this subcategory is selected
+                            onChange={() => handleCategoryChange(category.Id)}
+                        />
                         <span className='text-base font-[500] font-montserrat'>{category.Name}</span>
                     </div>
                 ))}
+
+
 
             </div>
         ),

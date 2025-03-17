@@ -7,6 +7,7 @@ import Navbar from '../components/Navbar'
 import FooterMob from '../components/FooterMob'
 import Footer from '../components/Footer'
 import filter from '../images/Products/filter.png'
+import refreshimg from '../images/Products/refresh.png'
 import product1 from '../images/Home/product2.png'
 import heart from '../images/Home/heart.png'
 import filledHeart from '../images/Home/heart2.png';
@@ -66,14 +67,31 @@ function SearchPage() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch(`${apiBaseUrl}/getProductByFilter/BLACKBATON_ERP24?filter=${encodeURIComponent(filtered)}`);
+                const response = await fetch(
+                    `${apiBaseUrl}/getProductByFilter/BLACKBATON_ERP24?filter=${encodeURIComponent(filtered)}`
+                );
+
+                // Check if the response is OK (status code 200-299)
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+
+                // Parse the response as JSON
                 const data = await response.json();
-                setProducts(data);
-                if (data.length > 0) {
-                    setSelectedItemName(data[0].ItemName); // Set the selected item name from the first product
+
+                // Validate that the response is an array
+                if (Array.isArray(data)) {
+                    setProducts(data); // Set products if the response is valid
+                    if (data.length > 0) {
+                        setSelectedItemName(data[0].ItemName); // Set the selected item name
+                    }
+                } else {
+                    console.error("API response is not an array:", data);
+                    setProducts([]); // Set products to an empty array if the response is invalid
                 }
             } catch (error) {
                 console.error('Error fetching products:', error);
+                setProducts([]); // Set products to an empty array if an error occurs
             }
         };
 
@@ -225,14 +243,6 @@ function SearchPage() {
         }
     };
 
-    // // Function to handle subcategory selection from Filter component
-    // const handleApplySubCategories = (selectedSubCategories) => {
-    //     if (selectedSubCategories.length > 0) {
-    //         // Fetch products for the first selected subcategory (or handle multiple subcategories as needed)
-    //         handleSubCategoryClick(selectedSubCategories[0]);
-    //     }
-    // };
-
     const handleCategoryClick = async (categoryId) => {
         try {
             const response = await fetch(`${apiBaseUrl}/getProductByCategory/BLACKBATON_ERP24?Id=${categoryId}`);
@@ -243,13 +253,13 @@ function SearchPage() {
         }
     };
 
-    const handleColorClick = async (color) => {
-        setSelectedColor(color); // Update selected color state
+    const handleColorClick = async (colors) => {
+        setSelectedColor(colors); // Update selected color state
         try {
-            // Fetch ItemId for the selected color
+            // Fetch ItemId for the selected colors
             const response = await fetch(`${apiBaseUrl}/getAllColorSize/BLACKBATON_ERP24`);
             const data = await response.json();
-            const filteredItems = data.filter(item => item.Color === color); // Filter by selected color
+            const filteredItems = data.filter(item => colors.includes(item.Color)); // Filter by selected colors
             const itemIds = filteredItems.map(item => item.ItemId); // Extract ItemIds
 
             // Fetch products for the filtered ItemIds
@@ -264,13 +274,13 @@ function SearchPage() {
         }
     };
 
-    const handleSizeClick = async (size) => {
-        setSelectedSize(size); // Update selected size state
+    const handleSizeClick = async (sizes) => {
+        setSelectedSize(sizes); // Update selected size state
         try {
-            // Fetch ItemId for the selected size
+            // Fetch ItemId for the selected sizes
             const response = await fetch(`${apiBaseUrl}/getAllColorSize/BLACKBATON_ERP24`);
             const data = await response.json();
-            const filteredItems = data.filter(item => item.Size === size); // Filter by selected size
+            const filteredItems = data.filter(item => sizes.includes(item.Size)); // Filter by selected sizes
             const itemIds = filteredItems.map(item => item.ItemId); // Extract ItemIds
 
             // Fetch products for the filtered ItemIds
@@ -286,13 +296,14 @@ function SearchPage() {
     };
 
     useEffect(() => {
-        console.log("Fetched Products:", products); // Log the products array
+        console.log("Fetched Products:", products);
+
         if (Array.isArray(products)) {
-            const filtered = products.filter(
+            let filtered = products.filter(
                 (product) => product.MRP >= minPrice && product.MRP <= maxPrice
             );
-            setFilteredProducts(filtered); // Update the filtered products state
-            console.log("Filtered Products:", filtered); // Log the filtered products
+            setFilteredProducts(filtered); // Update filtered products
+            console.log("Filtered Products check:", filtered);
         } else {
             console.error("Products is not an array:", products);
             setFilteredProducts([]); // Set filteredProducts to an empty array if products is invalid
@@ -323,17 +334,27 @@ function SearchPage() {
     // Combined handler for both subcategory and price range filters
     const handleApplyFilters = (filters) => {
         if (filters.subCategory) {
-            // Handle subcategory filter
             handleSubCategoryClick(filters.subCategory);
         }
+
+        if (filters.category) {
+            handleCategoryClick(filters.category);
+        }
+        if (filters.color) {
+            filters.color.forEach(color => handleColorClick(color));
+        }
+        if (filters.size) {
+            filters.size.forEach(size => handleSizeClick(size));
+        }
+
+        // Handle price range filter
         if (filters.priceRange) {
-            // Handle price range filter
             setMinPrice(filters.priceRange.minPrice);
             setMaxPrice(filters.priceRange.maxPrice);
         }
-        console.log("Selected Price Range:", filters.priceRange);
-    };
 
+        console.log("Selected Filters:", filters);
+    };
     const toggleFilter = () => {
         setShowFilter(!showFilter);
     };
@@ -373,6 +394,10 @@ function SearchPage() {
         navigate('/fullimage', { state: { id, itemName } });
     };
 
+    const refresh = () => {
+       window.location.reload()
+    };
+
 
 
     return (
@@ -385,7 +410,15 @@ function SearchPage() {
                     {!showFilter && (
                         <img src={filter} alt="filter" onClick={toggleFilter} className='cursor-pointer lg:flex hidden' />
                     )}
-                    <img src={filter} alt="filter" className='cursor-pointer lg:hidden flex' onClick={handleFilterClick} />
+                    {showFilter && (
+                        <div className='h-[30px] w-[10%] rounded-[5px] bg-[black] text-base font-[600] font-montserrat text-[white] flex justify-center items-center cursor-pointer' onClick={refresh}>refresh</div>
+                    )}
+                    <div className='flex justify-between items-center lg:hidden w-full'>
+                    <img src={refreshimg} alt="refreshimg" className='cursor-pointer ' onClick={refresh} />
+
+                    <img src={filter} alt="filter" className='cursor-pointer ' onClick={handleFilterClick} />
+                    </div>
+
 
                 </div>
 

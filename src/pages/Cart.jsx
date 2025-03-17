@@ -187,15 +187,53 @@ function Cart() {
         return <div>Error: {error}</div>;
     }
 
-    const handlePlaceOrder = () => {
+    const handlePlaceOrder = async () => {
+        // Check if address is available
         if (!address) {
             toast.error('Please add an address to continue');
             return;
         }
-        toast.success('Order placed successfully!');
-    };
-    
+    const model = '';
+        // Format the items array manually as a string with escaped quotes
+        const itemsString = cartItems
+            .map(
+                (item) =>
+                    `{\\"id\\":${item.itemId},\\"name\\":\\"${item.itemName}\\",\\"model\\":\\"${model}\\",\\"dp\\":0,\\"mrp\\":${item.itemPrice},\\"quantity\\":${item.quantity},\\"uniqueCode\\":${item.uniqueCode}}`
+            )
+            .join(",");
 
+            const currentDate = new Date().toLocaleDateString("en-GB").split("/").reverse().join("-");
+
+            const requestBody = `{"date":"${currentDate}","id":"${LedCode}","contact":"${address.mobile}","items":"[${itemsString}]"}`;
+
+
+        console.log(requestBody);
+        
+    
+        try {
+            // Send the data to the API
+            const response = await fetch(`${apiBaseUrl}/orderAdd/BLACKBATON_ERP24`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: requestBody, // Stringify the entire request body
+            });
+    
+            if (!response.ok) {
+                throw new Error("Failed to place order");
+            }
+    
+            const result = await response.json();
+            console.log("Order placed successfully:", result);
+    
+            // Display success message
+            toast.success("Order placed successfully!");
+        } catch (error) {
+            console.error("Error placing order:", error);
+            toast.error("Failed to place order. Please try again.");
+        }
+    };
 
     return (
         <div className='min-h-screen flex flex-col'>
