@@ -56,6 +56,7 @@ function App() {
           <Route path='/verify' element={<Verify/>}/>
           <Route path='/forgotpass' element={<ForgotPass/>}/>
 
+
         </Routes>
       </BrowserRouter>
     </div>

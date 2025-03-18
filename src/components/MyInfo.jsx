@@ -1,15 +1,93 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import NavbarMob from './NavbarMob'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+
+
 
 function MyInfo() {
+    const [userData, setUserData] = useState({
+        full_name: '',
+        email: '',
+        password: ''
+    });
+    const [addresses, setAddresses] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [addressLoading, setAddressLoading] = useState(true); // Separate loading state for addresses
+    const [error, setError] = useState(null);
+    const [addressError, setAddressError] = useState(null);
     const navigate = useNavigate()
+    const userId = useSelector((state) => state.user.id);
+    const LedCode = sessionStorage.getItem('LedCode');
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get(`${apiBaseUrl}/user/getCustomerById/BLACKBATON_ERP24/${LedCode || userId}`);
+                if (response.data.success) {
+                    setUserData(response.data.data);
+                } else {
+                    setError('User not found');
+                }
+            } catch (err) {
+                setError('Error fetching user data');
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUserData();
+    }, [LedCode, userId, apiBaseUrl]);
+
+    // Fetch addresses
+    useEffect(() => {
+        const fetchAddresses = async () => {
+            try {
+                const response = await axios.get(`${apiBaseUrl}/user/getAddresses/${LedCode || userId}`);
+                if (response.data.success) {
+                    setAddresses(response.data.data); // Store fetched addresses
+                } else {
+                    setAddressError('No addresses found');
+                }
+            } catch (err) {
+                setAddressError('Error fetching addresses');
+                console.error(err);
+            } finally {
+                setAddressLoading(false);
+            }
+        };
+
+        fetchAddresses();
+    }, [LedCode, userId, apiBaseUrl]);
+
+
     const homePage = () => {
         navigate('/')
     }
     const accountPage = () => {
         navigate('/accountmob')
     }
+    const forgotpassword = () => {
+        navigate('/forgotpass')
+    }
+
+    const addresspage = () => {
+        navigate('/address')
+    }
+
+
+    if (loading || addressLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error || addressError) {
+        return <div>{error || addressError}</div>;
+    }
+
     return (
         <div className='w-full h-auto flex flex-col gap-4 text-start'>
             <div className='md:hidden flex'>
@@ -35,94 +113,56 @@ function MyInfo() {
                 <div className='w-full flex flex-col py-3 border-b-2 border-[#EDEEF2] gap-1 lg:mt-0 mt-3'>
                     <span className='lg:text-lg text-sm font-[700] font-montserrat'>Your Name</span>
                     <div className='flex justify-between items-center'>
-                        <span className='lg:text-lg text-sm font-[400] font-montserrat'>Gopu Ramesh</span>
-                        <span className='lg:text-lg text-sm font-[600] font-montserrat text-[#3C4242]'>Change</span>
+                        <span className='lg:text-lg text-sm font-[400] font-montserrat'>{userData.full_name}</span>
                     </div>
                 </div>
 
                 <div className='w-full flex flex-col py-3 border-b-2 border-[#EDEEF2] gap-1'>
                     <span className='lg:text-lg text-sm font-[700] font-montserrat'>Email Address</span>
                     <div className='flex justify-between items-center'>
-                        <span className='lg:text-lg text-sm font-[400] font-montserrat'>Gopuramesh@gmail.com</span>
-                        <span className='lg:text-lg text-sm font-[600] font-montserrat text-[#3C4242]'>Change</span>
+                        <span className='lg:text-lg text-sm font-[400] font-montserrat'>{userData.email}</span>
                     </div>
                 </div>
 
-                <div className='w-full flex flex-col py-3 border-b-2 border-[#EDEEF2] gap-1'>
-                    <span className='lg:text-lg text-sm font-[700] font-montserrat'>Phone Number</span>
-                    <div className='flex justify-between items-center'>
-                        <span className='lg:text-lg text-sm font-[400] font-montserrat'>9874561237</span>
-                        <span className='lg:text-lg text-sm font-[600] font-montserrat text-[#3C4242]'>Change</span>
-                    </div>
-                </div>
 
                 <div className='w-full flex flex-col py-3 border-b-2 border-[#EDEEF2] gap-1'>
                     <span className='lg:text-lg text-sm font-[700] font-montserrat'>Password</span>
                     <div className='flex justify-between items-center'>
-                        <span className='lg:text-lg text-sm font-[400] font-montserrat'>......</span>
-                        <span className='lg:text-lg text-sm font-[600] font-montserrat text-[#3C4242]'>Change</span>
+                        <span className='lg:text-lg text-sm font-[400] font-montserrat'>{userData.password}</span>
+                        <span className='lg:text-lg text-sm font-[600] font-montserrat text-[#3C4242] cursor-pointer' onClick={forgotpassword}>Change</span>
                     </div>
                 </div>
 
                 <div className='w-full flex flex-col py-3 lg:gap-12 gap-6'>
                     <div className='flex justify-between items-center'>
                         <span className='lg:text-lg text-sm font-[700] font-montserrat'>Address</span>
-                        <span className='lg:text-lg text-sm font-[600] font-montserrat text-[#3C4242]'>Add New</span>
+                        <span className='lg:text-lg text-sm font-[600] font-montserrat text-[#3C4242] cursor-pointer' onClick={addresspage}>Add New</span>
 
                     </div>
-                    <div className='flex w-full lg:flex-row flex-col items-center h-[270px] gap-4 '>
-                        <div className='lg:w-1/2 w-full h-full rounded-[12px] bg-[#F6F6F6] p-6 flex flex-col gap-3'>
-                            <span className='lg:text-xl text-base font-[600] font-montserrat'>Gopu Ramesh</span>
-                            <span className='text-sm font-[500] font-montserrat text-[#807D7E]'>9874563217</span>
-                            <span className='text-sm font-[500] font-montserrat text-[#807D7E]'>Akshya Nagar 1st Block 1st Cross, Rammurthy nagar, Bangalore-560016</span>
-                            <div className='flex flex-row h-[34px] gap-4'>
-                                <div className='h-full w-auto px-3 flex justify-center items-center rounded-[8px] border-2 border-[#909090] text-sm font-[600] font-montserrat text-[#807D7E]'>
-                                    Home
+                    <div className='flex w-full lg:flex-row flex-col items-center h-[300px] gap-4 '>
+                        {addresses.map((address, index) => (
+                            <div key={index} className='lg:w-1/2 w-full h-full rounded-[12px] bg-[#F6F6F6] p-6 flex flex-col gap-3'>
+                                <span className='lg:text-xl text-base font-[600] font-montserrat'>{address.name}</span>
+                                <span className='text-sm font-[500] font-montserrat text-[#807D7E]'>{address.mobile}</span>
+                                <span className='text-sm font-[500] font-montserrat text-[#807D7E]'>{address.address}, {address.locality}, {address.city}, {address.district} - {address.pincode}</span>
+                                <div className='flex flex-row h-[34px] gap-4'>
+                                    <div className='h-full w-auto px-3 flex justify-center items-center rounded-[8px] border-2 border-[#909090] text-sm font-[600] font-montserrat text-[#807D7E]'>
+                                    {address.addressType}
+                                    </div>
+                                    {address.isActive && (
+                                    <div className='h-full w-auto px-3 flex justify-center items-center rounded-[8px] border-2 border-[#909090] text-sm font-[600] font-montserrat text-[#807D7E]'>
+                                        Default billing address
+                                    </div>
+                                     )}
                                 </div>
-                                <div className='h-full w-auto px-3 flex justify-center items-center rounded-[8px] border-2 border-[#909090] text-sm font-[600] font-montserrat text-[#807D7E]'>
-                                    Default billing address
-                                </div>
-                            </div>
-                            <div className='lg:flex hidden'>
-                            <br />
+                                <div className='lg:flex hidden'>
+                                    <br />
 
+                                </div>
+                              
                             </div>
-                            <div className='flex flex-row '>
-                                <div className='h-full w-auto pr-2 flex  border-r-2 border-[#909090] text-sm font-[600] text-[#3C4242] font-montserrat'>
-                                    Remove
-                                </div>
-                                <div className='h-full w-auto pl-2 flex  text-sm font-[600] text-[#3C4242] font-montserrat'>
-                                    Edit
-                                </div>
-
-                            </div>
-                        </div>
-                        <div className='lg:w-1/2 w-full h-full rounded-[12px] bg-[#F6F6F6] p-6 flex flex-col gap-3'>
-                            <span className='text-xl font-[600] font-montserrat'>Gopu Ramesh</span>
-                            <span className='text-sm font-[500] font-montserrat text-[#807D7E]'>9874563217</span>
-                            <span className='text-sm font-[500] font-montserrat text-[#807D7E]'>Akshya Nagar 1st Block 1st Cross, Rammurthy nagar, Bangalore-560016</span>
-                            <div className='flex flex-row h-[34px] gap-4'>
-                                <div className='h-full w-auto px-3 flex justify-center items-center rounded-[8px] border-2 border-[#909090] text-sm font-[600] font-montserrat text-[#807D7E]'>
-                                    Home
-                                </div>
-                                <div className='h-full w-auto px-3 flex justify-center items-center rounded-[8px] border-2 border-[#909090] text-sm font-[600] font-montserrat text-[#807D7E]'>
-                                    Default billing address
-                                </div>
-                            </div>
-                            <div className='lg:flex hidden'>
-                            <br />
-
-                            </div>
-                            <div className='flex flex-row '>
-                                <div className='h-full w-auto pr-2 flex  border-r-2 border-[#909090] text-sm font-[600] text-[#3C4242] font-montserrat'>
-                                    Remove
-                                </div>
-                                <div className='h-full w-auto pl-2 flex  text-sm font-[600] text-[#3C4242] font-montserrat'>
-                                    Edit
-                                </div>
-
-                            </div>
-                        </div>
+                        ))}
+                     
                     </div>
 
                 </div>

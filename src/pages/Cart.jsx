@@ -8,6 +8,7 @@ import NavbarMob from '../components/NavbarMob';
 import Navbar from '../components/Navbar';
 import FooterMob from '../components/FooterMob';
 import Footer from '../components/Footer';
+import OrderSuccess from '../components/OrderSuccess';
 
 function Cart() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -18,7 +19,8 @@ function Cart() {
     const [address, setAddress] = useState(null);
     const [productDetails, setProductDetails] = useState({}); // To store color and size for each uniqueCode
     const [hasAddress, setHasAddress] = useState(false);
-    
+    const [orderPlaced, setOrderPlaced] = useState(false);
+
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const apiLocalUrl = process.env.REACT_APP_API_LOCAL_URL;
@@ -188,12 +190,18 @@ function Cart() {
     }
 
     const handlePlaceOrder = async () => {
+
+        if (cartItems.length === 0) {
+            toast.error('No items in cart');
+            return;
+        }
+
         // Check if address is available
         if (!address) {
             toast.error('Please add an address to continue');
             return;
         }
-    const model = '';
+        const model = '';
         // Format the items array manually as a string with escaped quotes
         const itemsString = cartItems
             .map(
@@ -202,14 +210,14 @@ function Cart() {
             )
             .join(",");
 
-            const currentDate = new Date().toLocaleDateString("en-GB").split("/").reverse().join("-");
+        const currentDate = new Date().toLocaleDateString("en-GB").split("/").reverse().join("-");
 
-            const requestBody = `{"date":"${currentDate}","id":"${LedCode}","contact":"${address.mobile}","items":"[${itemsString}]"}`;
+        const requestBody = `{"date":"${currentDate}","id":"${LedCode}","contact":"${address.mobile}","items":"[${itemsString}]"}`;
 
 
         console.log(requestBody);
-        
-    
+
+
         try {
             // Send the data to the API
             const response = await fetch(`${apiBaseUrl}/orderAdd/BLACKBATON_ERP24`, {
@@ -219,16 +227,32 @@ function Cart() {
                 },
                 body: requestBody, // Stringify the entire request body
             });
-    
+
             if (!response.ok) {
                 throw new Error("Failed to place order");
             }
-    
+
             const result = await response.json();
             console.log("Order placed successfully:", result);
-    
-            // Display success message
-            toast.success("Order placed successfully!");
+
+            // Clear the cart after successful order placement
+            const clearCartResponse = await fetch(`${apiBaseUrl}/cart/clear/BLACKBATON_ERP24/${LedCode || userId}`, {
+                method: "DELETE",
+            });
+
+            if (!clearCartResponse.ok) {
+                throw new Error("Failed to clear cart");
+            }
+
+            const clearCartResult = await clearCartResponse.json();
+            console.log("Cart cleared successfully:", clearCartResult);
+
+            // Update the UI by resetting the cart items
+            setCartItems([]);
+
+
+            // Set orderPlaced to true to show the OrderSuccess component
+            setOrderPlaced(true);
         } catch (error) {
             console.error("Error placing order:", error);
             toast.error("Failed to place order. Please try again.");
@@ -238,6 +262,12 @@ function Cart() {
     return (
         <div className='min-h-screen flex flex-col'>
             {isMobile ? <NavbarMob /> : <Navbar />}
+            {/* Order Success Modal */}
+            {orderPlaced && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <OrderSuccess onClose={() => setOrderPlaced(false)} />
+                </div>
+            )}
             <div className='h-[56px] bg-[black] justify-center lg:hidden flex items-center fixed bottom-0 left-0 w-full text-base font-[600] font-montserrat text-[white]' onClick={handlePlaceOrder}>
                 Place Order
             </div>

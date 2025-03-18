@@ -22,6 +22,7 @@ function Account() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
     const isTab = useMediaQuery({ query: '(max-width: 1024px)' });
     const dispatch = useDispatch();
+    const LedName = sessionStorage.getItem('loginName');
 
     const navigate = useNavigate();
     useEffect(() => {
@@ -59,7 +60,7 @@ function Account() {
                         <div className='flex flex-col gap-3'>
                             <div className='flex flex-row gap-2'>
                                 <img src={line} alt="line" />
-                                <span className='text-3xl font-[700] font-montserrat'>Hello Gopu</span>
+                                <span className='text-3xl font-[700] font-montserrat'>Hello {LedName}</span>
                             </div>
                             <span className='text-sm font-[400] text-[#807D7E] font-montserrat text-left'>Welcome to your Account</span>
                         </div>
