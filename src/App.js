@@ -23,6 +23,7 @@ import Verify from './pages/Verify';
 import { useDispatch } from 'react-redux';
 import { loadUserFromStorage } from './redux/Slices/UserSlice';
 import ForgotPass from './pages/ForgotPass';
+import Contact from './pages/Contact';
 
 
 function App() {
@@ -55,6 +56,9 @@ function App() {
           <Route path='/signup' element={<Signup/>}/>
           <Route path='/verify' element={<Verify/>}/>
           <Route path='/forgotpass' element={<ForgotPass/>}/>
+          <Route path='/contact' element={<Contact/>}/>
+
+
 
 
         </Routes>

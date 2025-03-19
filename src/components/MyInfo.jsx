@@ -14,7 +14,7 @@ function MyInfo() {
     });
     const [addresses, setAddresses] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [addressLoading, setAddressLoading] = useState(true); // Separate loading state for addresses
+    const [addressLoading, setAddressLoading] = useState(true); 
     const [error, setError] = useState(null);
     const [addressError, setAddressError] = useState(null);
     const navigate = useNavigate()
@@ -33,7 +33,7 @@ function MyInfo() {
                     setError('User not found');
                 }
             } catch (err) {
-                setError('Error fetching user data');
+                setError('Please Login First');
                 console.error(err);
             } finally {
                 setLoading(false);

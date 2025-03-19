@@ -17,13 +17,17 @@ function Footer() {
     const termsAndConditionsPage = () => {
         navigate('/termsconditions')
     }
+
+    const contactPage = () => {
+        navigate('/contact')
+    }
     return (
         <div className='w-full h-auto lg:px-12 px-3 py-12 bg-[black] flex flex-col gap-8'>
             <div className='flex flex-row gap-[8%]'>
                 <div className='flex flex-col gap-8'>
                     <span className='text-2xl font-[600] font-montserrat  text-left text-[#F6F6F6]'>Need Help</span>
                     <div className='flex flex-col gap-4'>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Contact Us</span>
+                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left cursor-pointer' onClick={contactPage}>Contact Us</span>
                         <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Track Order</span>
                         <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Returns & Refunds</span>
                         <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>FAQ's</span>
