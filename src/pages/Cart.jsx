@@ -261,97 +261,136 @@ function Cart() {
 
     const handlePlaceOrder = async () => {
         if (cartItems.length === 0) {
-          toast.error('No items in cart');
-          return;
+            toast.error("No items in cart");
+            return;
         }
-      
+    
         if (!address) {
-          toast.error('Please add an address to continue');
-          return;
+            toast.error("Please add an address to continue");
+            return;
         }
-      
+    
         // Calculate total amount
-        const totalAmount = cartItems.reduce((total, item) => total + item.itemPrice * item.quantity, 0);
-      
+        const totalAmount = cartItems.reduce(
+            (total, item) => total + item.itemPrice * item.quantity,
+            0
+        );
+    
         // Step 1: Create a Razorpay order on the backend
         try {
-          const response = await fetch(`http://192.168.0.104:8091/create-order`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              amount: totalAmount,
-              currency: 'INR',
-              receipt: `order_${Date.now()}`,
-            }),
-          });
-      
-          const order = await response.json();
-      
-          // Step 2: Open Razorpay payment modal
-          const options = {
-            key: 'rzp_test_yFv9DtyD8PIwRC', // Replace with your Razorpay key
-            amount: order.amount,
-            currency: order.currency,
-            order_id: order.id,
-            name: 'BLACK BATON',
-            description: 'Payment for your order',
-            handler: async (response) => {
-              // Step 3: Handle payment success
-              console.log('Payment successful:', response);
-              toast.success('Payment successful!');
-      
-              // Step 4: Place the order on your backend
-              try {
-                const placeOrderResponse = await fetch(`${apiBaseUrl}/orderAdd/BLACKBATON_ERP24`, {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({
-                    date: new Date().toISOString(),
-                    id: LedCode || userId,
+            const response = await fetch(`http://192.168.0.104:8091/create-order`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    amount: totalAmount,
+                    currency: "INR",
+                    receipt: `order_${Date.now()}`,
+                }),
+            });
+    
+            const order = await response.json();
+    
+            // Step 2: Open Razorpay payment modal
+            const options = {
+                key: "rzp_test_yFv9DtyD8PIwRC", // Replace with your Razorpay key
+                amount: order.amount,
+                currency: order.currency,
+                order_id: order.id,
+                name: "BLACK BATON",
+                description: "Payment for your order",
+                handler: async (response) => {
+                    console.log("Payment successful:", response);
+                    toast.success("Payment successful!");
+    
+                    // Proceed with order placement
+                    await placeOrder();
+                },
+                prefill: {
+                    name: address.name,
+                    email: address.email,
                     contact: address.mobile,
-                    items: cartItems.map((item) => ({
-                      id: item.itemId,
-                      name: item.itemName,
-                      price: item.itemPrice,
-                      quantity: item.quantity,
-                      uniqueCode: item.uniqueCode,
-                    })),
-                  }),
-                });
-      
-                if (!placeOrderResponse.ok) {
-                  throw new Error('Failed to place order');
-                }
-      
-                // Clear the cart
-                setCartItems([]);
-                setOrderPlaced(true);
-              } catch (error) {
-                console.error('Error placing order:', error);
-                toast.error('Failed to place order. Please try again.');
-              }
-            },
-            prefill: {
-              name: address.name,
-              email: address.email,
-              contact: address.mobile,
-            },
-            theme: {
-              color: '#F37254',
-            },
-          };
-      
-          const rzp = new window.Razorpay(options); // Use global Razorpay object
-          rzp.open();
+                },
+                theme: {
+                    color: "#F37254",
+                },
+            };
+    
+            const rzp = new window.Razorpay(options); // Use global Razorpay object
+            rzp.open();
+    
+            // Handle payment failure
+            rzp.on("payment.failed", async (response) => {
+                console.error("Payment failed:", response);
+                toast.error("Payment failed, but order will still be processed.");
+                
+                // Proceed with order placement despite payment failure
+                await placeOrder();
+            });
         } catch (error) {
-          console.error('Error creating Razorpay order:', error);
-          toast.error('Failed to initiate payment. Please try again.');
+            console.error("Error creating Razorpay order:", error);
+            toast.error("Failed to initiate payment. Please try again.");
         }
-      };
+    };
+    
+    // Function to place the order
+    const placeOrder = async () => {
+        const model = "";
+    
+        // Format the items array manually as a string with escaped quotes
+        const itemsString = cartItems
+            .map(
+                (item) =>
+                    `{\\"id\\":${item.itemId},\\"name\\":\\"${item.itemName}\\",\\"model\\":\\"${model}\\",\\"dp\\":0,\\"mrp\\":${item.itemPrice},\\"quantity\\":${item.quantity},\\"uniqueCode\\":${item.uniqueCode}}`
+            )
+            .join(",");
+    
+        const currentDate = new Date().toLocaleDateString("en-GB").split("/").reverse().join("-");
+        const requestBody = `{"date":"${currentDate}","id":"${LedCode}","contact":"${address.mobile}","items":"[${itemsString}]"}`;
+    
+        console.log(requestBody);
+    
+        try {
+            // Send the data to the API
+            const response = await fetch(`${apiBaseUrl}/orderAdd/BLACKBATON_ERP24`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: requestBody,
+            });
+    
+            if (!response.ok) {
+                throw new Error("Failed to place order");
+            }
+    
+            const result = await response.json();
+            console.log("Order placed successfully:", result);
+    
+            // Clear the cart after successful order placement
+            const clearCartResponse = await fetch(`${apiBaseUrl}/cart/clear/BLACKBATON_ERP24/${LedCode || userId}`, {
+                method: "DELETE",
+            });
+    
+            if (!clearCartResponse.ok) {
+                throw new Error("Failed to clear cart");
+            }
+    
+            const clearCartResult = await clearCartResponse.json();
+            console.log("Cart cleared successfully:", clearCartResult);
+    
+            // Update the UI by resetting the cart items
+            setCartItems([]);
+    
+            // Set orderPlaced to true to show the OrderSuccess component
+            setOrderPlaced(true);
+        } catch (error) {
+            console.error("Error placing order:", error);
+            toast.error("Failed to place order. Please try again.");
+        }
+    };
+    
 
     return (
         <div className='min-h-screen flex flex-col'>
