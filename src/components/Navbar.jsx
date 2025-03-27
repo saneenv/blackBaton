@@ -39,6 +39,10 @@ function Navbar() {
         navigate('/account');
     }
 
+    const dashboardpage = () => {
+        navigate('/dashboard');
+    }
+
     const homePage = () => {
         navigate('/')
         window.location.reload();
@@ -184,6 +188,7 @@ function Navbar() {
 
 
                 </div>
+                <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]' onClick={dashboardpage}>Dashboard</span>
                 <div className='flex flex-row lg:gap-12 gap-5'>
 
                     <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red] ' onClick={limitedsalesubcategorypage}>LIMITED SALE</span>

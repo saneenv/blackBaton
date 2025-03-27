@@ -24,6 +24,8 @@ function Cart() {
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const apiLocalUrl = process.env.REACT_APP_API_LOCAL_URL;
+    const apiRazorpayUrl = process.env.REACT_APP_API_RAZORPAY_URL;
+
 
     const userId = useSelector((state) => state.user.id);
     const LedCode = sessionStorage.getItem('LedCode');
@@ -278,7 +280,7 @@ function Cart() {
     
         // Step 1: Create a Razorpay order on the backend
         try {
-            const response = await fetch(`http://192.168.0.104:8091/create-order`, {
+            const response = await fetch(`${apiRazorpayUrl}/create-order`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
