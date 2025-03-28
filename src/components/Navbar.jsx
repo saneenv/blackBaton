@@ -10,6 +10,7 @@ import cart from '../images/Navbar/cart.png'
 import profile from '../images/Navbar/profile.png'
 import bars from '../images/Navbar/Bars.png'
 import logo from '../images/Navbar/logo.png'
+import dashboardpageimg from '../images/Navbar/Dashboard.png'
 
 
 function Navbar() {
@@ -18,6 +19,9 @@ function Navbar() {
     const [categories, setCategories] = useState([]);
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const [searchQuery, setSearchQuery] = useState('');
+    const password = sessionStorage.getItem('password');
+    console.log("pasworddddddd",password);
+    
 
 
 
@@ -60,23 +64,23 @@ function Navbar() {
 
 
     const mensubcategorypage = (categoryId) => {
-        navigate('/subcategoryproducts', { state: { categoryId: 157,categoryName: "MEN'S"} });
+        navigate('/subcategoryproducts', { state: { categoryId: 157, categoryName: "MEN'S" } });
     };
 
     const womensubcategorypage = (categoryId) => {
-        navigate('/subcategoryproducts', { state: { categoryId: 158,categoryName: "WOMEN'S"} });
+        navigate('/subcategoryproducts', { state: { categoryId: 158, categoryName: "WOMEN'S" } });
     };
 
-   const kidssubcategorypage = (categoryId) => {
-        navigate('/subcategoryproducts', { state: { categoryId: 159,categoryName: "KID'S"} });
+    const kidssubcategorypage = (categoryId) => {
+        navigate('/subcategoryproducts', { state: { categoryId: 159, categoryName: "KID'S" } });
     };
 
     const limitedsalesubcategorypage = (categoryId) => {
-        navigate('/subcategoryproducts', { state: { categoryId: 160,categoryName: "LIMITED SALE"} });
+        navigate('/subcategoryproducts', { state: { categoryId: 160, categoryName: "LIMITED SALE" } });
     };
 
     const bestsellersubcategorypage = (categoryId) => {
-        navigate('/subcategoryproducts', { state: { categoryId: 161,categoryName: "BEST SELLER"} });
+        navigate('/subcategoryproducts', { state: { categoryId: 161, categoryName: "BEST SELLER" } });
     };
 
     const newarrival = (categoryId, categoryName) => {
@@ -188,7 +192,10 @@ function Navbar() {
 
 
                 </div>
-                <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]' onClick={dashboardpage}>Dashboard</span>
+                {/* <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]' >Dashboard</span> */}
+                {password === "san@123" && (
+                    <img src={dashboardpageimg} alt="dashboardpageimg" onClick={dashboardpage} className='cursor-pointer' />
+                )}
                 <div className='flex flex-row lg:gap-12 gap-5'>
 
                     <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red] ' onClick={limitedsalesubcategorypage}>LIMITED SALE</span>

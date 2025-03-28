@@ -108,6 +108,10 @@ function MyOrders() {
         navigate('/');
     };
 
+    const loginPage = () => {
+        navigate('/login');
+    };
+
     const accountPage = () => {
         navigate('/accountmob');
     };
@@ -128,8 +132,9 @@ function MyOrders() {
     // Display error state
     if (error) {
         return (
-            <div className="w-full h-screen flex justify-center items-center">
+            <div className="w-full h-screen flex flex-col gap-3 justify-center items-center">
                 <span className="text-lg font-[600] font-montserrat text-red-500">No Orders</span>
+                <div className='w-auto p-3 h-[40px] bg-[black] text-[white] rounded-md flex justify-center items-center text-sm font-[600] font-montserrat cursor-pointer' onClick={loginPage}>Login First</div>
             </div>
         );
     }

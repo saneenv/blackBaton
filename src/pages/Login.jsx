@@ -53,6 +53,8 @@ function Login() {
                  sessionStorage.setItem('loginName', userData.full_name);
                  sessionStorage.setItem('loginEmail', userData.email);
                  sessionStorage.setItem('LedCode', userData.id);
+                 sessionStorage.setItem('password', userData.password);
+
 
 
                
@@ -93,7 +95,7 @@ function Login() {
              sessionStorage.setItem('loginName', userData.full_name);
              sessionStorage.setItem('loginEmail', userData.email);
              sessionStorage.setItem('LedCode', userData.id);
-
+             sessionStorage.setItem('password', userData.password);
 
             dispatch(setUser({ id: userData.id, rememberMe }));
 

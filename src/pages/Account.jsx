@@ -38,6 +38,9 @@ function Account() {
         sessionStorage.removeItem('loginName');
         sessionStorage.removeItem('loginEmail');
         sessionStorage.removeItem('LedCode');
+        sessionStorage.removeItem('password');
+        sessionStorage.clear();
+
 
 
         dispatch(clearUser());
