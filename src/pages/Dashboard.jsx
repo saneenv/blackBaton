@@ -179,6 +179,13 @@ function Dashboard() {
         navigate('/');
     }
 
+    const imageuploadpage = () => {
+        navigate('/imageupload');
+    }
+
+    const offerUpdatepage = () => {
+        navigate('/offerupdate');
+    }
     // Calculate summary statistics
     const totalOrders = orders.length;
     const totalIncome = orders.reduce((sum, order) => sum + order.Total, 0);
@@ -206,17 +213,31 @@ function Dashboard() {
     return (
         <div className='flex flex-col w-full lg:gap-8 gap-4 mb-12'>
             {/* Header Section - unchanged */}
-            <div className='w-full lg:px-12 px-3 lg:py-5 py-2 flex justify-between items-center border-b-2 border-[#D9D9D9]'>
-                <img src={logo} alt="logo" className='w-[104px] h-[44px] cursor-pointer' onClick={homePage} />
+            <div className='w-full lg:px-12 px-3 lg:py-5 py-2 flex lg:justify-between justify-center items-center border-b-2 border-[#D9D9D9]'>
+                <img src={logo} alt="logo" className='w-[104px] h-[44px] cursor-pointer lg:flex hidden' onClick={homePage} />
+
                 <div className='flex flex-row lg:gap-8 gap-4'>
+                    <span className='lg:text-base text-sm font-[600] font-montserrat text-black cursor-default'>
+                        Orders
+                    </span>
                     <span
                         className='lg:text-base text-sm font-[600] font-montserrat cursor-pointer text-[#7D7D7D] hover:text-black transition-colors duration-200'
                         onClick={homePage}
                     >
                         Home
                     </span>
-                    <span className='lg:text-base text-sm font-[600] font-montserrat text-black cursor-default'>
-                        Orders
+
+                    <span
+                        className='lg:text-base text-sm font-[600] font-montserrat cursor-pointer text-[#7D7D7D] hover:text-black transition-colors duration-200'
+                        onClick={imageuploadpage}
+                    >
+                        Image Upload
+                    </span>
+                    <span
+                        className='lg:text-base text-sm font-[600] font-montserrat cursor-pointer text-[#7D7D7D] hover:text-black transition-colors duration-200'
+                        onClick={offerUpdatepage}
+                    >
+                       Add Offer 
                     </span>
                 </div>
             </div>

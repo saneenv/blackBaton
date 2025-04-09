@@ -53,6 +53,7 @@ function SearchPage() {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [selectedColor, setSelectedColor] = useState(null);
     const [selectedSize, setSelectedSize] = useState(null);
+    const [offerPrices, setOfferPrices] = useState({});
 
 
     const { filtered } = location.state || {};
@@ -294,6 +295,28 @@ function SearchPage() {
             console.error('Error fetching products by size:', error);
         }
     };
+
+    useEffect(() => {
+        const fetchOfferPrices = async () => {
+            const prices = {};
+            for (const product of filteredProducts) {
+                try {
+                    const res = await fetch(`${apiBaseUrl}/getOfferByItemId/${product.ID}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        prices[product.ID] = data.OfferPrice;
+                    }
+                } catch (err) {
+                    console.error(`Error fetching offer for product ${product.ID}`, err);
+                }
+            }
+            setOfferPrices(prices);
+        };
+
+        if (filteredProducts.length > 0) {
+            fetchOfferPrices();
+        }
+    }, [filteredProducts]);
 
     useEffect(() => {
         console.log("Fetched Products:", products);
@@ -609,11 +632,11 @@ function SearchPage() {
                                         <span className="text-sm font-montserrat lg:flex hidden text-nowrap">
                                             Offer Price:
                                             <span className="line-through text-gray-500 ml-1">₹{product.MRP}</span>
-                                            <span className="text-red-600 font-bold ml-1">₹0</span>
+                                            <span className="text-red-600 font-bold ml-1">₹{offerPrices[product.ID] || product.MRP}</span>
                                         </span>
                                         <span className="text-sm font-montserrat lg:hidden flex text-nowrap">
                                             <span className="line-through text-gray-500 ml-1">₹{product.MRP}</span>
-                                            <span className="text-red-600 font-bold ml-1">₹0</span>
+                                            <span className="text-red-600 font-bold ml-1">₹{offerPrices[product.ID] || product.MRP}</span>
                                         </span>
                                     </div>
                                 </div>

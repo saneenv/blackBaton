@@ -34,11 +34,12 @@ function Home() {
     const [disablePrev, setDisablePrev] = useState(true); // Disable "<" button initially
     const [loginId, setLoginId] = useState(null);
     const [wishlistItems, setWishlistItems] = useState([]);
+    const [offerPrices, setOfferPrices] = useState({});
 
     const shopByCategoryRef = useRef(null);
 
-     // Function to handle the "Shop Now" button click
-     const handleShopNowClick = () => {
+    // Function to handle the "Shop Now" button click
+    const handleShopNowClick = () => {
         if (shopByCategoryRef.current) {
             shopByCategoryRef.current.scrollIntoView({ behavior: 'smooth' }); // Smooth scroll to the target div
         }
@@ -107,15 +108,15 @@ function Home() {
 
     const addToWishlist = async (product) => {
         const apiUrl = `${apiBaseUrl}/wishlist/add/BLACKBATON_ERP24`;
-    
+
         const activeUserId = loginId || userId; // Use loginId if available, otherwise use userId
-    
+
         if (!activeUserId) {
             console.error("No valid user ID found.");
             alert("Please Login First to Continue.");
             return;
         }
-    
+
         const payload = {
             ID: product.ID,
             ItemName: product.ItemName,
@@ -123,7 +124,7 @@ function Home() {
             ledcode: activeUserId,  // Use the determined user ID
             Qty: product.Qty
         };
-    
+
         try {
             const response = await fetch(apiUrl, {
                 method: "POST",
@@ -132,7 +133,7 @@ function Home() {
                 },
                 body: JSON.stringify(payload)
             });
-    
+
             if (response.ok) {
                 const result = await response.json();
                 console.log("Added to wishlist:", result);
@@ -148,7 +149,7 @@ function Home() {
             alert("An error occurred while adding to wishlist.");
         }
     };
-    
+
     useEffect(() => {
         const fetchWishlistItems = async () => {
             try {
@@ -168,7 +169,7 @@ function Home() {
         };
 
         fetchWishlistItems();
-    }, [loginId, apiBaseUrl, userId]); 
+    }, [loginId, apiBaseUrl, userId]);
 
     const removeFromWishlist = async (productId) => {
         try {
@@ -188,6 +189,39 @@ function Home() {
             alert('An error occurred while removing from wishlist.');
         }
     };
+
+    // Fetch offer prices for both new arrivals and all products
+    useEffect(() => {
+        const fetchOfferPrices = async (products) => {
+            const prices = {};
+            for (const product of products) {
+                try {
+                    const res = await fetch(`${apiBaseUrl}/getOfferByItemId/${product.ID}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        prices[product.ID] = data.OfferPrice;
+                    }
+                } catch (err) {
+                    console.error(`Error fetching offer for product ${product.ID}`, err);
+                    // Set MRP as fallback if offer price fetch fails
+                    prices[product.ID] = product.MRP;
+                }
+            }
+            return prices;
+        };
+
+        const fetchAllOfferPrices = async () => {
+            // Combine both product arrays to avoid duplicate requests
+            const allUniqueProducts = [...new Set([...newArrivals, ...allProducts])];
+            const prices = await fetchOfferPrices(allUniqueProducts);
+            setOfferPrices(prices);
+        };
+
+        if (newArrivals.length > 0 || allProducts.length > 0) {
+            fetchAllOfferPrices();
+        }
+    }, [newArrivals, allProducts]); // Run when either array changes
+
 
     const nextSlide = () => {
         if (startIndex < categories.length - 3) {
@@ -384,12 +418,12 @@ function Home() {
                                         <span className="text-sm font-montserrat lg:flex hidden text-nowrap">
                                             Offer Price:
                                             <span className="line-through text-gray-500 ml-1">₹{product.MRP}</span>
-                                            <span className="text-red-600 font-bold ml-1">₹0</span>
+                                            <span className="text-red-600 font-bold ml-1">₹{offerPrices[product.ID] || product.MRP}</span>
                                         </span>
                                         <span className="text-sm font-montserrat lg:hidden flex text-nowrap">
 
                                             <span className="line-through text-gray-500 ml-1">₹{product.MRP}</span>
-                                            <span className="text-red-600 font-bold ml-1">₹0</span>
+                                            <span className="text-red-600 font-bold ml-1">₹{offerPrices[product.ID] || product.MRP}</span>
                                         </span>
                                     </div>
 
@@ -484,12 +518,12 @@ function Home() {
                                         <span className="text-sm font-montserrat lg:flex hidden text-nowrap">
                                             Offer Price:
                                             <span className="line-through text-gray-500 ml-1">₹{product.MRP}</span>
-                                            <span className="text-red-600 font-bold ml-1">₹0</span>
+                                            <span className="text-red-600 font-bold ml-1">₹{offerPrices[product.ID] || product.MRP}</span>
                                         </span>
                                         <span className="text-sm font-montserrat lg:hidden flex text-nowrap">
 
                                             <span className="line-through text-gray-500 ml-1">₹{product.MRP}</span>
-                                            <span className="text-red-600 font-bold ml-1">₹0</span>
+                                            <span className="text-red-600 font-bold ml-1">₹{offerPrices[product.ID] || product.MRP}</span>
                                         </span>
                                     </div>
 

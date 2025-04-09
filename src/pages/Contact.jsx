@@ -27,7 +27,7 @@ function Contact() {
                         <img src={logo} alt="logo" className='w-[30%] h-[30%]' />
                         <div className='flex flex-col gap-3'>
                             <span className='lg:text-4xl text-2xl font-[700] font-montserrat'>Let’s Get In Touch</span>
-                            <span className='text-base font-[400] text-[#989898] font-montserrat'>Or just reach out manually to <span className='lg:text-base text-sm font-[600] text-[black] font-montserrat'>Blackbatton@gmail.com</span></span>
+                            <span className='text-base font-[400] text-[#989898] font-montserrat'>Or just reach out manually to <span className='lg:text-base text-sm font-[600] text-[black] font-montserrat'>Info.stillsclothing@gmail.com</span></span>
                         </div>
                         <div className='flex flex-col gap-5 w-full '>
                             <div className='flex flex-row justify-between gap-3'>

@@ -4,7 +4,7 @@ import fb from '../images/Footer/fb.png'
 import insta from '../images/Footer/insta.png'
 import twitter from '../images/Footer/twitter.png'
 import linkedin from '../images/Footer/in.png'
-import playstore from '../images/Footer/playstore.png' 
+import playstore from '../images/Footer/playstore.png'
 import appstore from '../images/Footer/appstore.png'
 import arrow from '../images/Footer/arrow.png'
 
@@ -23,8 +23,8 @@ function Footer() {
     }
     return (
         <div className='w-full h-auto lg:px-12 px-3 py-12 bg-[black] flex flex-col gap-8'>
-            <div className='flex flex-row gap-[8%]'>
-                <div className='flex flex-col gap-8'>
+            <div className='flex justify-between '>
+                <div className='flex flex-col gap-8 '>
                     <span className='text-2xl font-[600] font-montserrat  text-left text-[#F6F6F6]'>Need Help</span>
                     <div className='flex flex-col gap-4'>
                         <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left cursor-pointer' onClick={contactPage}>Contact Us</span>
@@ -36,7 +36,7 @@ function Footer() {
                     </div>
                 </div>
 
-                <div className='flex flex-col gap-8'>
+                <div className='flex flex-col gap-8 '>
                     <span className='text-2xl font-[600] font-montserrat text-[#F6F6F6] text-left'>Company</span>
                     <div className='flex flex-col gap-4'>
                         <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>About Us</span>
@@ -48,43 +48,50 @@ function Footer() {
                     </div>
                 </div>
 
-                <div className='flex flex-col gap-8'>
+                <div className='flex flex-col gap-8 '>
                     <span className='text-2xl font-[600] font-montserrat text-[#F6F6F6] text-left'>More Info</span>
                     <div className='flex flex-col gap-4'>
                         <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left cursor-pointer' onClick={termsAndConditionsPage}>Terms and Conditions</span>
                         <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left cursor-pointer' onClick={privacyAndPolicyPage}>Privacy Policy</span>
                         <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Shipping Policy</span>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Sitemap</span>
+                        {/* <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Sitemap</span> */}
 
                     </div>
                 </div>
 
-                <div className='flex flex-col gap-8'>
+                <div className='flex flex-col gap-8 '>
                     <span className='text-2xl font-[600] font-montserrat text-[#F6F6F6] text-left'>Location</span>
                     <div className='flex flex-col gap-4'>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>support@Black Baton.in</span>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Jubilee Junction pattambi Main Road</span>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>(NH 8- Near Shersoft Software) Malappuram, Kerala- 313002</span>
+                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>STILLS CLOTHING LINK</span>
+                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>STILLS TOWER, TOWN HALL ROAD, GANDHI NAGAR, KAKKOOTH,</span>
+                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'> PERINTHALMANNA P.O, PIN: 679322</span>
+
                     </div>
                 </div>
             </div>
 
-            <div className='flex  justify-between items-end'>
+            <div className='flex  justify-center items-center'>
                 <div className='flex flex-row gap-2'>
                     <div className='w-[37px] h-[37px] rounded-[10px] bg-[#F6F6F6] flex justify-center items-center'>
                         <img src={fb} alt="fb" />
                     </div>
-                    <div className='w-[37px] h-[37px] rounded-[10px] bg-[#F6F6F6] flex justify-center items-center'>
-                        <img src={insta} alt="insta" />
-                    </div>
+                    <a
+                        href="https://www.instagram.com/black_baton?igsh=MXE0MG43cDV5ZHdrOQ%3D%3D&utm_source=qr"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <div className='w-[37px] h-[37px] rounded-[10px] bg-[#F6F6F6] flex justify-center items-center'>
+                            <img src={insta} alt="insta" />
+                        </div>
+                    </a>
                     <div className='w-[37px] h-[37px] rounded-[10px] bg-[#F6F6F6] flex justify-center items-center'>
                         <img src={twitter} alt="twitter" />
                     </div>
-                    <div className='w-[37px] h-[37px] rounded-[10px] bg-[#F6F6F6] flex justify-center items-center'>
+                    {/* <div className='w-[37px] h-[37px] rounded-[10px] bg-[#F6F6F6] flex justify-center items-center'>
                         <img src={linkedin} alt="in" />
-                    </div>
+                    </div> */}
                 </div>
-                <div className='flex flex-col gap-3'>
+                {/* <div className='flex flex-col gap-3'>
                     <span className='text-2xl font-[700] font-montserrat text-[#F6F6F6]'>Download The App</span>
                     <div className='flex flex-row gap-3'>
                         <div className='w-auto p-5 h-[51px] flex flex-row gap-2 bg-[#404040] rounded-[8px] justify-center items-center'>
@@ -102,12 +109,12 @@ function Footer() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
 
-            <div className='w-full h-[80px]  border-t-2 border-b-2 border-[#BEBCBD] flex justify-between items-center'>
-                 <span className='text-2xl font-[700] font-montserrat text-[#F6F6F6]'>Popular Categories</span>
-                 <img src={arrow} alt="arrow" />
+            <div className='w-full h-[80px]  border-t-2 border-b-2 border-[#BEBCBD] flex justify-center items-center'>
+                <span className='text-2xl font-[700] font-montserrat text-[#F6F6F6]'>Black Baton</span>
+                {/* <img src={arrow} alt="arrow" /> */}
             </div>
 
             <span className='flex justify-center items-center text-[#F6F6F6] font-[400] text-lg font-montserrat'>Copyright © 2025 Shersoft Software Company. All rights reserved.</span>

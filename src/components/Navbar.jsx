@@ -20,8 +20,8 @@ function Navbar() {
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const [searchQuery, setSearchQuery] = useState('');
     const password = sessionStorage.getItem('password');
-    console.log("pasworddddddd",password);
-    
+    console.log("pasworddddddd", password);
+
 
 
 
@@ -91,14 +91,23 @@ function Navbar() {
         <div className='flex flex-col'>
             <div className='w-full h-[120px] bg-[#000000] border-b-2 border-[#B2B2B2] flex flex-col lg:px-12 px-5 gap-3 fixed top-0 left-0 z-50'>
                 <div className='w-full h-[40%]  flex justify-between items-end'>
-                    <div className='flex flex-row gap-5'>
-                        <div className='flex flex-row gap-2'>
+                    <div className='flex flex-row gap-5 items-center'>
+                        <div className='flex flex-row gap-2 items-center'>
                             <img src={contact} alt="contact" />
-                            <span className='text-[#CACACA] font-[400] font-dmSans text-sm hover:text-[red] cursor-pointer'>(414) 857 - 0107</span>
+                            <a href="tel:+919995028039">
+                                <span className='text-[#CACACA] font-[400] font-dmSans text-sm hover:text-[red] cursor-pointer'>
+                                    +91 9995028039
+                                </span>
+                            </a>
+
                         </div>
-                        <div className='flex flex-row gap-2'>
+                        <div className='flex flex-row gap-2 items-center'>
                             <img src={mail} alt="mail" />
-                            <span className='text-[#CACACA] font-[400] font-dmSans text-sm hover:text-[red] cursor-pointer'>Blackbatton@gmail.com</span>
+                            <a href="mailto:Info.stillsclothing@gmail.com">
+                                <span className='text-[#CACACA] font-[400] font-dmSans text-sm hover:text-[red] cursor-pointer'>
+                                    Info.stillsclothing@gmail.com
+                                </span>
+                            </a>
                         </div>
                     </div>
 
@@ -110,9 +119,16 @@ function Navbar() {
                         <div className='w-[25px] h-[25px] rounded-full bg-[#FFFFFF] flex justify-center items-center cursor-pointer'>
                             <img src={facebook} alt="facebook" />
                         </div>
-                        <div className='w-[25px] h-[25px] rounded-full bg-[#FFFFFF] flex justify-center items-center cursor-pointer'>
-                            <img src={insta} alt="insta" />
-                        </div>
+                        <a
+                            href="https://www.instagram.com/black_baton?igsh=MXE0MG43cDV5ZHdrOQ%3D%3D&utm_source=qr"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <div className='w-[25px] h-[25px] rounded-full bg-[#FFFFFF] flex justify-center items-center cursor-pointer'>
+                                <img src={insta} alt="insta" />
+                            </div>
+                        </a>
+
                     </div>
                 </div>
                 <div className='w-full h-[60%]  flex justify-between items-center  '>

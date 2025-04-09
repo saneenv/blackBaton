@@ -16,7 +16,8 @@ function NavbarMob() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const navigate = useNavigate()
     const [searchQuery, setSearchQuery] = useState('');
-
+    const password = sessionStorage.getItem('password');
+    console.log("pasworddddddd", password);
 
     // Function to toggle sidebar
     const toggleSidebar = () => {
@@ -66,17 +67,25 @@ function NavbarMob() {
         navigate('/subcategoryproducts', { state: { categoryId: 163, categoryName: 'NEW ARRIVAL' } });
     };
 
+    const dashboardpage = () => {
+        navigate('/dashboard');
+    }
+
     return (
         <div className='w-full h-auto bg-[black] py-6 px-3 gap-6 flex flex-col fixed top-0 left-0 z-50'>
             <div className='flex justify-between items-center'>
-                <div className='flex flex-row gap-1'>
+                <div className='flex flex-row gap-1 items-center'>
                     <img src={contact} alt="contact" />
-                    <span className='text-xs font-[400] font-dmSans text-[#CACACA]'>1234567890</span>
+                    <a href="tel:+919995028039">
+                        <span className='text-xs font-[400] font-dmSans text-[#CACACA]'>+91 9995028039</span>
+                    </a>
                 </div>
-                <div className='flex flex-row gap-1'>
+                {/* <div className='flex flex-row gap-1 items-center'>
                     <img src={mail} alt="mail" />
-                    <span className='text-xs font-[400] font-dmSans text-[#CACACA]'>Blackbatton@gmail.com</span>
-                </div>
+                    <a href="mailto:Info.stillsclothing@gmail.com">
+                    <span className='text-xs font-[400] font-dmSans text-[#CACACA]'>Info.stillsclothing@gmail.com</span>
+                    </a>
+                </div> */}
                 <div className='flex flex-row gap-1'>
                     <div className='w-[19px] h-[19px] rounded-full bg-[#FFFFFF] flex justify-center items-center'>
                         <img src={twitter} alt="twitter" />
@@ -84,9 +93,15 @@ function NavbarMob() {
                     <div className='w-[19px] h-[19px] rounded-full bg-[#FFFFFF] flex justify-center items-center'>
                         <img src={facebook} alt="facebook" />
                     </div>
-                    <div className='w-[19px] h-[19px] rounded-full bg-[#FFFFFF] flex justify-center items-center'>
-                        <img src={insta} alt="insta" />
-                    </div>
+                    <a
+                        href="https://www.instagram.com/black_baton?igsh=MXE0MG43cDV5ZHdrOQ%3D%3D&utm_source=qr"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <div className='w-[19px] h-[19px] rounded-full bg-[#FFFFFF] flex justify-center items-center'>
+                            <img src={insta} alt="insta" />
+                        </div>
+                    </a>
                 </div>
             </div>
 
@@ -141,6 +156,9 @@ function NavbarMob() {
                             <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-sm font-[600] font-dmSans text-left' onClick={() => { limitedsalesubcategorypage(); setIsSidebarOpen(false); }}>LIMITED SALE</li>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-sm font-[600] font-dmSans text-left' onClick={() => { bestsellersubcategorypage(); setIsSidebarOpen(false); }}>BEST SELLER</li>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-sm font-[600] font-dmSans text-left' onClick={() => { newarrival(); setIsSidebarOpen(false); }}>NEW ARRIVALS</li>
+                            {password === "san@123" && (
+                                <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-sm font-[600] font-dmSans text-left' onClick={dashboardpage}>DASHBOARD</li>
+                            )}
                         </ul>
 
 

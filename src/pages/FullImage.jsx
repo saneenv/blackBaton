@@ -29,6 +29,7 @@ function FullImage() {
     const [selectedSize, setSelectedSize] = useState(""); // Track selected size
     const [selectedColor, setSelectedColor] = useState("");
     const [loginId, setLoginId] = useState(null);
+    const [offerPrices, setOfferPrices] = useState({});
 
 
 
@@ -213,12 +214,16 @@ function FullImage() {
 
         const uniqueCode = selectedProductDetail.Uniquecode;
 
+        // Get offer price if available
+        const offerPrice = offerPrices[product.ID];
+        const itemPrice = offerPrice !== undefined ? offerPrice : product.MRP;
+
         // Prepare the data to be sent to the API
         const cartData = {
             itemId: product.ID,
             uniqueCode: uniqueCode,
             itemName: product.ItemName,
-            itemPrice: product.MRP,
+            itemPrice: itemPrice,
             quantity: 1,
             ledname: LedName,
             ledcode: loginId,
@@ -253,6 +258,42 @@ function FullImage() {
 
     // Show only 3 images at a time
     const visibleImages = images.slice(startIndex, startIndex + imagesPerPage);
+
+
+    useEffect(() => {
+        const fetchOfferPrices = async () => {
+            const prices = {};
+
+            // Fetch offer price for the main product
+            try {
+                const res = await fetch(`${apiBaseUrl}/getOfferByItemId/${id}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    prices[id] = data.OfferPrice;
+                }
+            } catch (err) {
+                console.error(`Error fetching offer for product ${id}`, err);
+            }
+
+            // Fetch offer prices for similar products
+            for (const product of similarProducts) {
+                try {
+                    const res = await fetch(`${apiBaseUrl}/getOfferByItemId/${product.ID}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        prices[product.ID] = data.OfferPrice;
+                    }
+                } catch (err) {
+                    console.error(`Error fetching offer for product ${product.ID}`, err);
+                }
+            }
+            setOfferPrices(prices);
+        };
+
+        if (id || similarProducts.length > 0) {
+            fetchOfferPrices();
+        }
+    }, [id, similarProducts]); // Run when id or similarProducts changes
 
     // Handlers for navigation
     const handleNext = () => {
@@ -331,9 +372,17 @@ function FullImage() {
                         <span className='lg:text-4xl text-xl font-[600] font-montserrat text-left'>{product.ItemName}</span>
 
                         <div className='lg:hidden flex flex-row gap-3 items-center'>
-                            <span className='font-[400] font-montserrat text-sm'>MRP</span>
-                            <span className='font-[600] font-montserrat text-base'>₹ {product.MRP}</span>
-
+                            <span className='font-[400] font-montserrat text-sm'>
+                                {offerPrices[product.ID] ? 'Offer Price' : 'MRP'}
+                            </span>
+                            <span className='font-[600] font-montserrat text-base'>
+                                ₹ {offerPrices[product.ID] || product.MRP}
+                            </span>
+                            {offerPrices[product.ID] && (
+                                <span className='line-through text-gray-500 text-sm ml-1'>
+                                    ₹{product.MRP}
+                                </span>
+                            )}
                         </div>
 
 
@@ -375,7 +424,7 @@ function FullImage() {
                                 <span className='lg:text-lg text-base font-[600] font-montserrat text-[white]'>Add to cart</span>
                             </div>
                             <div className='w-[25%] h-[46px] border-2 border-[black] rounded-[8px] lg:flex hidden items-center justify-center'>
-                                <span className='text-lg font-[600] font-montserrat'>₹ {product.MRP}</span>
+                                <span className='text-lg font-[600] font-montserrat'> ₹ {offerPrices[product.ID] || product.MRP}</span>
                             </div>
                         </div>
 
@@ -499,12 +548,12 @@ function FullImage() {
                                         <span className="text-sm font-montserrat lg:flex hidden text-nowrap">
                                             Offer Price:
                                             <span className="line-through text-gray-500 ml-1">₹{product.MRP}</span>
-                                            <span className="text-red-600 font-bold ml-1">₹0</span>
+                                            <span className="text-red-600 font-bold ml-1">₹{offerPrices[product.ID] || product.MRP}</span>
                                         </span>
                                         <span className="text-sm font-montserrat lg:hidden flex text-nowrap">
 
                                             <span className="line-through text-gray-500 ml-1">₹{product.MRP}</span>
-                                            <span className="text-red-600 font-bold ml-1">₹0</span>
+                                            <span className="text-red-600 font-bold ml-1">₹{offerPrices[product.ID] || product.MRP}</span>
                                         </span>
                                     </div>
 

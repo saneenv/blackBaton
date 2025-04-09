@@ -25,6 +25,7 @@ import { loadUserFromStorage } from './redux/Slices/UserSlice';
 import ForgotPass from './pages/ForgotPass';
 import Contact from './pages/Contact';
 import Dashboard from './pages/Dashboard';
+import OfferUpdate from './adminSide/OfferUpdate';
 
 
 function App() {
@@ -59,6 +60,8 @@ function App() {
           <Route path='/forgotpass' element={<ForgotPass/>}/>
           <Route path='/contact' element={<Contact/>}/>
           <Route path='/dashboard' element={<Dashboard/>}/>
+          <Route path='/offerupdate' element={<OfferUpdate/>}/>
+
         </Routes>
       </BrowserRouter>
     </div>
