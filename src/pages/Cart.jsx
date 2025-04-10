@@ -9,6 +9,7 @@ import Navbar from '../components/Navbar';
 import FooterMob from '../components/FooterMob';
 import Footer from '../components/Footer';
 import OrderSuccess from '../components/OrderSuccess';
+import deleteicon from '../images/Cart/Bin.png'
 
 function Cart() {
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -18,7 +19,6 @@ function Cart() {
     const [error, setError] = useState(null);
     const [address, setAddress] = useState(null);
     const [productDetails, setProductDetails] = useState({}); // To store color and size for each uniqueCode
-    const [hasAddress, setHasAddress] = useState(false);
     const [orderPlaced, setOrderPlaced] = useState(false);
 
 
@@ -191,93 +191,24 @@ function Cart() {
         return <div>Error: {error}</div>;
     }
 
-    // const handlePlaceOrder = async () => {
-
-    //     if (cartItems.length === 0) {
-    //         toast.error('No items in cart');
-    //         return;
-    //     }
-
-    //     // Check if address is available
-    //     if (!address) {
-    //         toast.error('Please add an address to continue');
-    //         return;
-    //     }
-    //     const model = '';
-    //     // Format the items array manually as a string with escaped quotes
-    //     const itemsString = cartItems
-    //         .map(
-    //             (item) =>
-    //                 `{\\"id\\":${item.itemId},\\"name\\":\\"${item.itemName}\\",\\"model\\":\\"${model}\\",\\"dp\\":0,\\"mrp\\":${item.itemPrice},\\"quantity\\":${item.quantity},\\"uniqueCode\\":${item.uniqueCode}}`
-    //         )
-    //         .join(",");
-
-    //     const currentDate = new Date().toLocaleDateString("en-GB").split("/").reverse().join("-");
-
-    //     const requestBody = `{"date":"${currentDate}","id":"${LedCode}","contact":"${address.mobile}","items":"[${itemsString}]"}`;
-
-
-    //     console.log(requestBody);
-
-
-    //     try {
-    //         // Send the data to the API
-    //         const response = await fetch(`${apiBaseUrl}/orderAdd/BLACKBATON_ERP24`, {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //             body: requestBody, // Stringify the entire request body
-    //         });
-
-    //         if (!response.ok) {
-    //             throw new Error("Failed to place order");
-    //         }
-
-    //         const result = await response.json();
-    //         console.log("Order placed successfully:", result);
-
-    //         // Clear the cart after successful order placement
-    //         const clearCartResponse = await fetch(`${apiBaseUrl}/cart/clear/BLACKBATON_ERP24/${LedCode || userId}`, {
-    //             method: "DELETE",
-    //         });
-
-    //         if (!clearCartResponse.ok) {
-    //             throw new Error("Failed to clear cart");
-    //         }
-
-    //         const clearCartResult = await clearCartResponse.json();
-    //         console.log("Cart cleared successfully:", clearCartResult);
-
-    //         // Update the UI by resetting the cart items
-    //         setCartItems([]);
-
-
-    //         // Set orderPlaced to true to show the OrderSuccess component
-    //         setOrderPlaced(true);
-    //     } catch (error) {
-    //         console.error("Error placing order:", error);
-    //         toast.error("Failed to place order. Please try again.");
-    //     }
-    // };
 
     const handlePlaceOrder = async () => {
         if (cartItems.length === 0) {
             toast.error("No items in cart");
             return;
         }
-    
+
         if (!address) {
             toast.error("Please add an address to continue");
             return;
         }
-    
+
         // Calculate total amount
         const totalAmount = cartItems.reduce(
             (total, item) => total + item.itemPrice * item.quantity,
             0
         );
-    
+
         // Step 1: Create a Razorpay order on the backend
         try {
             const response = await fetch(`${apiRazorpayUrl}/create-order`, {
@@ -291,9 +222,9 @@ function Cart() {
                     receipt: `order_${Date.now()}`,
                 }),
             });
-    
+
             const order = await response.json();
-    
+
             // Step 2: Open Razorpay payment modal
             const options = {
                 key: "rzp_test_yFv9DtyD8PIwRC", // Replace with your Razorpay key
@@ -305,7 +236,7 @@ function Cart() {
                 handler: async (response) => {
                     console.log("Payment successful:", response);
                     toast.success("Payment successful!");
-    
+
                     // Proceed with order placement
                     await placeOrder();
                 },
@@ -318,15 +249,15 @@ function Cart() {
                     color: "#F37254",
                 },
             };
-    
+
             const rzp = new window.Razorpay(options); // Use global Razorpay object
             rzp.open();
-    
+
             // Handle payment failure
             rzp.on("payment.failed", async (response) => {
                 console.error("Payment failed:", response);
                 toast.error("Payment failed, but order will still be processed.");
-                
+
                 // Proceed with order placement despite payment failure
                 await placeOrder();
             });
@@ -335,11 +266,11 @@ function Cart() {
             toast.error("Failed to initiate payment. Please try again.");
         }
     };
-    
+
     // Function to place the order
     const placeOrder = async () => {
         const model = "";
-    
+
         // Format the items array manually as a string with escaped quotes
         const itemsString = cartItems
             .map(
@@ -347,12 +278,12 @@ function Cart() {
                     `{\\"id\\":${item.itemId},\\"name\\":\\"${item.itemName}\\",\\"model\\":\\"${model}\\",\\"dp\\":0,\\"mrp\\":${item.itemPrice},\\"quantity\\":${item.quantity},\\"uniqueCode\\":${item.uniqueCode}}`
             )
             .join(",");
-    
+
         const currentDate = new Date().toLocaleDateString("en-GB").split("/").reverse().join("-");
         const requestBody = `{"date":"${currentDate}","id":"${LedCode}","contact":"${address.mobile}","items":"[${itemsString}]"}`;
-    
+
         console.log(requestBody);
-    
+
         try {
             // Send the data to the API
             const response = await fetch(`${apiBaseUrl}/orderAdd/BLACKBATON_ERP24`, {
@@ -362,29 +293,29 @@ function Cart() {
                 },
                 body: requestBody,
             });
-    
+
             if (!response.ok) {
                 throw new Error("Failed to place order");
             }
-    
+
             const result = await response.json();
             console.log("Order placed successfully:", result);
-    
+
             // Clear the cart after successful order placement
             const clearCartResponse = await fetch(`${apiBaseUrl}/cart/clear/BLACKBATON_ERP24/${LedCode || userId}`, {
                 method: "DELETE",
             });
-    
+
             if (!clearCartResponse.ok) {
                 throw new Error("Failed to clear cart");
             }
-    
+
             const clearCartResult = await clearCartResponse.json();
             console.log("Cart cleared successfully:", clearCartResult);
-    
+
             // Update the UI by resetting the cart items
             setCartItems([]);
-    
+
             // Set orderPlaced to true to show the OrderSuccess component
             setOrderPlaced(true);
         } catch (error) {
@@ -392,7 +323,28 @@ function Cart() {
             toast.error("Failed to place order. Please try again.");
         }
     };
-    
+
+    const handleDeleteItem = async (itemId, ledcode, uniqueCode) => {
+        try {
+            const response = await fetch(`${apiBaseUrl}/cart/item/BLACKBATON_ERP24/${itemId}/${ledcode}/${uniqueCode}`, {
+                method: 'DELETE',
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Item deleted successfully');
+                // Refresh the cart or remove the item from state
+                setCartItems((prevItems) => prevItems.filter(item => item.uniqueCode !== uniqueCode));
+            } else {
+                alert(data.message || 'Failed to delete item');
+            }
+        } catch (error) {
+            console.error('Error deleting item:', error);
+            alert('Error deleting item');
+        }
+    };
+
 
     return (
         <div className='min-h-screen flex flex-col'>
@@ -480,7 +432,17 @@ function Cart() {
                                             >
                                                 +
                                             </span>
+
                                         </div>
+
+                                        <img
+                                            src={deleteicon}
+                                            alt="deleteicon"
+                                            className='cursor-pointer'
+                                            onClick={() => handleDeleteItem(item.itemId, item.ledcode, item.uniqueCode)}
+                                        />
+
+
                                     </div>
                                 </div>
                             ))
