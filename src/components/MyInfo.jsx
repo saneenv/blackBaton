@@ -26,7 +26,7 @@ function MyInfo() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`${apiBaseUrl}/user/getCustomerById/BLACKBATON_ERP24/${LedCode || userId}`);
+                const response = await axios.get(`${apiBaseUrl}/user/getCustomerById/BLACKBATON_2526/${LedCode || userId}`);
                 if (response.data.success) {
                     setUserData(response.data.data);
                 } else {

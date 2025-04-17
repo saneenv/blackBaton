@@ -34,7 +34,7 @@ function Cart() {
     const fetchProductDetails = async (uniqueCode) => {
         try {
             const response = await fetch(
-                `${apiBaseUrl}/getProductByUniqueCode/BLACKBATON_ERP24?uniqueCode=${uniqueCode}`
+                `${apiBaseUrl}/getProductByUniqueCode/BLACKBATON_2526?uniqueCode=${uniqueCode}`
             );
             if (!response.ok) {
                 throw new Error('Failed to fetch product details');
@@ -65,7 +65,7 @@ function Cart() {
                 console.log("Fetching Cart Items for:", ledCodeOrUserId);
 
                 const response = await fetch(
-                    `${apiBaseUrl}/cart/items/BLACKBATON_ERP24/${ledCodeOrUserId}`
+                    `${apiBaseUrl}/cart/items/BLACKBATON_2526/${ledCodeOrUserId}`
                 );
 
                 // if (!response.ok) {
@@ -117,7 +117,7 @@ function Cart() {
             const quantityDifference = newQuantity - itemToUpdate.quantity;
 
             // Send API request to update quantity in the backend
-            const response = await fetch(`${apiBaseUrl}/cart/add/BLACKBATON_ERP24`, {
+            const response = await fetch(`${apiBaseUrl}/cart/add/BLACKBATON_2526`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -286,7 +286,7 @@ function Cart() {
 
         try {
             // Send the data to the API
-            const response = await fetch(`${apiBaseUrl}/orderAdd/BLACKBATON_ERP24`, {
+            const response = await fetch(`${apiBaseUrl}/orderAdd/BLACKBATON_2526`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -302,7 +302,7 @@ function Cart() {
             console.log("Order placed successfully:", result);
 
             // Clear the cart after successful order placement
-            const clearCartResponse = await fetch(`${apiBaseUrl}/cart/clear/BLACKBATON_ERP24/${LedCode || userId}`, {
+            const clearCartResponse = await fetch(`${apiBaseUrl}/cart/clear/BLACKBATON_2526/${LedCode || userId}`, {
                 method: "DELETE",
             });
 
@@ -326,7 +326,7 @@ function Cart() {
 
     const handleDeleteItem = async (itemId, ledcode, uniqueCode) => {
         try {
-            const response = await fetch(`${apiBaseUrl}/cart/item/BLACKBATON_ERP24/${itemId}/${ledcode}/${uniqueCode}`, {
+            const response = await fetch(`${apiBaseUrl}/cart/item/BLACKBATON_2526/${itemId}/${ledcode}/${uniqueCode}`, {
                 method: 'DELETE',
             });
 

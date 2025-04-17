@@ -26,6 +26,9 @@ import ForgotPass from './pages/ForgotPass';
 import Contact from './pages/Contact';
 import Dashboard from './pages/Dashboard';
 import OfferUpdate from './adminSide/OfferUpdate';
+import AboutUs from './pages/AboutUs';
+import ShippingPolicy from './pages/ShippingPolicy';
+import Returns from './pages/Returns';
 
 
 function App() {
@@ -61,6 +64,12 @@ function App() {
           <Route path='/contact' element={<Contact/>}/>
           <Route path='/dashboard' element={<Dashboard/>}/>
           <Route path='/offerupdate' element={<OfferUpdate/>}/>
+          <Route path='/aboutus' element={<AboutUs/>}/>
+          <Route path='/shippingpolicy' element={<ShippingPolicy/>}/>
+          <Route path='/returnpolicy' element={<Returns/>}/>
+
+
+
 
         </Routes>
       </BrowserRouter>

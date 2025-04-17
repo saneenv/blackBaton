@@ -12,14 +12,14 @@ function ImageUpload() {
 
 
     useEffect(() => {
-        fetch(`${apiBaseUrl}/getCategories/BLACKBATON_ERP24`)
+        fetch(`${apiBaseUrl}/getCategories/BLACKBATON_2526`)
             .then(response => response.json())
             .then(data => setCategories(data));
     }, [apiBaseUrl]);
 
     useEffect(() => {
         if (selectedCategory) {
-            fetch(`${apiBaseUrl}/getProductByCategory/BLACKBATON_ERP24?Id=${selectedCategory}`)
+            fetch(`${apiBaseUrl}/getProductByCategory/BLACKBATON_2526?Id=${selectedCategory}`)
                 .then(response => response.json())
                 .then(data => setItems(data.map(item => ({
                     Id: item.ID,

@@ -69,7 +69,7 @@ function Home() {
     }, []);
 
     useEffect(() => {
-        fetch(`${apiBaseUrl}/getCategories/BLACKBATON_ERP24`)
+        fetch(`${apiBaseUrl}/getCategories/BLACKBATON_2526`)
             .then(response => response.json())
             .then(data => {
                 setCategories(data);
@@ -81,7 +81,7 @@ function Home() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch(`${apiBaseUrl}/getProductBySubCategory/BLACKBATON_ERP24?Id=163`);
+                const response = await fetch(`${apiBaseUrl}/getProductBySubCategory/BLACKBATON_2526?Id=163`);
                 const data = await response.json();
                 setNewArrivals(data.slice(0, 8));
             } catch (error) {
@@ -95,7 +95,7 @@ function Home() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch(`${apiBaseUrl}/getProductByFilter/BLACKBATON_ERP24?filter=`);
+                const response = await fetch(`${apiBaseUrl}/getProductByFilter/BLACKBATON_2526?filter=`);
                 const data = await response.json();
                 setAllProducts(data.slice(0, 8));
             } catch (error) {
@@ -107,7 +107,7 @@ function Home() {
     }, [apiBaseUrl]);
 
     const addToWishlist = async (product) => {
-        const apiUrl = `${apiBaseUrl}/wishlist/add/BLACKBATON_ERP24`;
+        const apiUrl = `${apiBaseUrl}/wishlist/add/BLACKBATON_2526`;
 
         const activeUserId = loginId || userId; // Use loginId if available, otherwise use userId
 
@@ -157,7 +157,7 @@ function Home() {
 
                 if (!activeUserId) return; // Ensure there's a valid userId before making the API call
 
-                const response = await fetch(`${apiBaseUrl}/wishlist/items/BLACKBATON_ERP24/${activeUserId}`);
+                const response = await fetch(`${apiBaseUrl}/wishlist/items/BLACKBATON_2526/${activeUserId}`);
                 const data = await response.json();
 
                 if (data.success) {
@@ -173,7 +173,7 @@ function Home() {
 
     const removeFromWishlist = async (productId) => {
         try {
-            const response = await fetch(`${apiBaseUrl}/wishlist/delete/BLACKBATON_ERP24/${productId}`, {
+            const response = await fetch(`${apiBaseUrl}/wishlist/delete/BLACKBATON_2526/${productId}`, {
                 method: 'DELETE',
             });
 

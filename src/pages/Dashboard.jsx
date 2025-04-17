@@ -54,7 +54,7 @@ function Dashboard() {
     // Add this function to fetch product name
     const fetchProductName = async (itemId) => {
         try {
-            const response = await fetch(`${apiBaseUrl}/getProductById/BLACKBATON_ERP24?Id=${itemId}`);
+            const response = await fetch(`${apiBaseUrl}/getProductById/BLACKBATON_2526?Id=${itemId}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch product data');
             }
@@ -69,7 +69,7 @@ function Dashboard() {
     // Add this function to fetch product details
     const fetchProductDetails = async (uniqueCode) => {
         try {
-            const response = await fetch(`${apiBaseUrl}/getProductByUniqueCode/BLACKBATON_ERP24?uniqueCode=${uniqueCode}`);
+            const response = await fetch(`${apiBaseUrl}/getProductByUniqueCode/BLACKBATON_2526?uniqueCode=${uniqueCode}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch product details');
             }
@@ -87,7 +87,7 @@ function Dashboard() {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await fetch(`${apiBaseUrl}/allorder/list/BLACKBATON_ERP24`);
+                const response = await fetch(`${apiBaseUrl}/allorder/list/BLACKBATON_2526`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch orders');
                 }
@@ -148,7 +148,7 @@ function Dashboard() {
     // Add this function inside your Dashboard component
     const handleMarkAsDelivered = async (entryNo) => {
         try {
-            const response = await fetch(`${apiBaseUrl}/order/update-delivery/BLACKBATON_ERP24/${entryNo}`, {
+            const response = await fetch(`${apiBaseUrl}/order/update-delivery/BLACKBATON_2526/${entryNo}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

@@ -39,7 +39,7 @@ function Login() {
                 return;
             }
 
-            const apiUrl = `${apiBaseUrl}/user/login/BLACKBATON_ERP24?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+            const apiUrl = `${apiBaseUrl}/user/login/BLACKBATON_2526?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
 
             const response = await axios.get(apiUrl);
 
@@ -80,7 +80,7 @@ function Login() {
 
             // Send token to backend
             const response = await axios.post(
-                `${apiBaseUrl}/user/googleLogin/BLACKBATON_ERP24`,
+                `${apiBaseUrl}/user/googleLogin/BLACKBATON_2526`,
                 { token: credential }
             );
 
@@ -112,7 +112,7 @@ function Login() {
     }
 
     return (
-        <GoogleOAuthProvider clientId="308398331997-f9boa84j0a0o0cpsb7odpupeqq6lck6p.apps.googleusercontent.com">
+        <GoogleOAuthProvider clientId="950801015690-0k66lnef5kbq3qnah42ohfqmpkfp9bpo.apps.googleusercontent.com">
             <div className="min-h-screen flex flex-row ">
                 {/* Left Section */}
                 <div className="w-1/2 lg:flex hidden justify-center items-center">

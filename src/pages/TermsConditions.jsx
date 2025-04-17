@@ -20,7 +20,7 @@ function TermsConditions() {
                 <span className='lg:text-2xl text-xl font-[600] font-montserrat'>Terms & Condition</span>
                 <div className='w-full flex flex-col lg:gap-12 gap-6 text-left lg:pb-12 pb-6'>
                     <div className='flex flex-col lg:gap-6 gap-3'>
-                        <span className='lg:text-lg text-base font-[400] font-montserrat'>Welcome to Black Batton! These
+                        <span className='lg:text-lg text-base font-[400] font-montserrat'>Welcome to Black Baton! These
                             Terms and Conditions outline the rules and regulations
                             for using our website and services. By accessing or using
                             our website, you agree to comply with these Terms and Conditions.
@@ -150,9 +150,9 @@ function TermsConditions() {
                     <div className='flex flex-col lg:gap-6 gap-3'>
                         <span className='lg:text-xl text-lg font-[600] font-montserrat'>11. Contact Us</span>
                         <span className='lg:text-lg text-base font-[400] font-montserrat'>If you have any questions or concerns about these Terms and Conditions, please contact us:</span>
-                        <span className='lg:text-lg text-base font-[400] font-montserrat'><span className='font-[500] lg:text-lg text-base font-montserrat'>Email :   </span>&nbsp; demo@gmail.com</span>
-                        <span className='lg:text-lg text-base font-[400] font-montserrat'><span className='font-[500] lg:text-lg text-base font-montserrat'>Phone :   </span>&nbsp; +91 1234567890</span>
-                        <span className='lg:text-lg text-base font-[400] font-montserrat'><span className='font-[500] lg:text-lg text-base font-montserrat'>Address :  </span>&nbsp; abc tower, xyz district , malappuram</span>
+                        <span className='lg:text-lg text-base font-[400] font-montserrat'><span className='font-[500] lg:text-lg text-base font-montserrat'>Email :   </span>&nbsp; Info.stillsclothing@gmail.com</span>
+                        <span className='lg:text-lg text-base font-[400] font-montserrat'><span className='font-[500] lg:text-lg text-base font-montserrat'>Phone :   </span>&nbsp; +91 9995028039</span>
+                        <span className='lg:text-lg text-base font-[400] font-montserrat'><span className='font-[500] lg:text-lg text-base font-montserrat'>Address :  </span>&nbsp; STILLS CLOTHING LINK, STILLS TOWER, TOWN HALL ROAD, GANDHI NAGAR, KAKKOOTH, PERINTHALMANNA P.O, PIN: 679322</span>
 
 
                     </div>

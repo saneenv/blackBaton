@@ -20,7 +20,7 @@ function Filter({ closeFilterMob, onApply }) {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch(`${apiBaseUrl}/getCategories/BLACKBATON_ERP24`);
+                const response = await fetch(`${apiBaseUrl}/getCategories/BLACKBATON_2526`);
                 const data = await response.json();
                 setCategories(data); // Set the fetched categories to state
             } catch (error) {
@@ -34,7 +34,7 @@ function Filter({ closeFilterMob, onApply }) {
     useEffect(() => {
         const fetchSubCategories = async () => {
             try {
-                const response = await fetch(`${apiBaseUrl}/getSubCategories/BLACKBATON_ERP24`);
+                const response = await fetch(`${apiBaseUrl}/getSubCategories/BLACKBATON_2526`);
                 const data = await response.json();
                 setSubCategories(data); // Set the fetched categories to state
             } catch (error) {
@@ -48,7 +48,7 @@ function Filter({ closeFilterMob, onApply }) {
     useEffect(() => {
         const fetchColorSizeData = async () => {
             try {
-                const response = await fetch(`${apiBaseUrl}/getAllColorSize/BLACKBATON_ERP24`);
+                const response = await fetch(`${apiBaseUrl}/getAllColorSize/BLACKBATON_2526`);
                 const data = await response.json();
 
                 // Extract unique colors and sizes

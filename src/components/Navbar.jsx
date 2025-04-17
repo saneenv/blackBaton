@@ -27,7 +27,7 @@ function Navbar() {
 
     // Fetch categories from API
     useEffect(() => {
-        fetch(`${apiBaseUrl}/getCategories/BLACKBATON_ERP24`)
+        fetch(`${apiBaseUrl}/getCategories/BLACKBATON_2526`)
             .then(response => response.json())
             .then(data => setCategories(data))
             .catch(error => console.error("Error fetching categories:", error));
@@ -113,10 +113,10 @@ function Navbar() {
 
 
                     <div className='flex flex-row gap-2'>
-                        <div className='w-[25px] h-[25px] rounded-full bg-[#FFFFFF] flex justify-center items-center cursor-pointer'>
+                        <div className='w-[25px] h-[25px] rounded-full bg-[#FFFFFF] hover:bg-[red] flex justify-center items-center cursor-pointer'>
                             <img src={twitter} alt="twitter" />
                         </div>
-                        <div className='w-[25px] h-[25px] rounded-full bg-[#FFFFFF] flex justify-center items-center cursor-pointer'>
+                        <div className='w-[25px] h-[25px] rounded-full bg-[#FFFFFF] hover:bg-[red] flex justify-center items-center cursor-pointer'>
                             <img src={facebook} alt="facebook" />
                         </div>
                         <a
@@ -124,7 +124,7 @@ function Navbar() {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <div className='w-[25px] h-[25px] rounded-full bg-[#FFFFFF] flex justify-center items-center cursor-pointer'>
+                            <div className='w-[25px] h-[25px] rounded-full bg-[#FFFFFF] hover:bg-[red] flex justify-center items-center cursor-pointer'>
                                 <img src={insta} alt="insta" />
                             </div>
                         </a>

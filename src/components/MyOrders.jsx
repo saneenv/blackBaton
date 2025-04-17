@@ -22,7 +22,7 @@ function MyOrders() {
         const fetchOrders = async () => {
             try {
                 const response = await fetch(
-                    `${apiBaseUrl}/order/list/BLACKBATON_ERP24/${LedCode || userId}`
+                    `${apiBaseUrl}/order/list/BLACKBATON_2526/${LedCode || userId}`
                 );
 
                 if (!response.ok) {
@@ -63,7 +63,7 @@ function MyOrders() {
     const fetchProductName = async (itemId) => {
         try {
             const response = await fetch(
-                `${apiBaseUrl}/getProductById/BLACKBATON_ERP24?Id=${itemId}`
+                `${apiBaseUrl}/getProductById/BLACKBATON_2526?Id=${itemId}`
             );
 
             if (!response.ok) {
@@ -85,7 +85,7 @@ function MyOrders() {
     const fetchProductSize = async (uniqueCode) => {
         try {
             const response = await fetch(
-                `${apiBaseUrl}/getProductByUniqueCode/BLACKBATON_ERP24?uniqueCode=${uniqueCode}`
+                `${apiBaseUrl}/getProductByUniqueCode/BLACKBATON_2526?uniqueCode=${uniqueCode}`
             );
 
             if (!response.ok) {

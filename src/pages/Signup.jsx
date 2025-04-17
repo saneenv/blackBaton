@@ -54,7 +54,7 @@ function Signup() {
 
         setLoading(true); // Start loading
         try {
-            const response = await fetch(`${apiBaseUrl}/user/SignUp/BLACKBATON_ERP24`, {
+            const response = await fetch(`${apiBaseUrl}/user/SignUp/BLACKBATON_2526`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -122,7 +122,7 @@ function Signup() {
 
 
     return (
-        <GoogleOAuthProvider clientId="308398331997-f9boa84j0a0o0cpsb7odpupeqq6lck6p.apps.googleusercontent.com">
+        <GoogleOAuthProvider clientId="950801015690-0k66lnef5kbq3qnah42ohfqmpkfp9bpo.apps.googleusercontent.com">
 
             <div className="min-h-screen flex flex-row ">
                 {/* Left Section */}

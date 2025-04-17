@@ -21,17 +21,28 @@ function Footer() {
     const contactPage = () => {
         navigate('/contact')
     }
+
+    const aboutuspage = () => {
+        navigate('/aboutus')
+    }
+
+    const shippingpolicyPage = () => {
+        navigate('/shippingpolicy')
+    }
+
+    const returnpolicypage = () => {
+        navigate('/returnpolicy')
+    }
+
     return (
         <div className='w-full h-auto lg:px-12 px-3 py-12 bg-[black] flex flex-col gap-8'>
             <div className='flex justify-between '>
                 <div className='flex flex-col gap-8 '>
                     <span className='text-2xl font-[600] font-montserrat  text-left text-[#F6F6F6]'>Need Help</span>
                     <div className='flex flex-col gap-4'>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left cursor-pointer' onClick={contactPage}>Contact Us</span>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Track Order</span>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Returns & Refunds</span>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>FAQ's</span>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Career</span>
+                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] hover:text-[red] text-left cursor-pointer' onClick={contactPage}>Contact Us</span>
+                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] hover:text-[red] text-left cursor-pointer' onClick={returnpolicypage}>Returns & Refunds</span>
+                 
 
                     </div>
                 </div>
@@ -39,11 +50,9 @@ function Footer() {
                 <div className='flex flex-col gap-8 '>
                     <span className='text-2xl font-[600] font-montserrat text-[#F6F6F6] text-left'>Company</span>
                     <div className='flex flex-col gap-4'>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>About Us</span>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Black Baton Blog</span>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Black Baton</span>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Collaboration</span>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Media</span>
+                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] hover:text-[red] text-left cursor-pointer' onClick={aboutuspage}>About Us</span>
+                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] hover:text-[red] text-left cursor-pointer' onClick={termsAndConditionsPage}>Terms and Conditions</span>
+
 
                     </div>
                 </div>
@@ -51,10 +60,9 @@ function Footer() {
                 <div className='flex flex-col gap-8 '>
                     <span className='text-2xl font-[600] font-montserrat text-[#F6F6F6] text-left'>More Info</span>
                     <div className='flex flex-col gap-4'>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left cursor-pointer' onClick={termsAndConditionsPage}>Terms and Conditions</span>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left cursor-pointer' onClick={privacyAndPolicyPage}>Privacy Policy</span>
-                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Shipping Policy</span>
+                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] hover:text-[red] text-left  cursor-pointer' onClick={privacyAndPolicyPage}>Privacy Policy</span>
                         {/* <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] text-left'>Sitemap</span> */}
+                        <span className='text-lg font-[400] font-montserrat text-[#F6F6F6] hover:text-[red] text-left cursor-pointer' onClick={shippingpolicyPage}>Shipping Policy</span>
 
                     </div>
                 </div>
@@ -72,7 +80,7 @@ function Footer() {
 
             <div className='flex  justify-center items-center'>
                 <div className='flex flex-row gap-2'>
-                    <div className='w-[37px] h-[37px] rounded-[10px] bg-[#F6F6F6] flex justify-center items-center'>
+                    <div className='w-[37px] h-[37px] rounded-[10px] bg-[#F6F6F6] hover:bg-[red] flex justify-center items-center'>
                         <img src={fb} alt="fb" />
                     </div>
                     <a
@@ -80,11 +88,11 @@ function Footer() {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        <div className='w-[37px] h-[37px] rounded-[10px] bg-[#F6F6F6] flex justify-center items-center'>
+                        <div className='w-[37px] h-[37px] rounded-[10px] bg-[#F6F6F6] hover:bg-[red] flex justify-center items-center'>
                             <img src={insta} alt="insta" />
                         </div>
                     </a>
-                    <div className='w-[37px] h-[37px] rounded-[10px] bg-[#F6F6F6] flex justify-center items-center'>
+                    <div className='w-[37px] h-[37px] rounded-[10px] bg-[#F6F6F6] hover:bg-[red] flex justify-center items-center'>
                         <img src={twitter} alt="twitter" />
                     </div>
                     {/* <div className='w-[37px] h-[37px] rounded-[10px] bg-[#F6F6F6] flex justify-center items-center'>

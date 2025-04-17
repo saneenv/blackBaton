@@ -21,7 +21,7 @@ function PrivacyPolicy() {
                 <div className='w-full flex flex-col lg:gap-12 gap-6 text-left lg:pb-12 pb-6'>
                     <div className='flex flex-col lg:gap-6 gap-3'>
                         <span className='lg:text-xl text-lg font-[600] font-montserrat'>Privacy Policy for Blackbaton</span>
-                        <span className='lg:text-lg text-base font-[400] font-montserrat'>At Black Batton, your privacy is a top priority.
+                        <span className='lg:text-lg text-base font-[400] font-montserrat'>At Black Baton, your privacy is a top priority.
                             This Privacy Policy outlines how we collect, use,
                             and protect your personal information when you
                             interact with our website [Insert Website URL].
@@ -115,9 +115,9 @@ function PrivacyPolicy() {
                     <div className='flex flex-col lg:gap-6 gap-3'>
                         <span className='lg:text-xl text-lg font-[600] font-montserrat'>7. Contact Us</span>
                         <span className='lg:text-lg text-base font-[400] font-montserrat'>If you have any questions or concerns about this Privacy Policy, please contact us:</span>
-                        <span className='lg:text-lg text-base font-[400] font-montserrat'><span className='font-[500] lg:text-lg text-base font-montserrat'>Email :   </span>&nbsp; demo@gmail.com</span>
-                        <span className='lg:text-lg text-base font-[400] font-montserrat'><span className='font-[500] lg:text-lg text-base font-montserrat'>Phone :   </span>&nbsp; +91 1234567890</span>
-                        <span className='lg:text-lg text-base font-[400] font-montserrat'><span className='font-[500] lg:text-lg text-base font-montserrat'>Address :  </span>&nbsp; abc tower, xyz district , malappuram</span>
+                        <span className='lg:text-lg text-base font-[400] font-montserrat'><span className='font-[500] lg:text-lg text-base font-montserrat'>Email :   </span>&nbsp; Info.stillsclothing@gmail.com</span>
+                        <span className='lg:text-lg text-base font-[400] font-montserrat'><span className='font-[500] lg:text-lg text-base font-montserrat'>Phone :   </span>&nbsp; +91 9995028039</span>
+                        <span className='lg:text-lg text-base font-[400] font-montserrat'><span className='font-[500] lg:text-lg text-base font-montserrat'>Address :  </span>&nbsp; STILLS CLOTHING LINK, STILLS TOWER, TOWN HALL ROAD, GANDHI NAGAR, KAKKOOTH, PERINTHALMANNA P.O, PIN: 679322</span>
 
 
                     </div>

@@ -24,7 +24,7 @@ function ForgotPass() {
     const handleSendOTP = async () => {
         setLoading(true);
         try {
-            const response = await axios.post(`${apiBaseUrl}/user/sendOTP/BLACKBATON_ERP24`, { email });
+            const response = await axios.post(`${apiBaseUrl}/user/sendOTP/BLACKBATON_2526`, { email });
             alert(response.data.message);
             setStep(2);
         } catch (error) {
@@ -40,7 +40,7 @@ function ForgotPass() {
             return;
         }
         try {
-            const response = await axios.post(`${apiBaseUrl}/user/updatePassword/BLACKBATON_ERP24`, {
+            const response = await axios.post(`${apiBaseUrl}/user/updatePassword/BLACKBATON_2526`, {
                 email,
                 otp,
                 newPassword,

@@ -47,6 +47,19 @@ function FooterMob() {
         navigate('/termsconditions')
     }
 
+    const aboutuspage = () => {
+        navigate('/aboutus')
+    }
+
+    const shippingpolicyPage = () => {
+        navigate('/shippingpolicy')
+    }
+
+    
+    const returnpolicypage = () => {
+        navigate('/returnpolicy')
+    }
+
     return (
         <div className='w-full h-auto flex flex-col bg-[black] p-4 gap-6'>
             <div className='flex flex-col'>
@@ -63,10 +76,8 @@ function FooterMob() {
                 {isNeedHelpExpanded && (
                     <div className='flex flex-col gap-4 mt-4'>
                         <span className='text-base font-[400] font-montserrat text-[#F6F6F6] text-left' onClick={contactPage}>Contact Us</span>
-                        <span className='text-base font-[400] font-montserrat text-[#F6F6F6] text-left'>Track Order</span>
-                        <span className='text-base font-[400] font-montserrat text-[#F6F6F6] text-left'>Returns & Refunds</span>
-                        <span className='text-base font-[400] font-montserrat text-[#F6F6F6] text-left'>FAQ's</span>
-                        <span className='text-base font-[400] font-montserrat text-[#F6F6F6] text-left'>Career</span>
+                        <span className='text-base font-[400] font-montserrat text-[#F6F6F6] text-left' onClick={returnpolicypage}>Returns & Refunds</span>
+                        
                     </div>
                 )}
                 <div className=' border-b-2  border-[#BEBCBD] flex justify-between items-center py-5' onClick={toggleCompany}>
@@ -80,11 +91,8 @@ function FooterMob() {
                 {/* Expandable Options */}
                 {isCompanyExpanded && (
                     <div className='flex flex-col gap-4 mt-4'>
-                        <span className='text-base font-[400] font-montserrat text-[#F6F6F6] text-left'>About Us</span>
-                        <span className='text-base font-[400] font-montserrat text-[#F6F6F6] text-left'>Black Baton Blog</span>
-                        <span className='text-base font-[400] font-montserrat text-[#F6F6F6] text-left'>Black Baton</span>
-                        <span className='text-base font-[400] font-montserrat text-[#F6F6F6] text-left'>Collaboration</span>
-                        <span className='text-base font-[400] font-montserrat text-[#F6F6F6] text-left'>Media</span>
+                        <span className='text-base font-[400] font-montserrat text-[#F6F6F6] text-left' onClick={aboutuspage}>About Us</span>
+                    
                     </div>
                 )}
                 <div className=' border-b-2  border-[#BEBCBD] flex justify-between items-center py-5' onClick={toggleMoreInfo}>
@@ -100,8 +108,7 @@ function FooterMob() {
                     <div className='flex flex-col gap-4 mt-4'>
                         <span className='text-base font-[400] font-montserrat text-[#F6F6F6] text-left' onClick={termsAndConditionsPage}>Terms & Conditions</span>
                         <span className='text-base font-[400] font-montserrat text-[#F6F6F6] text-left' onClick={privacyAndPolicyPage}>Privacy Policy</span>
-                        <span className='text-base font-[400] font-montserrat text-[#F6F6F6] text-left'>Shipping Policy</span>
-                        <span className='text-base font-[400] font-montserrat text-[#F6F6F6] text-left'>Sitemap</span>
+                        <span className='text-base font-[400] font-montserrat text-[#F6F6F6] text-left' onClick={shippingpolicyPage}>Shipping Policy</span>
                     </div>
                 )}
                 <div className=' border-b-2  border-[#BEBCBD] flex justify-between items-center py-5' onClick={toggleLocation}>

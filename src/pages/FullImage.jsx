@@ -69,7 +69,7 @@ function FullImage() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch(`${apiBaseUrl}/getProductById/BLACKBATON_ERP24?Id=${id}`);
+                const response = await fetch(`${apiBaseUrl}/getProductById/BLACKBATON_2526?Id=${id}`);
                 const data = await response.json();
                 if (data.length > 0) {
                     setProduct(data[0]); // Extracting first object from array
@@ -104,7 +104,7 @@ function FullImage() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await fetch(`${apiBaseUrl}/getProductByFilter/BLACKBATON_ERP24?filter=${encodeURIComponent(cutitemId)}`);
+                const response = await fetch(`${apiBaseUrl}/getProductByFilter/BLACKBATON_2526?filter=${encodeURIComponent(cutitemId)}`);
                 const data = await response.json();
                 setSimilarProducts(data);
 
@@ -121,7 +121,7 @@ function FullImage() {
 
     useEffect(() => {
         if (product?.ID) {
-            fetch(`${apiBaseUrl}/getProductDetails/BLACKBATON_ERP24?Id=${encodeURIComponent(product.ID)}`)
+            fetch(`${apiBaseUrl}/getProductDetails/BLACKBATON_2526?Id=${encodeURIComponent(product.ID)}`)
                 .then(response => response.json())
                 .then(data => {
                     setProductDetails(data);
@@ -231,7 +231,7 @@ function FullImage() {
         };
 
         try {
-            const response = await fetch(`${apiBaseUrl}/cart/add/BLACKBATON_ERP24`, {
+            const response = await fetch(`${apiBaseUrl}/cart/add/BLACKBATON_2526`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

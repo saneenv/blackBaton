@@ -35,7 +35,7 @@ function Wishlist() {
             try {
                 const ledCodeOrUserId = LedCode || userId;
                 console.log("Fetching Cart Items for:", ledCodeOrUserId);
-                const response = await axios.get(`${apiBaseUrl}/wishlist/items/BLACKBATON_ERP24/${ledCodeOrUserId}`);
+                const response = await axios.get(`${apiBaseUrl}/wishlist/items/BLACKBATON_2526/${ledCodeOrUserId}`);
                 if (response.data.success) {
                     setWishlistItems(response.data.items);
                 }
@@ -48,7 +48,7 @@ function Wishlist() {
 
     const deleteWishlistItem = async (id) => {
         try {
-            const response = await axios.delete(`${apiBaseUrl}/wishlist/delete/BLACKBATON_ERP24/${id}`);
+            const response = await axios.delete(`${apiBaseUrl}/wishlist/delete/BLACKBATON_2526/${id}`);
             if (response.data.success) {
                 setWishlistItems(prevItems => prevItems.filter(item => item.ID !== id));
             }

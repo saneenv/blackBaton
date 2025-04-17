@@ -66,7 +66,7 @@ function Products() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get(`${apiBaseUrl}/getProductByCategory/BLACKBATON_ERP24?Id=${categoryId}`);
+                const response = await axios.get(`${apiBaseUrl}/getProductByCategory/BLACKBATON_2526?Id=${categoryId}`);
                 setProducts(response.data); // Set the fetched products to state
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -88,7 +88,7 @@ function Products() {
     };
 
     const addToWishlist = async (product) => {
-        const apiUrl = `${apiBaseUrl}/wishlist/add/BLACKBATON_ERP24`;
+        const apiUrl = `${apiBaseUrl}/wishlist/add/BLACKBATON_2526`;
 
         const activeUserId = loginId || userId; // Use loginId if available, otherwise use userId
 
@@ -138,7 +138,7 @@ function Products() {
 
                 if (!activeUserId) return; // Ensure there's a valid userId before making the API call
 
-                const response = await fetch(`${apiBaseUrl}/wishlist/items/BLACKBATON_ERP24/${activeUserId}`);
+                const response = await fetch(`${apiBaseUrl}/wishlist/items/BLACKBATON_2526/${activeUserId}`);
                 const data = await response.json();
 
                 if (data.success) {
@@ -154,7 +154,7 @@ function Products() {
 
     const removeFromWishlist = async (productId) => {
         try {
-            const response = await fetch(`${apiBaseUrl}/wishlist/delete/BLACKBATON_ERP24/${productId}`, {
+            const response = await fetch(`${apiBaseUrl}/wishlist/delete/BLACKBATON_2526/${productId}`, {
                 method: 'DELETE',
             });
 

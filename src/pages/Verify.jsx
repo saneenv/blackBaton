@@ -66,7 +66,7 @@ function Verify() {
         try {
             console.log("Verifying OTP for employeeId:", id, "with OTP:", otp);
 
-            const response = await fetch(`${apiBaseUrl}/user/Verify/BLACKBATON_ERP24`, {
+            const response = await fetch(`${apiBaseUrl}/user/Verify/BLACKBATON_2526`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

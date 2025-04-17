@@ -69,7 +69,7 @@ function SearchPage() {
         const fetchProducts = async () => {
             try {
                 const response = await fetch(
-                    `${apiBaseUrl}/getProductByFilter/BLACKBATON_ERP24?filter=${encodeURIComponent(filtered)}`
+                    `${apiBaseUrl}/getProductByFilter/BLACKBATON_2526?filter=${encodeURIComponent(filtered)}`
                 );
 
                 // Check if the response is OK (status code 200-299)
@@ -102,7 +102,7 @@ function SearchPage() {
 
 
     const addToWishlist = async (product) => {
-        const apiUrl = `${apiBaseUrl}/wishlist/add/BLACKBATON_ERP24`;
+        const apiUrl = `${apiBaseUrl}/wishlist/add/BLACKBATON_2526`;
 
         const activeUserId = loginId || userId; // Use loginId if available, otherwise use userId
 
@@ -152,7 +152,7 @@ function SearchPage() {
 
                 if (!activeUserId) return; // Ensure there's a valid userId before making the API call
 
-                const response = await fetch(`${apiBaseUrl}/wishlist/items/BLACKBATON_ERP24/${activeUserId}`);
+                const response = await fetch(`${apiBaseUrl}/wishlist/items/BLACKBATON_2526/${activeUserId}`);
                 const data = await response.json();
 
                 if (data.success) {
@@ -168,7 +168,7 @@ function SearchPage() {
 
     const removeFromWishlist = async (productId) => {
         try {
-            const response = await fetch(`${apiBaseUrl}/wishlist/delete/BLACKBATON_ERP24/${productId}`, {
+            const response = await fetch(`${apiBaseUrl}/wishlist/delete/BLACKBATON_2526/${productId}`, {
                 method: 'DELETE',
             });
 
@@ -189,7 +189,7 @@ function SearchPage() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch(`${apiBaseUrl}/getCategories/BLACKBATON_ERP24`);
+                const response = await fetch(`${apiBaseUrl}/getCategories/BLACKBATON_2526`);
                 const data = await response.json();
                 setCategories(data); // Set the fetched categories to state
             } catch (error) {
@@ -203,7 +203,7 @@ function SearchPage() {
     useEffect(() => {
         const fetchSubCategories = async () => {
             try {
-                const response = await fetch(`${apiBaseUrl}/getSubCategories/BLACKBATON_ERP24`);
+                const response = await fetch(`${apiBaseUrl}/getSubCategories/BLACKBATON_2526`);
                 const data = await response.json();
                 setSubCategories(data); // Set the fetched categories to state
             } catch (error) {
@@ -217,7 +217,7 @@ function SearchPage() {
     useEffect(() => {
         const fetchColorSizeData = async () => {
             try {
-                const response = await fetch(`${apiBaseUrl}/getAllColorSize/BLACKBATON_ERP24`);
+                const response = await fetch(`${apiBaseUrl}/getAllColorSize/BLACKBATON_2526`);
                 const data = await response.json();
 
                 // Extract unique colors and sizes
@@ -236,7 +236,7 @@ function SearchPage() {
 
     const handleSubCategoryClick = async (subCategoryId) => {
         try {
-            const response = await fetch(`${apiBaseUrl}/getProductBySubCategory/BLACKBATON_ERP24?Id=${subCategoryId}`);
+            const response = await fetch(`${apiBaseUrl}/getProductBySubCategory/BLACKBATON_2526?Id=${subCategoryId}`);
             const data = await response.json();
             setProducts(data); // Update the products state with the fetched data
         } catch (error) {
@@ -246,7 +246,7 @@ function SearchPage() {
 
     const handleCategoryClick = async (categoryId) => {
         try {
-            const response = await fetch(`${apiBaseUrl}/getProductByCategory/BLACKBATON_ERP24?Id=${categoryId}`);
+            const response = await fetch(`${apiBaseUrl}/getProductByCategory/BLACKBATON_2526?Id=${categoryId}`);
             const data = await response.json();
             setProducts(data); // Update the products state with the fetched data
         } catch (error) {
@@ -258,14 +258,14 @@ function SearchPage() {
         setSelectedColor(colors); // Update selected color state
         try {
             // Fetch ItemId for the selected colors
-            const response = await fetch(`${apiBaseUrl}/getAllColorSize/BLACKBATON_ERP24`);
+            const response = await fetch(`${apiBaseUrl}/getAllColorSize/BLACKBATON_2526`);
             const data = await response.json();
             const filteredItems = data.filter(item => colors.includes(item.Color)); // Filter by selected colors
             const itemIds = filteredItems.map(item => item.ItemId); // Extract ItemIds
 
             // Fetch products for the filtered ItemIds
             const productPromises = itemIds.map(itemId =>
-                fetch(`${apiBaseUrl}/getProductById/BLACKBATON_ERP24?Id=${itemId}`)
+                fetch(`${apiBaseUrl}/getProductById/BLACKBATON_2526?Id=${itemId}`)
                     .then(res => res.json())
             );
             const products = await Promise.all(productPromises);
@@ -279,14 +279,14 @@ function SearchPage() {
         setSelectedSize(sizes); // Update selected size state
         try {
             // Fetch ItemId for the selected sizes
-            const response = await fetch(`${apiBaseUrl}/getAllColorSize/BLACKBATON_ERP24`);
+            const response = await fetch(`${apiBaseUrl}/getAllColorSize/BLACKBATON_2526`);
             const data = await response.json();
             const filteredItems = data.filter(item => sizes.includes(item.Size)); // Filter by selected sizes
             const itemIds = filteredItems.map(item => item.ItemId); // Extract ItemIds
 
             // Fetch products for the filtered ItemIds
             const productPromises = itemIds.map(itemId =>
-                fetch(`${apiBaseUrl}/getProductById/BLACKBATON_ERP24?Id=${itemId}`)
+                fetch(`${apiBaseUrl}/getProductById/BLACKBATON_2526?Id=${itemId}`)
                     .then(res => res.json())
             );
             const products = await Promise.all(productPromises);
