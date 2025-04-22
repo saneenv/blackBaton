@@ -31,6 +31,58 @@ function FullImage() {
     const [loginId, setLoginId] = useState(null);
     const [offerPrices, setOfferPrices] = useState({});
 
+    // Color mapping for non-standard color names
+    const colorMap = {
+        'LEMON YELLOW': '#FFF44F',
+        'NAVY BLUE': '#000080',
+        'BOTTLE GREEN': '#006A4E',
+        'OLIVE': '#808000',
+        'TEEL BLUE': '#367588',
+        'PARROT GREEN': '#50C878',
+        'BRICK RED': '#CB4154',
+        'ASH': '#B2BEB5',
+        'DARK GREY': '#A9A9A9',
+        'LIGHT GREY': '#D3D3D3',
+        'D GRAY': '#A9A9A9',
+        'MAROON': '#800000',
+        'BEIGE': '#F5F5DC',
+        'LAVENDER': '#E6E6FA',
+        // Newly requested colors
+        'WHITE': '#FFFFFF',
+        'BLACK': '#000000',
+        'TRUE NAVY': '#1A237E',
+        'FRENCH WINE': '#AC1E44',
+        'ARROW RED': '#EC1C24',
+        'RAMA BLUE': '#66CCFF',
+        'DRESS BLUE': '#1F305E',
+        'ALUMINIUM': '#848789',
+        'IMPERIAL BLUE': '#002395',
+        'BANANA': '#FFE135',
+        'YELLOW': '#FFFF00',
+        'PINE GREEN': '#01796F',
+        'WOODY ORANGE': '#E68A2E',
+        'SKY BLUE': '#87CEEB',
+        'SUNSHINE YELLOW': '#FFFD37',
+        'CRICKET': '#6A8D2B',
+        'IVORY': '#FFFFF0',
+        'MINT': '#3EB489',
+        'PASTEL PINK': '#FFD1DC',
+        'VIOLET': '#8F00FF',
+        'SKANDY GREEN': '#00A86B', // Same as SKENDY GREEN
+    };
+
+    // Enhanced getUniqueColors function
+    const getUniqueColors = (colors) => {
+        const seen = new Set();
+        return colors.filter(color => {
+            if (!color) return false; // Skip undefined/null colors
+            const normalizedColor = color.toString().toUpperCase().trim();
+            if (!normalizedColor || seen.has(normalizedColor)) return false;
+            seen.add(normalizedColor);
+            return true;
+        });
+    };
+
 
 
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
@@ -39,6 +91,7 @@ function FullImage() {
     const location = useLocation();
     const { id, itemName } = location.state || {}; // Get the passed state
     console.log(selectedItemName);
+    console.log("id::::::", id)
 
     useEffect(() => {
         // Get userId from sessionStorage
@@ -405,16 +458,35 @@ function FullImage() {
 
                         <div className='flex flex-col gap-3'>
                             <span className='lg:text-lg text-sm font-[600] text-[black] text-left'>Colours Available</span>
-                            <div className='flex flex-row gap-5'>
-                                {availableColors.map((color) => (
-                                    <div
-                                        key={color}
-                                        onClick={() => setSelectedColor(color)} // Allow manual selection if needed
-                                        className={`w-[25px] h-[25px] rounded-full cursor-pointer ${selectedColor === color ? "border-2 border-black" : ""
-                                            }`}
-                                        style={{ backgroundColor: color }}
-                                    />
-                                ))}
+                           
+                            <div className='flex flex-row gap-3 flex-wrap'> {/* Changed to flex-wrap for better mobile */}
+                                {getUniqueColors(availableColors).map((color) => {
+                                    const normalizedColor = color.toString().toUpperCase().trim();
+                                    const colorValue = colorMap[normalizedColor] || normalizedColor;
+
+                                    return (
+                                        <div
+                                            key={normalizedColor}
+                                            onClick={() => setSelectedColor(normalizedColor)}
+                                            className={`
+                    w-[25px] h-[25px] rounded-full cursor-pointer 
+                    border border-gray-200 
+                    ${selectedColor === normalizedColor ?
+                                                    "ring-2 ring-black ring-offset-1" : /* Better selection indicator */
+                                                    "hover:border-gray-400" /* Hover effect */}
+                `}
+                                            style={{
+                                                backgroundColor: colorValue,
+                                                // Ensure contrast for very light colors
+                                                borderColor: colorValue === '#FFFFFF' ? '#ccc' : 'transparent'
+                                            }}
+                                            title={normalizedColor.split(' ')
+                                                .map(w => w.charAt(0) + w.slice(1).toLowerCase())
+                                                .join(' ')} // Properly formatted tooltip
+                                            aria-label={`Color ${normalizedColor}`}
+                                        />
+                                    );
+                                })}
                             </div>
                         </div>
 
@@ -461,14 +533,14 @@ function FullImage() {
 
 
                 <div className='flex flex-col gap-4 w-full'>
-                    <div className='flex flex-row gap-4  items-center'>
+                    {/* <div className='flex flex-row gap-4  items-center'>
                         <img src={line} alt="line" />
                         <span className='lg:text-xl text-base font-[600] font-montserrat'>Product Desciption</span>
                     </div>
                     <span className='lg:text-lg text-sm font-[500] text-left font-montserrat'>Our KD signature apparel collection celebrates the next generation of do-it-all athletes with
                         pieces you can wear anywhere. This relaxed-fit
-                        tee is made from soft midweight cotton. The graphics feature the official stamp of approval from Easy Money.</span>
-                    <div className='lg:w-1/2 w-full h-[190px] bg-[#F6F6F6]'>
+                        tee is made from soft midweight cotton. The graphics feature the official stamp of approval from Easy Money.</span> */}
+                    {/* <div className='lg:w-1/2 w-full h-[190px] bg-[#F6F6F6]'>
                         <div className='flex flex-col w-full h-full'>
                             <div className='w-full h-1/2 border-b-2 border-[#BEBCBD]'>
                                 <div className='grid grid-cols-3 w-full h-full'>
@@ -503,7 +575,7 @@ function FullImage() {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                 </div>
 

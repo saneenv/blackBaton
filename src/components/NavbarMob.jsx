@@ -156,7 +156,7 @@ function NavbarMob() {
                             <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-sm font-[600] font-dmSans text-left' onClick={() => { limitedsalesubcategorypage(); setIsSidebarOpen(false); }}>LIMITED SALE</li>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-sm font-[600] font-dmSans text-left' onClick={() => { bestsellersubcategorypage(); setIsSidebarOpen(false); }}>BEST SELLER</li>
                             <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-sm font-[600] font-dmSans text-left' onClick={() => { newarrival(); setIsSidebarOpen(false); }}>NEW ARRIVALS</li>
-                            {password === "san@123" && (
+                            {password === "admin@blackbaton" && (
                                 <li className='p-4 hover:bg-gray-700 cursor-pointer hover:text-[white] text-sm font-[600] font-dmSans text-left' onClick={dashboardpage}>DASHBOARD</li>
                             )}
                         </ul>

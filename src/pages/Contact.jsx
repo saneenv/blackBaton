@@ -12,6 +12,8 @@ function Contact() {
     const isTab = useMediaQuery({ query: '(max-width: 1024px)' });
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const apiRazorpayUrl = process.env.REACT_APP_API_RAZORPAY_URL;
+    const [loading, setLoading] = useState(false);
+
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -42,8 +44,10 @@ function Contact() {
             return;
         }
 
+        setLoading(true); // Start loading
+
         // Prepare data for WhatsApp API
-        const to = '919207427150'; // Assuming Indian country code
+        const to = '918590213566'; // Assuming Indian country code
         const formattedMessage = `Name: ${name}\nNumber: ${mobileNumber}\nEmail: ${email}\nMessage: ${message}`;
 
         try {
@@ -77,6 +81,8 @@ function Contact() {
         } catch (error) {
             console.error('Error sending WhatsApp message:', error);
             alert('An error occurred while sending the message. Please try again.');
+        } finally {
+            setLoading(false); // Stop loading
         }
     };
 
@@ -129,8 +135,15 @@ function Contact() {
                         </div>
 
                         <div className='w-full flex justify-center items-center'>
-                            <div className='w-full h-[46px] rounded-[23px] bg-[black] flex justify-center items-center text-[white] text-sm font-[600] font-montserrat cursor-pointer' onClick={handleSendToWhatsApp}>Submit Form</div>
+                            <button
+                                className='w-full h-[46px] rounded-[23px] bg-black flex justify-center items-center text-white text-sm font-[600] font-montserrat cursor-pointer disabled:opacity-50'
+                                onClick={handleSendToWhatsApp}
+                                disabled={loading}
+                            >
+                                {loading ? 'Submitting...' : 'Submit Form'}
+                            </button>
                         </div>
+
 
                     </div>
                 </div>

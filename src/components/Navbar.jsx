@@ -182,13 +182,13 @@ function Navbar() {
 
                         {/* Dropdown Menu */}
                         {showDropdown && (
-                            <div className="absolute top-6 left-0 w-[200px] bg-white shadow-lg border border-gray-200 rounded-lg p-2">
+                            <div className="absolute top-6 left-0 w-[220px] max-h-[350px] overflow-y-auto bg-gradient-to-br from-blue-100 to-purple-100 shadow-2xl border border-purple-300 rounded-xl p-2 z-50">
                                 <ul className="text-black">
                                     {categories.length > 0 ? (
                                         categories.map(category => (
                                             <li
                                                 key={category.Id}
-                                                className="p-2 hover:bg-gray-200 cursor-pointer"
+                                                className="p-3 mb-1 rounded-lg bg-white hover:bg-gradient-to-r from-blue-400 to-purple-400 hover:text-white transition-all duration-200 cursor-pointer shadow-sm"
                                                 onClick={() => productPage(category.Id, category.Name)}
                                             >
                                                 {category.Name}
@@ -200,6 +200,7 @@ function Navbar() {
                                 </ul>
                             </div>
                         )}
+
                     </div>
                     <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]' onClick={mensubcategorypage}>Men</span>
                     <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]' onClick={womensubcategorypage}>Women</span>
@@ -209,7 +210,7 @@ function Navbar() {
 
                 </div>
                 {/* <span className='font-[400] text-sm font-dmSans text-[white] cursor-pointer hover:text-[red]' >Dashboard</span> */}
-                {password === "san@123" && (
+                {password === "admin@blackbaton" && (
                     <img src={dashboardpageimg} alt="dashboardpageimg" onClick={dashboardpage} className='cursor-pointer' />
                 )}
                 <div className='flex flex-row lg:gap-12 gap-5'>
