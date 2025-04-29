@@ -186,6 +186,11 @@ function Dashboard() {
     const offerUpdatepage = () => {
         navigate('/offerupdate');
     }
+
+    const categoryaddpage = () => {
+        navigate('/subcategoryadd');
+    }
+    
     // Calculate summary statistics
     const totalOrders = orders.length;
     const totalIncome = orders.reduce((sum, order) => sum + order.Total, 0);
@@ -239,6 +244,12 @@ function Dashboard() {
                     >
                        Add Offer 
                     </span>
+                    {/* <span
+                        className='lg:text-base text-sm font-[600] font-montserrat cursor-pointer text-[#7D7D7D] hover:text-black transition-colors duration-200'
+                        onClick={categoryaddpage}
+                    >
+                       Add SubCategory 
+                    </span> */}
                 </div>
             </div>
 

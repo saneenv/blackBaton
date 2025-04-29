@@ -8,7 +8,7 @@ import FooterMob from '../components/FooterMob'
 import Footer from '../components/Footer'
 import filter from '../images/Products/filter.png'
 import refreshimg from '../images/Products/refresh.png'
-import product1 from '../images/Home/product2.png'
+import product1 from '../images/Home/product2.webp'
 import heart from '../images/Home/heart.png'
 import filledHeart from '../images/Home/heart2.png';
 import forward from '../images/Products/forwardpng.png'

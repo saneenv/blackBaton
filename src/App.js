@@ -29,6 +29,7 @@ import OfferUpdate from './adminSide/OfferUpdate';
 import AboutUs from './pages/AboutUs';
 import ShippingPolicy from './pages/ShippingPolicy';
 import Returns from './pages/Returns';
+import SubCategoryAdd from './adminSide/SubCategoryAdd';
 
 
 function App() {
@@ -67,6 +68,8 @@ function App() {
           <Route path='/aboutus' element={<AboutUs/>}/>
           <Route path='/shippingpolicy' element={<ShippingPolicy/>}/>
           <Route path='/returnpolicy' element={<Returns/>}/>
+          <Route path='/subcategoryadd' element={<SubCategoryAdd/>}/>
+
 
 
 

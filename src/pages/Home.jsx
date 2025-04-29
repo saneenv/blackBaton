@@ -3,17 +3,17 @@ import Navbar from '../components/Navbar'
 import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { useSelector } from "react-redux";
-import banner1 from '../images/Home/banner1.png'
-import bannermob from '../images/Home/bannermob.png'
+import banner1 from '../images/Home/banner2.webp'
+import bannermob from '../images/Home/bannermob2.webp'
 import line from '../images/Home/line.png'
-import product1 from '../images/Home/product2.png'
+import product1 from '../images/Home/product2.webp'
 import heart from '../images/Home/heart.png'
 import filledHeart from '../images/Home/heart2.png';
-import men from '../images/Home/men.png'
-import women from '../images/Home/women.png'
+import men from '../images/Home/MEN2.png'
+import women from '../images/Home/WOMEN2.png'
 import button from '../images/Home/button.png'
-import accessories from '../images/Home/accessories.png'
-import kids from '../images/Home/kids.png'
+import accessories from '../images/Home/ACCESSORIES2.png'
+import kids from '../images/Home/KIDS2.png'
 import star from '../images/Home/Star.png'
 import starmob from '../images/Home/startmob.png'
 import combined from '../images/Home/combinedimg.png'
@@ -68,16 +68,35 @@ function Home() {
         window.scrollTo(0, 0);
     }, []);
 
-    useEffect(() => {
-        fetch(`${apiBaseUrl}/getCategories/BLACKBATON_2526`)
-            .then(response => response.json())
-            .then(data => {
-                setCategories(data);
-                setDisableNext(data.length <= 3);
-            })
-            .catch(error => console.error("Error fetching categories:", error));
-    }, [apiBaseUrl]);
+    const allowedCategoryIds = [
+        4,    // T SHIRT
+        5,    // JACKET
+        6,    // SHORTS
+        7,    // TRACK
+        219,  // BOTTLE
+        301,  // ACCESSORIES
+        358,  // CARGO TRACK
+        359,  // CARGO SHORTS
+        218,  // FULL SLEEVE
+        450,  // BOYS TRACK
+        448,  // BOYS SHORTS
+        616   // POLO T SHIRT
+      ];
 
+      useEffect(() => {
+        fetch(`${apiBaseUrl}/getCategories/BLACKBATON_2526`)
+          .then(response => response.json())
+          .then(data => {
+            // Filter categories to only include allowed IDs
+            const filteredCategories = data.filter(category => 
+              allowedCategoryIds.includes(category.Id)
+            );
+            setCategories(filteredCategories);
+            setDisableNext(filteredCategories.length <= 3);
+          })
+          .catch(error => console.error("Error fetching categories:", error));
+      }, [apiBaseUrl]);
+      
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -438,12 +457,12 @@ function Home() {
                     </div>
                 </div>
 
-                <div className='w-full flex md:flex-row flex-col lg:gap-0 gap-3 lg:h-[600px] h-auto mt-3'>
+                <div className='w-full flex md:flex-row flex-col lg:gap-0 gap-3 lg:h-[500px] h-auto mt-3'>
                     <div className='lg:w-[50%] w-full lg:h-full md:h-[450px] h-[284px] relative'>
                         <img src={men} alt="men" className='w-full h-full' />
                         <div className='absolute top-0 left-0 w-full h-full flex flex-col lg:gap-3 gap-2 justify-center items-center'>
                             <div className='w-auto lg:px-3 px-2 h-[57px] bg-[black] flex justify-center items-center'>
-                                <span className='lg:text-5xl text-2xl font-[800] font-montserrat text-[white]'>Men 's</span>
+                                <span className='lg:text-5xl text-2xl font-[800] font-montserrat text-[white]'>Men ’s</span>
                             </div>
                             <img src={button} alt="button" className='cursor-pointer' onClick={mensubcategorypage} />
                         </div>
@@ -541,7 +560,7 @@ function Home() {
 
 
 
-                <div className='w-full flex md:flex-row flex-col lg:gap-0 gap-3 lg:h-[600px] h-auto mt-3'>
+                <div className='w-full flex md:flex-row flex-col lg:gap-0 gap-3 lg:h-[500px] h-auto mt-3'>
                     <div className='lg:w-[50%] w-full lg:h-full md:h-[450px] h-[284px] relative'>
                         <img src={accessories} alt="accessories" className='w-full h-full' />
                         <div className='absolute top-0 left-0 w-full h-full flex flex-col lg:gap-3 gap-2 justify-center items-center'>
@@ -555,7 +574,7 @@ function Home() {
                         <img src={kids} alt="kids" className='w-full h-full' />
                         <div className='absolute top-0 left-0 w-full h-full flex flex-col lg:gap-3 gap-2 justify-center items-center'>
                             <div className='w-auto lg:px-3 px-2 h-[57px] bg-[black] flex justify-center items-center'>
-                                <span className='lg:text-5xl text-2xl font-[800] font-montserrat text-[white]'>Kid’s</span>
+                                <span className='lg:text-5xl text-2xl font-[800] font-montserrat text-[white]'>Kid ’s</span>
                             </div>
                             <img src={button} alt="button" className='cursor-pointer' onClick={kidssubcategorypage} />
                         </div>

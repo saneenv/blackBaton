@@ -10,7 +10,7 @@ import down from '../images/FullImage/down.png'
 import cart1 from '../images/FullImage/cart.png'
 import payment from '../images/FullImage/payment.png'
 import line from '../images/Home/line.png'
-import product1 from '../images/Home/product2.png'
+import product1 from '../images/Home/product2.webp'
 import heart from '../images/Home/heart.png'
 // import cart from '../images/Home/cart.png'
 import FooterMob from '../components/FooterMob'
@@ -373,7 +373,7 @@ function FullImage() {
                 </div>
 
                 <div className='w-full flex lg:flex-row flex-col lg:h-[589px]  h-auto lg:gap-0 gap-8'>
-                    <div className='flex flex-row gap-4 lg:w-[50%] w-full h-full'>
+                    <div className='flex lg:flex-row flex-col gap-4 lg:w-[50%] w-full h-full'>
                         <div className='w-[25%] h-full lg:flex hidden flex-col justify-center items-center gap-6'>
                             {visibleImages.map((src, index) => (
                                 <div key={index} className="w-[70%] h-[100px] rounded-[10px] bg-[#EEEEEE] flex justify-center items-center cursor-pointer"
@@ -418,6 +418,40 @@ function FullImage() {
                                     e.target.src = product1;
                                 }}
                             />
+                        </div>
+                        <div className='w-full h-full flex lg:hidden  flex-row justify-center items-center gap-3'>
+                            {visibleImages.map((src, index) => (
+                                <div key={index} className="w-[70%] h-[100px] rounded-[10px] bg-[#EEEEEE] flex justify-center items-center cursor-pointer"
+                                    onClick={() => setMainImage(src)} // Update the main image when clicked
+                                >
+                                    <img
+                                        src={src}
+                                        alt={`sideimg${index + 1}`}
+                                        className="w-full h-full"
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = product1;
+                                        }}
+                                    />
+                                </div>
+                            ))}
+                            <div className='flex flex-col gap-2'>
+                                <div
+                                    className={`w-[35px] h-[35px] rounded-full flex justify-center items-center border-2 border-black cursor-pointer ${startIndex > 0 ? 'bg-black' : 'bg-white'
+                                        }`} onClick={handlePrev}
+                                    disabled={startIndex === 0}
+                                >
+                                    <img src={top} alt="top" />
+                                </div>
+                                <div
+                                    className={`w-[35px] h-[35px] rounded-full flex justify-center items-center border-2 border-black cursor-pointer ${startIndex + imagesPerPage >= images.length ? 'bg-white' : 'bg-black'
+                                        }`}
+                                    onClick={handleNext}
+                                    disabled={startIndex + imagesPerPage >= images.length}
+                                >
+                                    <img src={down} alt="down" />
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -533,49 +567,8 @@ function FullImage() {
 
 
                 <div className='flex flex-col gap-4 w-full'>
-                    {/* <div className='flex flex-row gap-4  items-center'>
-                        <img src={line} alt="line" />
-                        <span className='lg:text-xl text-base font-[600] font-montserrat'>Product Desciption</span>
-                    </div>
-                    <span className='lg:text-lg text-sm font-[500] text-left font-montserrat'>Our KD signature apparel collection celebrates the next generation of do-it-all athletes with
-                        pieces you can wear anywhere. This relaxed-fit
-                        tee is made from soft midweight cotton. The graphics feature the official stamp of approval from Easy Money.</span> */}
-                    {/* <div className='lg:w-1/2 w-full h-[190px] bg-[#F6F6F6]'>
-                        <div className='flex flex-col w-full h-full'>
-                            <div className='w-full h-1/2 border-b-2 border-[#BEBCBD]'>
-                                <div className='grid grid-cols-3 w-full h-full'>
-                                    <div className='border-r-2 border-[#BEBCBD] flex justify-center  text-left lg:pl-12 pl-3 flex-col gap-2'>
-                                        <span className='lg:text-base text-xs font-[400] font-montserrat text-[#807D7E]'>Fabric</span>
-                                        <span className='text-[#3C4242] lg:text-base text-xs font-[500] font-montserrat'>Bio-washed Cotton</span>
-                                    </div>
-                                    <div className='border-r-2 border-[#BEBCBD] flex justify-center  text-left lg:pl-12 pl-3 flex-col gap-2'>
-                                        <span className='lg:text-base text-xs font-[400] font-montserrat text-[#807D7E]'>Pattern</span>
-                                        <span className='text-[#3C4242] lg:text-base text-xs font-[500] font-montserrat'>Printed</span>
-                                    </div>
-                                    <div className=' flex justify-center  text-left lg:pl-12 pl-3 flex-col gap-2'>
-                                        <span className='lg:text-base text-xs font-[400] font-montserrat text-[#807D7E]'>Fit</span>
-                                        <span className='text-[#3C4242] lg:text-base text-xs font-[500] font-montserrat'>Regular-fit</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='w-full h-1/2'>
-                                <div className='grid grid-cols-3 w-full h-full'>
-                                    <div className='border-r-2 border-[#BEBCBD] flex justify-center  text-left lg:pl-12 pl-3 flex-col gap-2'>
-                                        <span className='lg:text-base text-xs font-[400] font-montserrat text-[#807D7E]'>Neck</span>
-                                        <span className='text-[#3C4242] lg:text-base text-xs font-[500] font-montserrat'>Round Neck</span>
-                                    </div>
-                                    <div className='border-r-2 border-[#BEBCBD] flex justify-center  text-left lg:pl-12 pl-3 flex-col gap-2'>
-                                        <span className='lg:text-base text-xs font-[400] font-montserrat text-[#807D7E]'>Sleeve</span>
-                                        <span className='text-[#3C4242] lg:text-base text-xs font-[500] font-montserrat'>Half-sleeves</span>
-                                    </div>
-                                    <div className=' flex justify-center  text-left lg:pl-12 pl-3 flex-col gap-2'>
-                                        <span className='lg:text-base text-xs font-[400] font-montserrat text-[#807D7E]'>Style</span>
-                                        <span className='text-[#3C4242] lg:text-base text-xs font-[500] font-montserrat'>Casual Wear</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
+              
+                  
 
                 </div>
 
@@ -607,10 +600,7 @@ function FullImage() {
                                 <div className='flex justify-between w-full'>
                                     <div className='flex flex-col gap-1 w-full'>
                                         <span className='lg:text-base text-xs font-[600] font-montserrat text-left'>{product.ItemName}</span>
-                                        {/* <div className='lg:w-[110px] lg:h-[35px] w-full h-[30px] rounded-[24px] border-2 border-[black] flex flex-row gap-1 justify-center items-center cursor-pointer'>
-                                            <img src={cart} alt="cart" />
-                                            <span className='text-xs font-[500] font-montserrat'>Add to Cart</span>
-                                        </div> */}
+                                 
 
                                     </div>
                                     <div className='flex flex-col gap-1 items-end'>

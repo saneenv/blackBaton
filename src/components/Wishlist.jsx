@@ -7,7 +7,7 @@ import NavbarMob from '../components/NavbarMob'
 import Navbar from '../components/Navbar'
 import FooterMob from '../components/FooterMob'
 import Footer from '../components/Footer'
-import product1 from '../images/Home/product2.png'
+import product1 from '../images/Home/product2.webp'
 import { useSelector } from 'react-redux';
 import heart from '../images/Home/delete.png'
 

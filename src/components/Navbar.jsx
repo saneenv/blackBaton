@@ -22,14 +22,34 @@ function Navbar() {
     const password = sessionStorage.getItem('password');
     console.log("pasworddddddd", password);
 
+    const allowedCategoryIds = [
+        4,    // T SHIRT
+        5,    // JACKET
+        6,    // SHORTS
+        7,    // TRACK
+        219,  // BOTTLE
+        301,  // ACCESSORIES
+        358,  // CARGO TRACK
+        359,  // CARGO SHORTS
+        218,  // FULL SLEEVE
+        450,  // BOYS TRACK
+        448,  // BOYS SHORTS
+        616   // POLO T SHIRT
+      ];
 
-
+ 
 
     // Fetch categories from API
     useEffect(() => {
         fetch(`${apiBaseUrl}/getCategories/BLACKBATON_2526`)
             .then(response => response.json())
-            .then(data => setCategories(data))
+            .then(data => {
+                // Filter categories to only include allowed ones
+                const filteredCategories = data.filter(category =>
+                    allowedCategoryIds.includes(category.Id)
+                );
+                setCategories(filteredCategories);
+            })
             .catch(error => console.error("Error fetching categories:", error));
     }, [apiBaseUrl]);
 
